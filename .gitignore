@@ -1,0 +1,23 @@
+node_modules
+.DS_Store
+.wireit
+dist
+.env
+.idx
+.vscode
+.idea
+__pycache__
+*.pyc
+.angular
+
+# MkDocs build output
+site/
+
+# Python virtual environment
+.venv/
+
+# Generated spec assets in the agent SDK
+## old agent SDK path
+a2a_agents/python/a2ui_agent/src/a2ui/assets/**/*.json
+## new agent SDK path
+agent_sdks/python/src/a2ui/assets/**/*.json

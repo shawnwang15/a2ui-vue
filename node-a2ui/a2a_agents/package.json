@@ -1,0 +1,20 @@
+{
+  "name": "@a2ui/a2ui-agent",
+  "version": "0.1.0",
+  "description": "A2UI Agent for Node.js — example agent using the A2UI Agent SDK",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@a2ui/agent-sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsx": "^4.19.0",
+    "typescript": "~5.8.0"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@a2ui/agent-sdk",
+  "version": "0.1.0",
+  "description": "A2UI Agent SDK for Node.js",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "tsup": "^8.4.0",
+    "typescript": "~5.8.0",
+    "vitest": "^3.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
