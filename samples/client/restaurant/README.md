@@ -1,6 +1,6 @@
 # Vue Restaurant Demo
 
-A Vue 3 implementation of the Restaurant Finder demo using @a2ui/vue renderer.
+A Vue 3 implementation of the Restaurant Finder demo using @shawnwang15/a2ui-vue renderer.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ A Vue 3 implementation of the Restaurant Finder demo using @a2ui/vue renderer.
 npm install
 ```
 
-2. Build the @a2ui/web_core and @a2ui/vue dependencies:
+2. Build the @a2ui/web_core and @shawnwang15/a2ui-vue dependencies:
 ```bash
 cd ../../../renderers/web_core && npm install && npm run build
 cd ../../../renderers/vue && npm install && npm run build

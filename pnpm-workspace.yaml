@@ -2,3 +2,4 @@ packages:
   - packages/*
   - docs/*
   - samples/**/*
+  - node-a2ui/*

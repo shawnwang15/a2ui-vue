@@ -85,7 +85,7 @@ export class ContactAgent {
     if (series === 'minimax') {
       const minimax = createOpenAI({
         apiKey,
-        baseURL: process.env['LLM_API_BASE'] ?? 'https://api.minimaxi.chat/v1',
+        baseURL: process.env['LLM_API_BASE'] ?? 'https://api.minimaxi.com/v1',
         compatibility: 'compatible',
       });
       const modelName = process.env['MODEL_NAME'] ?? 'MiniMax-Text-01';

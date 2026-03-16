@@ -39,6 +39,7 @@
   "scripts": {
     "prepack": "npm run build",
     "build": "wireit",
+    "build:lib": "wireit",
     "build:tsc": "wireit",
     "test": "wireit"
   },
@@ -56,6 +57,11 @@
       ]
     },
     "build": {
+      "dependencies": [
+        "build:tsc"
+      ]
+    },
+    "build:lib": {
       "dependencies": [
         "build:tsc"
       ]

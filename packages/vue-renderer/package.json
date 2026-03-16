@@ -1,6 +1,6 @@
 {
-  "name": "@shawnwang15/a2ui-vue",
-  "version": "0.8.1",
+  "name": "@shawn_wang/a2ui-vue",
+  "version": "0.1.0",
   "type": "module",
   "description": "A2UI Vue3 Renderer",
   "main": "./dist/index.js",
@@ -17,6 +17,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --mode lib",
+    "build:lib": "vite build --mode lib",
     "typecheck": "vue-tsc --noEmit"
   },
   "files": [

@@ -15,6 +15,7 @@
   },
   "scripts": {
     "build": "tsup",
+    "build:lib": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"

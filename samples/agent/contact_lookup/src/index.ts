@@ -25,7 +25,7 @@ import { ContactAgent } from './agent.js';
 import { createServer, buildAgentCard, attachHandlers } from './server.js';
 
 if (!process.env['LLM_API_KEY'] && !process.env['OPENAI_API_KEY'] && !process.env['DASHSCOPE_API_KEY']) {
-  console.error('Error: set one of LLM_API_KEY / OPENAI_API_KEY / DASHSCOPE_API_KEY.');
+  console.error('Error: set one of LLM_API_KEY / OPENAI_API_KEY / DASHSCOPE_API_KEY in.env .');
   process.exit(1);
 }
 
