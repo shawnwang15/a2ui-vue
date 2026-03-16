@@ -1,5 +1,5 @@
 {
-  "name": "@shawn_wang/a2ui-vue",
+  "name": "@shawnjs/a2ui-vue",
   "version": "0.1.0",
   "type": "module",
   "description": "A2UI Vue3 Renderer",
