@@ -12,7 +12,7 @@
     "demo": "concurrently -k -n \"AGENT,WEB\" -c \"magenta,blue\" \"npm run serve:agent\" \"npm run dev\""
   },
   "dependencies": {
-    "@shawnwang15/a2ui-vue": "workspace:*",
+    "a2ui-vue": "workspace:*",
     "@a2ui/web_core": "workspace:*",
     "@a2a-js/sdk": "^0.3.4",
     "uuid": "^13.0.0",

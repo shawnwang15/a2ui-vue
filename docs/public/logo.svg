@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <!-- A2UI agent layer: indigo-to-deep-purple gradient (outer V) -->
+    <linearGradient id="grad-agent" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#818cf8"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+    <!-- Vue renderer layer: classic Vue green gradient (inner V) -->
+    <linearGradient id="grad-vue" x1="64" y1="30" x2="64" y2="98" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#41b883"/>
+      <stop offset="100%" stop-color="#2d9e6e"/>
+    </linearGradient>
+    <!-- Glow filter for depth -->
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ── Outer V  (A2UI / Agent layer – indigo) ─────────────────── -->
+  <!--  Left half  -->
+  <polygon points="64,10  8,10  64,118" fill="url(#grad-agent)"/>
+  <!--  Right half (split for two-tone symmetry) -->
+  <polygon points="64,10 120,10  64,118" fill="url(#grad-agent)" opacity="0.88"/>
+
+  <!-- ── Inner V  (Vue renderer layer – green) ─────────────────── -->
+  <!--  Same shape, proportionally nested like the Vue logo  -->
+  <polygon points="64,30 100,30  64,98  28,30" fill="url(#grad-vue)" filter="url(#glow)"/>
+
+  <!-- ── Agent-node dots ────────────────────────────────────────── -->
+  <!--  Two circuit nodes at the top outer corners of the V          -->
+  <!--  They represent the A2 "Agent-to" connection endpoints        -->
+  <circle cx="8"   cy="10" r="5.5" fill="#818cf8"/>
+  <circle cx="120" cy="10" r="5.5" fill="#818cf8"/>
+  <!-- Horizontal trace lines from corner nodes toward the V base -->
+  <line x1="13.5" y1="10" x2="30"    y2="10" stroke="#818cf8" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+  <line x1="114.5" y1="10" x2="98"   y2="10" stroke="#818cf8" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- ── Centre apex dot ───────────────────────────────────────── -->
+  <!--  Where Agent meets Vue: the V apex represents the "to" (→)   -->
+  <circle cx="64" cy="10" r="3.5" fill="white" opacity="0.90"/>
+</svg>

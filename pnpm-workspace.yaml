@@ -1,5 +1,5 @@
 packages:
   - packages/*
-  - docs/*
+  - docs
   - samples/**/*
   - node-a2ui/*
