@@ -1,4 +1,4 @@
-# a2ui/vue
+# a2ui-vue
 [![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.8.x-646cff.svg)](https://a2ui.org/)
 [![docs](https://img.shields.io/badge/docs-online-brightgreen)](https://shawnwang15.github.io/a2ui-vue/en/)
 
@@ -14,8 +14,8 @@ A Vue 3 renderer for A2UI (Agent-to-UI) protocol.
 
 ```vue
 <script setup lang="ts">
-import { A2UISurface, useMessageProcessor, provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui/vue';
-import 'a2ui/vue/dist/vue.css';
+import { A2UISurface, useMessageProcessor, provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue';
+import 'a2ui-vue/dist/vue.css';
 // Provide A2UI configuration
 provideA2UI({
   catalog: DEFAULT_CATALOG,
