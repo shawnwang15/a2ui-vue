@@ -25,7 +25,7 @@ features:
     details: 基于 A2UI 开放协议，AI Agent 通过结构化 JSON 消息描述 UI 意图，无需关心前端实现细节。
   - icon: ⚡
     title: Vue 3 原生
-    details: 使用 Composition API 与 <script setup>，完整 TypeScript 类型支持，与 Vue 生态无缝集成。
+    details: 使用 Composition API 与 &lt;script setup&gt;，完整 TypeScript 类型支持，与 Vue 生态无缝集成。
   - icon: 🧩
     title: 丰富组件库
     details: 内置布局、内容、媒体、输入等 20+ 个开箱即用的组件，支持自定义 Catalog 扩展。
