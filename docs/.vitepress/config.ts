@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: 'a2ui-vue',
+  base:'/a2ui-vue/',
   description: 'A Vue 3 renderer for the A2UI (Agent-to-UI) protocol — let AI agents render rich, interactive UIs inside your Vue apps.',
   lang: 'zh-CN',
   lastUpdated: true,
