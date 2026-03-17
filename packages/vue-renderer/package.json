@@ -1,8 +1,9 @@
 {
   "name": "a2ui-vue",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "type": "module",
   "description": "A2UI Vue3 Renderer",
+  "author": "shawnwang15@163.com",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

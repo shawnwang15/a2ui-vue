@@ -33,45 +33,14 @@ samples/
 
 ## 启动方式
 
-### 方式一：分步启动
-
-**第一步：启动 Agent**
-
-```bash
-cd samples/agent/component_gallery
-npm install
-npm start
-# Agent 在 http://localhost:10005 提供服务
-# Agent Card: http://localhost:10005/.well-known/agent-card.json
-```
-
-**第二步：启动前端客户端**
-
-```bash
-cd samples/client/gallery
-npm install
-npm run dev
-# 访问 http://localhost:4000
-```
-
-### 方式二：从根目录一键启动
+### 从根目录一键启动
 
 ```bash
 # 在项目根目录（pnpm workspace）
 pnpm install
 pnpm run build:lib
-
-# gallery 暂无根目录快捷脚本，请分步启动（见上）
+pnpm run dev:gallery
 ```
-
-## 环境变量
-
-组件画廊 **不需要** LLM API Key，仅支持以下可选配置：
-
-| 变量     | 默认值        | 说明         |
-|--------|------------|------------|
-| `HOST` | `localhost` | Agent 绑定地址 |
-| `PORT` | `10005`     | Agent 监听端口 |
 
 ## 组件分类展示
 

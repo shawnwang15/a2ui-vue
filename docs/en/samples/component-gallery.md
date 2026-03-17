@@ -33,45 +33,16 @@ samples/
 
 ## Starting the Demo
 
-### Method 1: Step-by-step
 
-**Step 1: Start the Agent**
-
-```bash
-cd samples/agent/component_gallery
-npm install
-npm start
-# Agent served at http://localhost:10005
-# Agent Card: http://localhost:10005/.well-known/agent-card.json
-```
-
-**Step 2: Start the frontend client**
-
-```bash
-cd samples/client/gallery
-npm install
-npm run dev
-# Visit http://localhost:4000
-```
-
-### Method 2: One-click from project root
+### Method : One-click from project root
 
 ```bash
 # From the project root (pnpm workspace)
 pnpm install
 pnpm run build:lib
-
-# Gallery has no root-level shortcut script yet — use the step-by-step method above
+pnpm run dev:gallery
 ```
 
-## Environment Variables
-
-Component Gallery **does not** require an LLM API Key. Only the following optional configs are supported:
-
-| Variable | Default     | Description           |
-|--------|------------|------------|
-| `HOST` | `localhost` | Agent bind address |
-| `PORT` | `10005`     | Agent listen port  |
 
 ## Components by Category
 

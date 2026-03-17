@@ -1,6 +1,14 @@
 # @a2ui/vue
+[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.8.x-646cff.svg)](https://a2ui.org/)
+[![docs](https://img.shields.io/badge/docs-online-brightgreen)](https://shawnwang15.github.io/a2ui-vue/en/)
 
 A Vue 3 renderer for A2UI (Agent-to-UI) protocol.
+> **a2ui-vue** is a community **Vue 3 renderer** for the [A2UI (Agent-to-UI) open protocol](https://a2ui.org/).  
+> It enables AI agents to express UI intent as structured JSON and have it rendered as rich, interactive components inside any Vue 3 application — with no HTML/CSS knowledge required by the agent.
+
+**[📖 Documentation](https://shawnwang15.github.io/a2ui-vue/en/)** · **[⚡ Quick Start](https://shawnjs.github.io/a2ui-vue/en/guide/getting-started)** ·  **[🌐 中文说明](README.zh-CN.md)**
+
+![项目截图](images/gallery.jpeg)![项目截图](images/restaurants.jpeg)
 
 ## Usage
 
@@ -51,15 +59,12 @@ To view interactive examples of all components:
 
 ```bash
 # Install dependencies
-npm install
+pnpm  install
 
 # Start development server with examples
-npm run dev
+pnpm run dev
 
 ```
-
-The examples will be available at http://localhost:5173
-
 ### Building
 
 ```bash

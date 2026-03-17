@@ -51,7 +51,7 @@ Edit `.env` with your LLM configuration:
 
 ```dotenv
 LLM_API_KEY=your_api_key_here
-LLM_MODEL_SERIES=qwen          # Options: gpt / qwen / gemini
+LLM_MODEL_SERIES=qwen          # Options: gpt / qwen / gemini / minimax
 ```
 
 ### Method 1: Step-by-step
