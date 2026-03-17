@@ -17,7 +17,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20.19' # 指定 Node.js 版本
-        cache: 'npm'
 
     - name: Install dependencies
       run: pnpm install
