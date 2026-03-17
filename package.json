@@ -11,7 +11,14 @@
     "dev:gallery": "pnpm -r --stream run --if-present --parallel dev:gallery",
     "build:doc": "pnpm --filter a2ui-vue-docs build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "shawnwang15@163.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shawnwang15/a2ui-vue.git"
+  },
+  "homepage": "https://github.com/shawnwang15/a2ui-vue",
+  "keywords": [
+    "a2ui","A2UI","a2ui-vue","a2ui-vue3"
+  ]
 }
