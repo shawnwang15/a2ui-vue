@@ -8,7 +8,7 @@
     "build:lib": "pnpm -r --stream run --if-present build:lib",
     "dev:restaurant": "pnpm -r --stream run --if-present --parallel dev:restaurant",
     "dev:contact": "pnpm -r --stream run --if-present --parallel dev:contact",
-    "build:docs": "pnpm --filter docs build"
+    "build:doc": "pnpm --filter docs build"
   },
   "keywords": [],
   "author": "",
