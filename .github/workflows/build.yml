@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read      # 允许读取仓库内容
+  pages: write         # 允许写入 GitHub Pages
+  id-token: write      # 这是解决该报错的关键：允许获取身份令牌
+
 jobs:
   build:
     runs-on: ubuntu-latest
