@@ -7,7 +7,7 @@
 > 让 AI Agent 通过结构化 JSON 表达 UI 意图，在任意 Vue 3 应用中渲染出丰富的、可交互的用户界面——无需 Agent 了解任何 HTML/CSS。
 
 **[📖 文档](https://shawnwang15.github.io/a2ui-vue/)** · **[🌐 English](README.md)**
-
+![项目截图](packages/vue-renderer/images/gallery.jpeg)![项目截图](packages/vue-renderer/images/restaurants.jpeg)
 ## 一页速览
 
 - 产品定位：A2UI（Agent-to-UI）协议的 Vue 3 渲染器
