@@ -1,0 +1,26 @@
+name: Node.js Build
+
+on:
+  push:
+    branches: [ "main" ] # 当代码推送到 main 分支时触发
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4 # 检出你的代码
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.19' # 指定 Node.js 版本
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Run build
+      run: pnpm run build:doc
