@@ -82,21 +82,21 @@ const processor = useMessageProcessor()
 - **Protocol versions**: A2UI v0.8, v0.9, v0.10
 - **Build**: ESM and CJS, tree-shakeable
 - **License**: MIT
-- **Repository**: https://github.com/shawnjs/a2ui-vue
+- **Repository**: https://github.com/shawnwang15/a2ui-vue
 
 ## Frequently Asked Questions
 
-**Q: What is the A2UI protocol?**  
+**Q: What is the A2UI protocol?**
 A: An open protocol where AI agents express UI intent as typed JSON objects. The renderer converts these into real UI components, decoupling agent logic from frontend implementation.
 
-**Q: How is a2ui-vue different from directly generating HTML?**  
+**Q: How is a2ui-vue different from directly generating HTML?**
 A: Agents never touch HTML/CSS. They describe intent (e.g., "show a card with title X and list Y") in A2UI JSON. The renderer handles rendering, theming, and accessibility.
 
-**Q: Can I use a2ui-vue with any AI model?**  
+**Q: Can I use a2ui-vue with any AI model?**
 A: Yes. Any model that can generate A2UI-compliant JSON (guided by a system prompt or function-calling schema) works with a2ui-vue.
 
-**Q: How do I add custom components?**  
+**Q: How do I add custom components?**
 A: Create a custom Catalog extending `DEFAULT_CATALOG` and pass it to `provideA2UI({ catalog: myCatalog })`.
 
-**Q: Is this compatible with Google's A2UI implementation?**  
+**Q: Is this compatible with Google's A2UI implementation?**
 A: Yes. a2ui-vue follows the same A2UI protocol spec as the official Angular and Lit renderers.

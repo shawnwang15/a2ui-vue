@@ -44,7 +44,7 @@ const jsonLd = {
       operatingSystem: 'Any',
       programmingLanguage: ['JavaScript', 'TypeScript', 'Vue'],
       license: 'https://opensource.org/licenses/MIT',
-      codeRepository: 'https://github.com/shawnjs/a2ui-vue',
+      codeRepository: 'https://github.com/shawnwang15/a2ui-vue',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       keywords: [
         'a2ui', 'agent-to-ui', 'vue3', 'vue renderer', 'AI agent', 'AI UI',
@@ -174,7 +174,7 @@ export default defineConfig({
           ],
         },
         editLink: {
-          pattern: 'https://github.com/shawnjs/a2ui-vue/edit/main/docs/:path',
+          pattern: 'https://github.com/shawnwang15/a2ui-vue/edit/main/docs/:path',
           text: '在 GitHub 上编辑此页',
         },
         docFooter: {
@@ -241,7 +241,7 @@ export default defineConfig({
           ],
         },
         editLink: {
-          pattern: 'https://github.com/shawnjs/a2ui-vue/edit/main/docs/:path',
+          pattern: 'https://github.com/shawnwang15/a2ui-vue/edit/main/docs/:path',
           text: 'Edit this page on GitHub',
         },
         docFooter: {
@@ -264,7 +264,7 @@ export default defineConfig({
     logo: { src: '/logo.svg', width: 28, height: 28 },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/shawnjs/a2ui-vue' },
+      { icon: 'github', link: 'https://github.com/shawnwang15/a2ui-vue' },
     ],
 
     footer: {

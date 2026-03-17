@@ -17,7 +17,7 @@ hero:
       link: /en/samples/overview
     - theme: alt
       text: GitHub
-      link: https://github.com/shawnjs/a2ui-vue
+      link: https://github.com/shawnwang15/a2ui-vue
 
 
 features:
