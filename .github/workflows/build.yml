@@ -24,10 +24,13 @@ jobs:
         node-version: '20.19' # 指定 Node.js 版本
 
     - name: Install pnpm
-      run: npm install -g pnpm       
+      run: npm install -g pnpm
 
     - name: Install dependencies
       run: pnpm install
+
+    - name: Run build lib
+      run: pnpm run build:lib
 
     - name: Run build
       run: pnpm run build:doc
