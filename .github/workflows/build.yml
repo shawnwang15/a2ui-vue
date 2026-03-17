@@ -26,3 +26,20 @@ jobs:
 
     - name: Run build
       run: pnpm run build:doc
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+          # 修改这里！设置为你的打包目录（如 dist, build, out 等）
+          path: ./docs/.vitepress/dist
+  deploy:
+      needs: build
+      runs-on: ubuntu-latest
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+      steps:
+        # 关键步骤：调用默认的部署逻辑
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v4
