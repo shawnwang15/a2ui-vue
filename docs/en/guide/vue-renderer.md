@@ -1,3 +1,7 @@
+---
+description: "Deep dive into a2ui-vue core abstractions: the Config system, MessageProcessor, Catalog, and theme customization."
+---
+
 # Vue Renderer Core Concepts
 
 `a2ui-vue`'s design revolves around three core abstractions: **Config**, **MessageProcessor**, and **Catalog**.

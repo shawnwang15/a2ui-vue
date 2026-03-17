@@ -1,3 +1,7 @@
+---
+description: "Build A2UI-compliant AI agent servers in Node.js using @a2ui/agent-sdks and connect them seamlessly to the a2ui-vue frontend renderer."
+---
+
 # Node A2UI & Agents
 
 ## Why node-a2ui in addition to the Vue Renderer?

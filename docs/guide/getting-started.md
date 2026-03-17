@@ -1,3 +1,7 @@
+---
+description: 三步将 a2ui-vue(A2UI、a2ui) 接入你的 Vue 3 应用——安装、配置 provideA2UI、使用 useMessageProcessor 处理 Agent 消息。
+---
+
 # 快速上手
 
 ## 安装

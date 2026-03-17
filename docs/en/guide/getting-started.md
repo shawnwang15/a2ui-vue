@@ -1,3 +1,7 @@
+---
+description: Get started with a2ui-vue(A2UI、a2ui) in three steps — install, configure provideA2UI, and use useMessageProcessor to render AI agent messages in your Vue 3 app.
+---
+
 # Quick Start
 
 ## Installation

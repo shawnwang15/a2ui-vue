@@ -1,3 +1,7 @@
+---
+description: "a2ui-vue(A2UI、a2ui) 内置 20+ 个 Vue 3 组件参考文档，涵盖布局（Card、Tabs、Accordion）、内容（Text、Table、List）、媒体与输入类组件。"
+---
+
 # 组件参考
 
 `a2ui-vue` 内置了 20+ 个组件，覆盖布局、内容、媒体与输入四大类别。  

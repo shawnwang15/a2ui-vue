@@ -1,3 +1,7 @@
+---
+description: "在 Node.js 中使用 @a2ui/agent-sdks 构建符合 A2UI 协议的 AI Agent 服务端，与 a2ui-vue 前端渲染器无缝对接。"
+---
+
 # Node A2UI 与 Agent 简要说明
 
 

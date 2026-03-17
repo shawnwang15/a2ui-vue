@@ -1,3 +1,7 @@
+---
+description: 三个完整全栈 Demo——组件画廊、联系人查询、餐厅推荐，展示 a2ui-vue 与真实 AI Agent 集成的完整流程。
+---
+
 # 示例总览
 
 本节提供三个完整的 Demo 应用，展示如何将 `a2ui-vue` 与真实的 AI Agent 集成。

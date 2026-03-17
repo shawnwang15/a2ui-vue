@@ -25,6 +25,43 @@ const viteConfig = {
   },
 }
 
+const SITE_HOSTNAME = 'https://shawnjs.github.io'
+const SITE_BASE = '/a2ui-vue'
+const SITE_URL = `${SITE_HOSTNAME}${SITE_BASE}`
+const OG_IMAGE = `${SITE_URL}/og-image.png`
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      '@id': `${SITE_URL}/#software`,
+      name: 'a2ui-vue',
+      url: SITE_URL,
+      description:
+        'A Vue 3 renderer for the A2UI (Agent-to-UI) open protocol. Enables AI agents to render rich, interactive UIs inside any Vue 3 application via structured JSON messages.',
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Any',
+      programmingLanguage: ['JavaScript', 'TypeScript', 'Vue'],
+      license: 'https://opensource.org/licenses/MIT',
+      codeRepository: 'https://github.com/shawnjs/a2ui-vue',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      keywords: [
+        'a2ui', 'agent-to-ui', 'vue3', 'vue renderer', 'AI agent', 'AI UI',
+        'A2UI protocol', 'generative UI', 'agentic UI', 'vue component',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: 'a2ui-vue',
+      inLanguage: ['zh-CN', 'en-US'],
+      about: { '@id': `${SITE_URL}/#software` },
+    },
+  ],
+}
+
 export default defineConfig({
   title: 'a2ui-vue',
   base: '/a2ui-vue/',
@@ -32,13 +69,59 @@ export default defineConfig({
   lastUpdated: true,
   appearance: 'force-dark',
 
+  sitemap: {
+    hostname: SITE_HOSTNAME,
+  },
+
   vite: viteConfig as never,
 
+  transformPageData(pageData) {
+    const path = pageData.relativePath
+      .replace(/index\.md$/, '')
+      .replace(/\.md$/, '.html')
+    const canonical = `${SITE_URL}/${path}`
+
+    const title = pageData.title
+      ? `${pageData.title} | a2ui-vue`
+      : 'a2ui-vue — Vue 3 Renderer for A2UI Protocol'
+    const description =
+      (pageData.frontmatter.description as string | undefined) ||
+      pageData.description ||
+      'A Vue 3 renderer for the A2UI (Agent-to-UI) protocol. Let AI agents render rich, interactive UIs inside your Vue apps.'
+
+    pageData.frontmatter.head ??= []
+    ;(pageData.frontmatter.head as unknown[]).push(
+      ['link', { rel: 'canonical', href: canonical }],
+      ['meta', { property: 'og:url', content: canonical }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+    )
+  },
+
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/a2ui-vue/logo.svg' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap', rel: 'stylesheet' }],
+    // Open Graph
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'a2ui-vue' }],
+    ['meta', { property: 'og:image', content: OG_IMAGE }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:locale', content: 'zh_CN' }],
+    ['meta', { property: 'og:locale:alternate', content: 'en_US' }],
+    // Twitter / X Card
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: OG_IMAGE }],
+    ['meta', { name: 'twitter:site', content: '@a2ui_vue' }],
+    // Additional SEO
+    ['meta', { name: 'theme-color', content: '#646cff' }],
+    ['meta', { name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' }],
+    // JSON-LD Structured Data
+    ['script', { type: 'application/ld+json' }, JSON.stringify(jsonLd)],
   ],
 
   locales: {

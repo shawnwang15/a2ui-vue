@@ -1,3 +1,7 @@
+---
+description: "深入了解 a2ui-vue(A2UI、a2ui) 的核心抽象：Config 配置系统、MessageProcessor 消息处理器与 Catalog 组件目录，以及主题定制方法。"
+---
+
 # Vue Renderer 核心概念
 
 `a2ui-vue` 的设计围绕三个核心抽象展开：**Config（配置）**、**MessageProcessor（消息处理器）** 和 **Catalog（组件目录）**。

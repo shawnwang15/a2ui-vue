@@ -1,3 +1,7 @@
+---
+description: a2ui-vue(A2UI、a2ui) Three full-stack demo apps — Component Gallery, Contact Lookup, and Restaurant Finder — showing end-to-end a2ui-vue integration with real AI agents.
+---
+
 # Samples Overview
 
 This section provides three complete demo applications showing how to integrate `a2ui-vue` with real AI Agents.

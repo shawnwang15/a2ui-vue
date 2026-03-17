@@ -1,3 +1,7 @@
+---
+description: Learn what the A2UI (Agent-to-UI) open protocol is and how a2ui-vue lets AI agents render rich, interactive UIs inside Vue 3 applications.
+---
+
 # Introduction
 
 ## What is A2UI?

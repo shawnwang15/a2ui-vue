@@ -1,0 +1,38 @@
+# robots.txt for a2ui-vue(A2UI、a2ui) documentation
+# https://shawnjs.github.io/a2ui-vue/
+
+User-agent: *
+Allow: /
+
+# AI / LLM crawlers — explicitly permitted for GEO
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+Sitemap: https://shawnjs.github.io/a2ui-vue/sitemap.xml

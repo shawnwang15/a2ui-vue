@@ -1,3 +1,7 @@
+---
+description: "Reference for all 20+ built-in a2ui-vue(A2UI、a2ui) components \u2014 layout (Card, Tabs, Accordion), content (Text, Table, List), media, and input components."
+---
+
 # Component Reference
 
 `a2ui-vue` comes with 20+ built-in components covering four categories: layout, content, media, and input.  

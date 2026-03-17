@@ -1,3 +1,7 @@
+---
+description: 了解 A2UI（Agent-to-UI）开放协议，以及 a2ui-vue 如何让 AI Agent 在 Vue 3 应用中渲染丰富的可交互 UI。
+---
+
 # 简介
 
 ## 什么是 A2UI？

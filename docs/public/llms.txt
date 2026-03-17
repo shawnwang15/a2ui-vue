@@ -1,0 +1,102 @@
+# a2ui-vue
+
+> A community Vue 3 renderer for the A2UI (Agent-to-UI) open protocol. Enables AI agents to render rich, interactive UIs inside any Vue 3 application by sending structured JSON messages.
+
+## What is A2UI?
+
+A2UI (Agent-to-UI) is an open protocol that defines how AI agents communicate UI intent to a frontend renderer. Instead of generating HTML/CSS, an agent emits structured JSON messages describing what to show. The renderer translates those messages into real visual components.
+
+```
+AI Agent  ──(A2UI JSON)──►  Vue Renderer  ──►  User Interface
+```
+
+Key advantages of this protocol-based design:
+- Agents remain UI-framework-agnostic (only output valid A2UI JSON)
+- The same Vue Renderer works with any compliant agent
+- Protocol is versioned: currently supports v0.8, v0.9, v0.10
+
+## What is a2ui-vue?
+
+**a2ui-vue** is the community Vue 3 implementation of the A2UI protocol. It wraps `@a2ui/web_core` (the canonical protocol core) and provides:
+- 20+ built-in Vue 3 components (layout, content, media, inputs)
+- Composition API surface: `provideA2UI`, `useMessageProcessor`, `useA2UIConfig`
+- A theme system configurable via `provideA2UI()`
+- Extensible component Catalog
+- Full TypeScript support, ESM + CJS dual build
+
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| `a2ui-vue` | Vue 3 renderer — main package |
+| `@a2ui/web_core` | Protocol core: JSON Schema, types, message parsing |
+| `@a2ui/agent-sdks` | Node.js agent development toolkit |
+
+## Quick Start (3 lines)
+
+```bash
+npm install a2ui-vue
+```
+
+```vue
+<!-- App.vue -->
+<script setup>
+import { provideA2UI, DEFAULT_CATALOG } from 'a2ui-vue'
+import 'a2ui-vue/dist/vue.css'
+provideA2UI({ catalog: DEFAULT_CATALOG })
+</script>
+```
+
+```vue
+<!-- YourPage.vue -->
+<script setup>
+import { useMessageProcessor, A2UIRenderer } from 'a2ui-vue'
+const processor = useMessageProcessor()
+</script>
+<template>
+  <A2UIRenderer :surfaces="processor.surfaces" />
+</template>
+```
+
+## Documentation
+
+- [Introduction](/a2ui-vue/guide/introduction): What A2UI and a2ui-vue are, project structure, protocol versions
+- [Quick Start](/a2ui-vue/guide/getting-started): Install, configure with `provideA2UI`, use `useMessageProcessor`
+- [Vue Renderer Core](/a2ui-vue/guide/vue-renderer): Config system, MessageProcessor, Catalog, theme system
+- [Component Reference](/a2ui-vue/guide/components): All 20+ built-in components with props and usage
+- [Node A2UI & Agents](/a2ui-vue/guide/node-a2ui): Server-side agent SDK and building Node.js agents
+- [Samples Overview](/a2ui-vue/samples/overview): Three full-stack demo apps (Component Gallery, Contact Lookup, Restaurant Finder)
+
+## Sample Apps
+
+| Demo | Description |
+|------|-------------|
+| Component Gallery | Static showcase of all built-in components, no LLM required |
+| Contact Lookup | AI agent queries contacts and returns card-based UI |
+| Restaurant Finder | AI agent recommends restaurants with structured UI cards |
+
+## Technical Details
+
+- **Vue version**: Vue 3.4+, using Composition API and `<script setup>`
+- **TypeScript**: Full type coverage
+- **Protocol versions**: A2UI v0.8, v0.9, v0.10
+- **Build**: ESM and CJS, tree-shakeable
+- **License**: MIT
+- **Repository**: https://github.com/shawnjs/a2ui-vue
+
+## Frequently Asked Questions
+
+**Q: What is the A2UI protocol?**  
+A: An open protocol where AI agents express UI intent as typed JSON objects. The renderer converts these into real UI components, decoupling agent logic from frontend implementation.
+
+**Q: How is a2ui-vue different from directly generating HTML?**  
+A: Agents never touch HTML/CSS. They describe intent (e.g., "show a card with title X and list Y") in A2UI JSON. The renderer handles rendering, theming, and accessibility.
+
+**Q: Can I use a2ui-vue with any AI model?**  
+A: Yes. Any model that can generate A2UI-compliant JSON (guided by a system prompt or function-calling schema) works with a2ui-vue.
+
+**Q: How do I add custom components?**  
+A: Create a custom Catalog extending `DEFAULT_CATALOG` and pass it to `provideA2UI({ catalog: myCatalog })`.
+
+**Q: Is this compatible with Google's A2UI implementation?**  
+A: Yes. a2ui-vue follows the same A2UI protocol spec as the official Angular and Lit renderers.
