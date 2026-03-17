@@ -1,5 +1,5 @@
 {
-  "name": "a2ui-vue",
+  "name": "a2ui-vue-workspace",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,6 +8,7 @@
     "build:lib": "pnpm -r --stream run --if-present build:lib",
     "dev:restaurant": "pnpm -r --stream run --if-present --parallel dev:restaurant",
     "dev:contact": "pnpm -r --stream run --if-present --parallel dev:contact",
+    "dev:gallery": "pnpm -r --stream run --if-present --parallel dev:gallery",
     "build:doc": "pnpm --filter a2ui-vue-docs build"
   },
   "keywords": [],

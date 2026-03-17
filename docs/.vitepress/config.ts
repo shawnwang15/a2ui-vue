@@ -1,4 +1,29 @@
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
+
+const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
+const vueRendererSrc = resolve(repoRoot, 'packages/vue-renderer/src')
+const webCoreV08Src = resolve(repoRoot, 'packages/web_core/src/v0_8')
+
+const viteConfig = {
+  resolve: {
+    alias: {
+      '@': vueRendererSrc,
+      '@a2ui/web_core/v0_8': resolve(webCoreV08Src, 'index.ts'),
+      '@a2ui/web_core/types/types': resolve(webCoreV08Src, 'types/types.ts'),
+      '@a2ui/web_core/types/primitives': resolve(webCoreV08Src, 'types/primitives.ts'),
+      '@a2ui/web_core/styles/index': resolve(webCoreV08Src, 'styles/index.ts'),
+    },
+  },
+  vue: {
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag: string) => tag.includes('a2ui-'),
+      },
+    },
+  },
+}
 
 export default defineConfig({
   title: 'a2ui-vue',
@@ -7,6 +32,8 @@ export default defineConfig({
   lang: 'zh-CN',
   lastUpdated: true,
   appearance: 'force-dark',
+
+  vite: viteConfig as never,
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
@@ -21,7 +48,8 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide/introduction', activeMatch: '/guide/' },
       { text: '示例', link: '/samples/overview', activeMatch: '/samples/' },
-      { text: 'GitHub', link: 'https://github.com/shawnjs/a2ui-vue' },
+      { text: 'Playground', link: '/playground/', activeMatch: '/playground/' },
+      { text: 'GitHub', link: 'https://github.com/shawnwang15/a2ui-vue' },
     ],
 
     sidebar: {
@@ -50,6 +78,14 @@ export default defineConfig({
             { text: '组件画廊', link: '/samples/component-gallery' },
             { text: '联系人查询', link: '/samples/contact-lookup' },
             { text: '餐厅查找', link: '/samples/restaurant-finder' },
+          ],
+        },
+      ],
+      '/playground/': [
+        {
+          text: 'Playground',
+          items: [
+            { text: '实时渲染', link: '/playground/' },
           ],
         },
       ],

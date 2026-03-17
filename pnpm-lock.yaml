@@ -9,6 +9,22 @@ importers:
   .: {}
 
   docs:
+    dependencies:
+      '@a2a-js/sdk':
+        specifier: ^0.3.4
+        version: 0.3.12(express@4.22.1)
+      '@a2ui/web_core':
+        specifier: workspace:*
+        version: link:../packages/web_core
+      a2ui-vue:
+        specifier: workspace:*
+        version: link:../packages/vue-renderer
+      uuid:
+        specifier: ^13.0.0
+        version: 13.0.0
+      vue:
+        specifier: ^3.5.27
+        version: 3.5.30(typescript@5.9.3)
     devDependencies:
       vitepress:
         specifier: 1.6.4
@@ -244,7 +260,7 @@ importers:
         version: link:../../../packages/web_core
       a2ui-vue:
         specifier: workspace:*
-        version: link:../../..
+        version: link:../../../packages/vue-renderer
       uuid:
         specifier: ^13.0.0
         version: 13.0.0
@@ -281,7 +297,7 @@ importers:
         version: link:../../../packages/web_core
       a2ui-vue:
         specifier: workspace:*
-        version: link:../../..
+        version: link:../../../packages/vue-renderer
       vue:
         specifier: ^3.5.27
         version: 3.5.30(typescript@5.9.3)
@@ -312,7 +328,7 @@ importers:
         version: link:../../../packages/web_core
       a2ui-vue:
         specifier: workspace:*
-        version: link:../../..
+        version: link:../../../packages/vue-renderer
       uuid:
         specifier: ^13.0.0
         version: 13.0.0

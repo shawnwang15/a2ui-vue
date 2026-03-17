@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --force",
+    "dev:gallery": "vite --force",
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview"
   },

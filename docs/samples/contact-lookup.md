@@ -3,14 +3,14 @@
 **Contact Lookup** 是一个由 LLM 驱动的智能联系人搜索 Agent。  
 用户在前端输入人名或关键词，Agent 调用工具查询联系人信息，并通过 A2UI 卡片将结果渲染在页面上。
 
+::: tip 提示
+UI 生成速度受模型、网络影响，且因模型能力差异，生成的 UI 可能略有不同。
+:::
+
 ## 视频演示
 
 <div class="video-placeholder">
-  <div class="video-placeholder-inner">
-    <div class="video-placeholder-icon">🎬</div>
-    <div class="video-placeholder-label">联系人查询 · 视频演示</div>
-    <div class="video-placeholder-sublabel">即将上线，敬请期待</div>
-  </div>
+  <video controls autoplay src="./videos/contact.mp4"></video>
 </div>
 
 ## 功能特性

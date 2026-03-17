@@ -3,14 +3,14 @@
 **Restaurant Finder** 是一个由 LLM 驱动的餐厅推荐 Agent。  
 用户描述偏好（菜系、地区、人均消费等），Agent 从本地数据集中检索匹配的餐厅，并通过 A2UI 渲染精美的餐厅卡片。
 
+::: tip 提示
+UI 生成速度受模型、网络影响，且因模型能力差异，生成的 UI 可能略有不同。
+:::
+
 ## 视频演示
 
 <div class="video-placeholder">
-  <div class="video-placeholder-inner">
-    <div class="video-placeholder-icon">🎬</div>
-    <div class="video-placeholder-label">餐厅查找 · 视频演示</div>
-    <div class="video-placeholder-sublabel">即将上线，敬请期待</div>
-  </div>
+  <video controls autoplay src="./videos/restaurant.mp4"></video>
 </div>
 
 ## 功能特性

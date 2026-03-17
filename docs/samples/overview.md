@@ -2,6 +2,12 @@
 
 本节提供三个完整的 Demo 应用，展示如何将 `a2ui-vue` 与真实的 AI Agent 集成。
 
+如果你想先直接编辑 A2UI JSON 并观察渲染结果，可以前往 [Playground](/playground/)。
+
+::: tip 提示
+UI 生成速度受模型、网络影响，且因模型能力差异，生成的 UI 可能略有不同。
+:::
+
 ## Demo 列表
 
 | Demo               | 说明                                          | Agent 端口 | 客户端端口 |

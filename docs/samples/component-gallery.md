@@ -6,11 +6,7 @@
 ## 视频演示
 
 <div class="video-placeholder">
-  <div class="video-placeholder-inner">
-    <div class="video-placeholder-icon">🎬</div>
-    <div class="video-placeholder-label">组件画廊 · 视频演示</div>
-    <div class="video-placeholder-sublabel">即将上线，敬请期待</div>
-  </div>
+    <video controls autoplay src="./videos/gallery.mp4"></video>
 </div>
 
 ## 功能特性

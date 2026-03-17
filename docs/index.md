@@ -19,6 +19,7 @@ hero:
       text: GitHub
       link: https://github.com/shawnjs/a2ui-vue
 
+
 features:
   - icon: 🤖
     title: Agent-to-UI 协议
@@ -39,3 +40,9 @@ features:
     title: Monorepo 工程
     details: 包含 Vue Renderer、Web Core、Node.js Agent SDK 及多个全功能 Demo 应用。
 ---
+
+<div class="home-description">
+
+本项目为 A2UI 协议带来完整的 **Vue 3 支持**——基于 Vue 3 Composition API 实现全新的 Vue 3 渲染器，并提供多个配套示例应用，与Google官方现有的 Angular 及 Lit 实现保持一致的协议规范与组件体验，具体请观看示例视频或下载体验。
+
+</div>
