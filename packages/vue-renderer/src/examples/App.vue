@@ -11,7 +11,7 @@ import ColumnExample from './components/ColumnExample.vue';
 import ListExample from './components/ListExample.vue';
 import {provideA2UI} from "@/config.ts";
 import {DEFAULT_CATALOG} from "@/catalog/default.ts";
-import { theme } from './theme';
+import { theme } from '../theme.ts';
 provideA2UI({
   catalog: DEFAULT_CATALOG,
   theme,

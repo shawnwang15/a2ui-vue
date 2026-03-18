@@ -14,7 +14,7 @@ export { DEFAULT_CATALOG } from './catalog/default';
 
 // Component exports
 export { default as A2UISurface } from './catalog/A2UISurface.vue';
-
+export {theme as defaultTheme} from './theme';
 // Re-export types from @a2ui/web_core
 // export type * as Types from '@a2ui/web_core/types/types';
 // export type * as Primitives from '@a2ui/web_core/types/primitives';
