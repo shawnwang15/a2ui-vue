@@ -34,16 +34,13 @@ yarn add a2ui-vue
 
 ```vue
 <script setup lang="ts">
-import { provideA2UI, DEFAULT_CATALOG } from 'a2ui-vue'
-import 'a2ui-vue/dist/vue.css'
+import { provideA2UI, DEFAULT_CATALOG,defaultTheme } from 'a2ui-vue'
+import 'a2ui-vue/dist/a2ui-vue.css'
 
 // 使用内置默认配置
 provideA2UI({
   catalog: DEFAULT_CATALOG,
-  theme: {
-    primaryColor: '#4f46e5',
-    // 更多主题选项见「主题系统」章节
-  },
+  theme: defaultTheme,
 })
 </script>
 
@@ -87,8 +84,9 @@ const surfaces = processor.getSurfaces()
 </template>
 ```
 
-### 完整示例
+## 完整示例
 
+:::demo
 ```vue
 <script setup lang="ts">
   import {
@@ -192,21 +190,9 @@ const surfaces = processor.getSurfaces()
     />
   </div>
 </template>
+
 ```
-
-## 在 Vite 项目中使用
-
-如果你使用 Vite，`a2ui-vue` 可直接按需引入，无需任何额外配置：
-
-```ts
-// vite.config.ts 无需特殊处理
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-
-export default defineConfig({
-  plugins: [vue()],
-})
-```
+:::
 
 ## 下一步
 

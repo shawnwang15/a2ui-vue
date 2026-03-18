@@ -13,7 +13,7 @@ description: "深入了解 a2ui-vue(A2UI、a2ui) 的核心抽象：Config 配置
 `provideA2UI` 将全局配置注入 Vue 的 provide/inject 树，所有子组件均可通过 `useA2UIConfig()` 消费：
 
 ```ts
-import { provideA2UI, useA2UIConfig } from 'a2ui-vue'
+import { provideA2UI, useA2UIConfig,defaultTheme } from 'a2ui-vue'
 
 // 在根组件提供配置
 provideA2UI({
@@ -35,14 +35,10 @@ console.log(config.catalog, config.theme)
 主题对象遵循 `@a2ui/web_core` 中定义的 `Types.Theme` 结构，用于统一控制颜色、字体、圆角等设计 Token：
 
 ```ts
-const myTheme = {
-  primaryColor: '#4f46e5',
-  backgroundColor: '#ffffff',
-  textColor: '#1a1a1a',
-  borderRadius: '8px',
-}
+import { defaultTheme } from 'a2ui-vue'
+// 可查看defaultTheme 默认示例
 
-provideA2UI({ catalog: DEFAULT_CATALOG, theme: myTheme })
+provideA2UI({ catalog: DEFAULT_CATALOG, theme: defaultTheme })
 ```
 
 ---

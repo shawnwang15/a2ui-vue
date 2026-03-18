@@ -13,7 +13,7 @@ description: "Deep dive into a2ui-vue core abstractions: the Config system, Mess
 `provideA2UI` injects global configuration into Vue's provide/inject tree. All child components can consume it via `useA2UIConfig()`:
 
 ```ts
-import { provideA2UI, useA2UIConfig } from 'a2ui-vue'
+import { provideA2UI, useA2UIConfig, defaultTheme } from 'a2ui-vue'
 
 // Provide configuration in the root component
 provideA2UI({
@@ -35,14 +35,10 @@ console.log(config.catalog, config.theme)
 The theme object follows the `Types.Theme` structure defined in `@a2ui/web_core`, used to uniformly control design tokens like colors, fonts, and border-radius:
 
 ```ts
-const myTheme = {
-  primaryColor: '#4f46e5',
-  backgroundColor: '#ffffff',
-  textColor: '#1a1a1a',
-  borderRadius: '8px',
-}
+import { defaultTheme } from 'a2ui-vue'
+// See defaultTheme for the default example
 
-provideA2UI({ catalog: DEFAULT_CATALOG, theme: myTheme })
+provideA2UI({ catalog: DEFAULT_CATALOG, theme: defaultTheme })
 ```
 
 ---

@@ -42,7 +42,7 @@ npm install a2ui-vue
 <!-- App.vue -->
 <script setup>
 import { provideA2UI, DEFAULT_CATALOG } from 'a2ui-vue'
-import 'a2ui-vue/dist/vue.css'
+import 'a2ui-vue/dist/a2ui-vue.css'
 provideA2UI({ catalog: DEFAULT_CATALOG })
 </script>
 ```

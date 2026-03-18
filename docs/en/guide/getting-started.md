@@ -34,16 +34,13 @@ Call `provideA2UI` in your root component (typically `App.vue`) to inject the Ca
 
 ```vue
 <script setup lang="ts">
-import { provideA2UI, DEFAULT_CATALOG } from 'a2ui-vue'
-import 'a2ui-vue/dist/vue.css'
+import { provideA2UI, DEFAULT_CATALOG ,defaultTheme} from 'a2ui-vue'
+import 'a2ui-vue/dist/a2ui-vue.css'
 
 // Use built-in default configuration
 provideA2UI({
   catalog: DEFAULT_CATALOG,
-  theme: {
-    primaryColor: '#4f46e5',
-    // More theme options in the "Theme System" section
-  },
+  theme: defaultTheme,
 })
 </script>
 
@@ -87,8 +84,8 @@ Pass each entry from `surfaces` to `<A2UISurface>` for rendering:
 </template>
 ```
 
-### Complete Example
-
+## Complete Example
+:::demo
 ```vue
 <script setup lang="ts">
 import {
@@ -194,21 +191,7 @@ const surfaces = processor.getSurfaces()
 </template>
 
 ```
-
-## Using with Vite
-
-If you're using Vite, `a2ui-vue` can be imported directly with no extra configuration:
-
-```ts
-// vite.config.ts — no special setup needed
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-
-export default defineConfig({
-  plugins: [vue()],
-})
-```
-
+:::
 ## Next Steps
 
 - Dive deeper into [Vue Renderer Core Concepts](/en/guide/vue-renderer)

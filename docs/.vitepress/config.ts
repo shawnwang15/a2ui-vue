@@ -1,12 +1,13 @@
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
-
+import { demoblockPlugin, demoblockVitePlugin } from 'vitepress-theme-demoblock'
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
 const vueRendererSrc = resolve(repoRoot, 'packages/vue-renderer/src')
 const webCoreV08Src = resolve(repoRoot, 'packages/web_core/src/v0_8')
 
 const viteConfig = {
+  plugins: [demoblockVitePlugin()],
   resolve: {
     alias: {
       '@': vueRendererSrc,
@@ -68,7 +69,11 @@ export default defineConfig({
   description: 'A Vue 3 renderer for the A2UI (Agent-to-UI) protocol — let AI agents render rich, interactive UIs inside your Vue apps.',
   lastUpdated: true,
   appearance: 'force-dark',
-
+  markdown: {
+    config(md) {
+      md.use(demoblockPlugin)
+    },
+  },
   sitemap: {
     hostname: SITE_HOSTNAME,
   },

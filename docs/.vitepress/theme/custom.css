@@ -759,3 +759,132 @@ body {
   line-height: 1.7;
   color: var(--vp-c-text-2);
 }
+
+/* =====================================================
+   A2UI Demo Block — toggle preview / source code
+   ===================================================== */
+
+.a2ui-demo-block {
+  border: 1px solid var(--vp-c-border, #25283b);
+  border-radius: 10px;
+  margin: 28px 0;
+  overflow: hidden;
+  background: var(--vp-c-bg-soft, #101221);
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.a2ui-demo-block:hover {
+  border-color: rgba(129, 140, 248, 0.55);
+  box-shadow: 0 4px 24px rgba(99, 102, 241, 0.12);
+}
+
+/* --- Preview area --- */
+.a2ui-demo-preview {
+  padding: 28px 24px;
+  background: var(--vp-c-bg-elv, #15182a);
+  border-bottom: 1px solid var(--vp-c-border, #25283b);
+  /* let A2UI components size naturally */
+  overflow-x: auto;
+}
+
+/* --- Control bar at the bottom of the preview --- */
+.a2ui-demo-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 6px 12px;
+  background: var(--vp-c-bg-soft, #101221);
+  border-top: none;
+}
+
+.a2ui-demo-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  font-size: 12px;
+  font-family: var(--vp-font-family-mono, monospace);
+  color: var(--vp-c-text-3, #5b6486);
+  background: transparent;
+  border: 1px solid var(--vp-c-border, #25283b);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  line-height: 1.6;
+}
+
+.a2ui-demo-toggle-btn:hover {
+  color: var(--vp-c-brand-1, #818cf8);
+  border-color: rgba(129, 140, 248, 0.55);
+}
+
+.a2ui-demo-toggle-btn svg {
+  flex-shrink: 0;
+}
+
+/* --- Code block area --- */
+.a2ui-demo-code-wrap {
+  position: relative;
+  border-top: 1px solid var(--vp-c-border, #25283b);
+  background: var(--vp-c-bg, #070812);
+  overflow: hidden;
+}
+
+.a2ui-demo-copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-family: var(--vp-font-family-mono, monospace);
+  color: var(--vp-c-text-3, #5b6486);
+  background: var(--vp-c-bg-elv, #15182a);
+  border: 1px solid var(--vp-c-border, #25283b);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.a2ui-demo-copy-btn:hover {
+  color: var(--vp-c-brand-1, #818cf8);
+  border-color: rgba(129, 140, 248, 0.55);
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.a2ui-demo-code {
+  margin: 0;
+  padding: 20px 20px 20px 20px;
+  padding-right: 80px; /* room for copy button */
+  font-size: 13px;
+  font-family: var(--vp-font-family-mono, monospace);
+  line-height: 1.65;
+  color: var(--vp-c-text-2, #a3accd);
+  overflow-x: auto;
+  max-height: 420px;
+  white-space: pre;
+}
+
+/* --- Slide transition for the code panel --- */
+.a2ui-code-slide-enter-active {
+  transition: max-height 0.28s ease, opacity 0.2s ease;
+  max-height: 440px;
+}
+
+.a2ui-code-slide-leave-active {
+  transition: max-height 0.22s ease, opacity 0.18s ease;
+  max-height: 440px;
+}
+
+.a2ui-code-slide-enter-from,
+.a2ui-code-slide-leave-to {
+  max-height: 0 !important;
+  opacity: 0;
+}
+
+.vp-doc a2ui-surface p {
+  margin: unset; !important;
+}
