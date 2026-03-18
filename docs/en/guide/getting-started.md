@@ -96,22 +96,88 @@ import {
   useMessageProcessor,
   provideA2UI,
   DEFAULT_CATALOG,
+  defaultTheme
 } from 'a2ui-vue'
-import 'a2ui-vue/dist/vue.css'
-
-provideA2UI({ catalog: DEFAULT_CATALOG, theme: {} })
+import 'a2ui-vue/dist/a2ui-vue.css'
+provideA2UI({ catalog: DEFAULT_CATALOG, theme: defaultTheme })
 
 const processor = useMessageProcessor()
 
-// Push a sample message to the renderer
-processor.processMessages({
-  surface_id: 'main',
-  content: {
-    type: 'card',
-    title: 'Hello A2UI',
-    body: [{ type: 'text', content: 'Hello, this is an A2UI card!' }],
+// 向渲染器推送一条示例消息
+processor.processMessages([
+  {
+    "surfaceUpdate": {
+      "surfaceId": "main",
+      "components": [
+        {
+          "id": "root",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "heading",
+                  "text",
+                  "button"
+                ]
+              },
+              "alignment": "start"
+            }
+          }
+        },
+        {
+          "id": "heading",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Hello, A2UI!"
+              },
+              "usageHint": "h1"
+            }
+          }
+        },
+        {
+          "id": "text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Welcome to the a2ui-vue . Copy and Edit the JSON  to see changes in real-time."
+              },
+              "usageHint": "body"
+            }
+          }
+        },
+        {
+          "id": "button",
+          "component": {
+            "Button": {
+              "child": "button-text",
+              "primary": true,
+              "action": {
+                "name": "hello-click"
+              }
+            }
+          }
+        },
+        {
+          "id": "button-text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Get Started"
+              }
+            }
+          }
+        }
+      ]
+    }
   },
-})
+  {
+    "beginRendering": {
+      "surfaceId": "main",
+      "root": "root"
+    }
+  }
+])
 
 const surfaces = processor.getSurfaces()
 </script>
@@ -119,13 +185,14 @@ const surfaces = processor.getSurfaces()
 <template>
   <div class="app">
     <A2UISurface
-      v-for="[id, surface] in surfaces"
-      :key="id"
-      :surface-id="id"
-      :surface="surface"
+        v-for="[id, surface] in surfaces"
+        :key="id"
+        :surface-id="id"
+        :surface="surface"
     />
   </div>
 </template>
+
 ```
 
 ## Using with Vite
