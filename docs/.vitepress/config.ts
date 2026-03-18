@@ -26,7 +26,7 @@ const viteConfig = {
   },
 }
 
-const SITE_HOSTNAME = 'https://shawnjs.github.io'
+const SITE_HOSTNAME = 'https://github.com/shawnwang15'
 const SITE_BASE = '/a2ui-vue'
 const SITE_URL = `${SITE_HOSTNAME}${SITE_BASE}`
 const OG_IMAGE = `${SITE_URL}/og-image.png`
@@ -75,7 +75,7 @@ export default defineConfig({
     },
   },
   sitemap: {
-    hostname: SITE_HOSTNAME,
+    hostname: SITE_URL,
   },
 
   vite: viteConfig as never,
