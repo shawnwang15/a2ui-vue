@@ -132,7 +132,7 @@ export default defineConfig({
         nav: [
           { text: '指南', link: '/guide/introduction', activeMatch: '/guide/' },
           { text: '示例', link: '/samples/overview', activeMatch: '/samples/' },
-          { text: 'Playground', link: '/playground/', activeMatch: '/playground/' },
+          // { text: 'Playground', link: '/playground/', activeMatch: '/playground/' },
           { text: 'GitHub', link: 'https://github.com/shawnwang15/a2ui-vue' },
         ],
         sidebar: {
@@ -199,7 +199,7 @@ export default defineConfig({
         nav: [
           { text: 'Guide', link: '/en/guide/introduction', activeMatch: '/en/guide/' },
           { text: 'Samples', link: '/en/samples/overview', activeMatch: '/en/samples/' },
-          { text: 'Playground', link: '/en/playground/', activeMatch: '/en/playground/' },
+          // { text: 'Playground', link: '/en/playground/', activeMatch: '/en/playground/' },
           { text: 'GitHub', link: 'https://github.com/shawnwang15/a2ui-vue' },
         ],
         sidebar: {
