@@ -1,6 +1,6 @@
 {
   "name": "a2ui-vue",
-  "version": "0.8.1",
+  "version": "0.8.2-rc.1",
   "type": "module",
   "description": "A2UI Vue3 Renderer",
   "author": "shawnwang15@163.com",
