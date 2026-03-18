@@ -25,7 +25,6 @@
     "dist"
   ],
   "dependencies": {
-    "@a2ui/web_core": "workspace:*",
     "dompurify": "^3.3.1",
     "markdown-it": "^14.1.0"
   },
@@ -40,7 +39,9 @@
     "vite": "^7.3.1",
     "vite-plugin-dts": "^4.5.4",
     "vue": "^3.5.27",
-    "vue-tsc": "^2.2.0"
+    "vue-tsc": "^2.2.0",
+    "@a2ui/web_core": "workspace:*",
+    "zod": "^3.25.76"
   },
   "sideEffects": false,
   "license": "MIT",

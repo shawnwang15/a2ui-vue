@@ -24,7 +24,8 @@ export default defineConfig(({ mode }) => {
       ...(isLib
         ? [dts({
             rollupTypes: true,
-            exclude: ['src/examples/**', 'node_modules/**']
+            exclude: ['src/examples/**'],
+            bundledPackages: ['@a2ui/web_core','zod']
           })]
         : []),
     ],
@@ -38,11 +39,10 @@ export default defineConfig(({ mode }) => {
             fileName: (format) => `index.${format === 'es' ? 'mjs' : 'js'}`,
           },
           rollupOptions: {
-            external: ['vue', '@a2ui/web_core'],
+            external: ['vue'],
             output: {
               globals: {
-                vue: 'Vue',
-                '@a2ui/web_core': 'A2UIWebCore'
+                vue: 'Vue'
               },
             },
           }
