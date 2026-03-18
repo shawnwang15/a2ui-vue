@@ -127,6 +127,10 @@ export default defineConfig({
     ['meta', { name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' }],
     // JSON-LD Structured Data
     ['script', { type: 'application/ld+json' }, JSON.stringify(jsonLd)],
+    [
+      'script',
+      { defer: '', src: 'https://events.vercount.one/js' }
+    ],
   ],
 
   locales: {
