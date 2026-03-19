@@ -15,7 +15,7 @@
 - 输出：丰富的、可交互的 Vue 用户界面
 - 适用场景：生成式 UI、Agent 工作流、AI Copilot、工具驱动型前端界面
 - 技术栈：Vue 3、TypeScript、Composition API、可扩展组件 Catalog
-- 协议兼容：A2UI v0.8、v0.9、v0.10
+- 协议兼容：A2UI 已经支持v0.8，v0.9正在开发中
 
 ## 导航
 
