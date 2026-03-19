@@ -8,7 +8,7 @@
 > **a2ui-vue** is a community **Vue 3 renderer** for the [A2UI (Agent-to-UI) open protocol](https://a2ui.org/).  
 > It enables AI agents to express UI intent as structured JSON and have it rendered as rich, interactive components inside any Vue 3 application — with no HTML/CSS knowledge required by the agent.
 
-**[📖 Documentation](https://shawnwang15.github.io/a2ui-vue/en/)** · **[⚡ Quick Start](https://shawnjs.github.io/a2ui-vue/en/guide/getting-started)** ·  **[🌐 中文说明](README.zh-CN.md)**
+**[📖 Documentation](https://shawnwang15.github.io/a2ui-vue/en/)** · **[🌐 中文说明](README.zh-CN.md)**
 
 ![项目截图](packages/vue-renderer/images/gallery.jpeg)![项目截图](packages/vue-renderer/images/restaurants.jpeg)
 
