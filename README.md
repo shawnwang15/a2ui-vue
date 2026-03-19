@@ -20,7 +20,7 @@
 - Output: rich, interactive Vue user interfaces
 - Best for: generative UI, agent UX, AI copilots, tool-driven workflows, structured frontend rendering
 - Stack: Vue 3, TypeScript, Composition API, extensible component catalog
-- Compatibility: A2UI protocol v0.8, v0.9, v0.10
+- Compatibility: v0.8 (Supported) | v0.9 (In Progress)
 
 ## Navigation
 
