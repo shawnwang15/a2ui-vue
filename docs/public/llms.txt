@@ -13,7 +13,7 @@ AI Agent  ──(A2UI JSON)──►  Vue Renderer  ──►  User Interface
 Key advantages of this protocol-based design:
 - Agents remain UI-framework-agnostic (only output valid A2UI JSON)
 - The same Vue Renderer works with any compliant agent
-- Protocol is versioned: currently supports v0.8, v0.9, v0.10
+- Protocol is versioned: currently targets v0.9 (v0.8 / v0.10 specs included for reference)
 
 ## What is a2ui-vue?
 
@@ -79,7 +79,7 @@ const processor = useMessageProcessor()
 
 - **Vue version**: Vue 3.4+, using Composition API and `<script setup>`
 - **TypeScript**: Full type coverage
-- **Protocol versions**: A2UI v0.8, v0.9, v0.10
+- **Protocol versions**: A2UI v0.9 (default); repository keeps v0.8 / v0.10 specs
 - **Build**: ESM and CJS, tree-shakeable
 - **License**: MIT
 - **Repository**: https://github.com/shawnwang15/a2ui-vue

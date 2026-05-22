@@ -2,20 +2,22 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Primitives from '@a2ui/web_core/types/primitives';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.DateTimeInputNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  value: Primitives.StringValue | null;
+  value: unknown;
   enableDate: boolean;
   enableTime: boolean;
+  label?: unknown;
+  min?: unknown;
+  max?: unknown;
 }>();
 
-const { theme, resolvePrimitive, getUniqueId, setData } = useDynamicComponent(props);
+const { theme, resolvePrimitive, getUniqueId, setData, getBindingPath } = useDynamicComponent(props);
 
 const inputId = getUniqueId('a2ui-datetime-input');
 
@@ -35,6 +37,10 @@ const inputType = computed(() => {
 });
 
 const label = computed(() => {
+  // Use provided label if available
+  if (props.label) {
+    return resolvePrimitive(props.label);
+  }
   const type = inputType.value;
 
   if (type === 'date') {
@@ -48,7 +54,7 @@ const label = computed(() => {
 
 const inputValue = computed(() => {
   const type = inputType.value;
-  const parsed = resolvePrimitive(props.value) || '';
+  const parsed = (resolvePrimitive(props.value) as string) || '';
   const date = parsed ? new Date(parsed) : null;
 
   if (!date || isNaN(date.getTime())) {
@@ -75,7 +81,7 @@ function padNumber(value: number) {
 }
 
 function handleInput(event: Event) {
-  const path = props.value?.path;
+  const path = getBindingPath(props.value);
 
   if (!(event.target instanceof HTMLInputElement) || !path) {
     return;

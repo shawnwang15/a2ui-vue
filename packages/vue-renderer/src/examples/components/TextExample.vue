@@ -2,9 +2,8 @@
 
 <script setup lang="ts">
 import { A2UiRenderer } from '../../index';
-import type * as Types from '@a2ui/web_core/types/types';
 
-const textExamples: Array<{ description: string; component: Types.AnyComponentNode }> = [
+const textExamples: Array<{ description: string; component: any }> = [
   {
     description: 'Heading 1',
     component: {

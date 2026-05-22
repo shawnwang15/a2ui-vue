@@ -2,26 +2,25 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Primitives from '@a2ui/web_core/types/primitives';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.CheckboxNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  value: Primitives.BooleanValue | null;
-  label: Primitives.StringValue | null;
+  value: unknown;
+  label: unknown;
 }>();
 
-const { theme, resolvePrimitive, getUniqueId, setData } = useDynamicComponent(props);
+const { theme, resolvePrimitive, getUniqueId, setData, getBindingPath } = useDynamicComponent(props);
 
-const inputChecked = computed(() => resolvePrimitive(props.value) ?? false);
+const inputChecked = computed(() => Boolean(resolvePrimitive(props.value) ?? false));
 const resolvedLabel = computed(() => resolvePrimitive(props.label));
 const inputId = getUniqueId('a2ui-checkbox');
 
 function handleChange(event: Event) {
-  const path = props.value?.path;
+  const path = getBindingPath(props.value);
 
   if (!(event.target instanceof HTMLInputElement) || !path) {
     return;

@@ -1,6 +1,6 @@
 # a2ui-vue
 
-[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.8.x-646cff.svg)](https://a2ui.org/)
+[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.9.x-646cff.svg)](https://a2ui.org/)
 [![docs](https://img.shields.io/badge/文档-在线阅读-brightgreen)](https://shawnwang15.github.io/a2ui-vue/)
 
 > **a2ui-vue** 是 [A2UI（Agent-to-UI）开放协议](https://a2ui.org/) 的社区 **Vue 3 渲染器**。  
@@ -15,7 +15,7 @@
 - 输出：丰富的、可交互的 Vue 用户界面
 - 适用场景：生成式 UI、Agent 工作流、AI Copilot、工具驱动型前端界面
 - 技术栈：Vue 3、TypeScript、Composition API、可扩展组件 Catalog
-- 协议兼容：A2UI 已经支持v0.8，v0.9正在开发中
+- 协议兼容：默认面向 A2UI v0.9，仓库同时包含 v0.8 / v0.10 规范供参考
 
 ## 导航
 

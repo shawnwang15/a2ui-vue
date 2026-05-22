@@ -17,7 +17,7 @@ This decoupled design provides the following advantages:
 
 - **Agents don't need to know UI frameworks**: Just output valid A2UI JSON — the rendering solution can be swapped at any time
 - **Frontend is reusable**: The same Vue Renderer can connect to any protocol-compliant Agent
-- **Protocol versioning**: Currently supports v0.8 / v0.9 / v0.10 with smooth migration paths
+- **Protocol versioning**: Currently targets v0.9; the repository also keeps v0.8 / v0.10 specifications for reference
 
 ## What is a2ui-vue?
 
@@ -82,6 +82,6 @@ These Agents correspond one-to-one with the Vue frontend samples in `samples/cli
 
 ## Version Notes
 
-The current release is **v0.8.x**, published as npm package `a2ui-vue` in both ESM and CJS formats.
+The current release is **v0.9.x** (matching A2UI protocol v0.9), published as npm package `a2ui-vue` in both ESM and CJS formats.
 
 > Licensed under MIT. Vue Renderer is a community contribution.

@@ -1,6 +1,6 @@
 
 
-import * as Types from '@a2ui/web_core/types/types';
+import type { A2uiMessage } from '@a2ui/web_core/v0_9';
 import type { A2AServerPayload } from 'a2ui-vue';
 import { ref } from 'vue';
 import { useMessageProcessor } from 'a2ui-vue';
@@ -20,13 +20,12 @@ export function useClient() {
     }
   });
 
-  async function makeRequest(request: Types.A2UIClientEventMessage | string) {
-    let messages: Types.ServerToClientMessage[];
-    debugger
+  async function makeRequest(request: unknown) {
+    let messages: A2uiMessage[];
+
     try {
       isLoading.value = true;
-      const response = await send(request as Types.A2UIClientEventMessage);
-      messages = response;
+      messages = await send(request);
     } catch (err) {
       console.error(err);
       throw err;
@@ -39,9 +38,7 @@ export function useClient() {
     return messages;
   }
 
-  async function send(
-    message: Types.A2UIClientEventMessage,
-  ): Promise<Types.ServerToClientMessage[]> {
+  async function send(message: unknown): Promise<A2uiMessage[]> {
     const response = await fetch('/a2a', {
       body: JSON.stringify(message),
       method: 'POST',
@@ -49,7 +46,7 @@ export function useClient() {
 
     if (response.ok) {
       const data = (await response.json()) as A2AServerPayload;
-      const messages: Types.ServerToClientMessage[] = [];
+      const messages: A2uiMessage[] = [];
 
       if ('error' in data) {
         throw new Error(data.error);

@@ -20,11 +20,22 @@ export const ROLE_DESCRIPTION =
   'You are a helpful restaurant finding assistant. Your final output MUST be a a2ui UI JSON response.';
 
 export const UI_DESCRIPTION = `
--   If the query is for a list of restaurants, use the restaurant data you have already received from the \`get_restaurants\` tool to populate the \`dataModelUpdate.contents\` array (e.g., as a \`valueMap\` for the "items" key).
+-   If the query is for a list of restaurants, use the restaurant data you have already received from the \`get_restaurants\` tool to populate the \`updateDataModel\` message.
+-   IMPORTANT: When using updateDataModel to update items, you MUST specify \`path: "/items"\` in \`updateDataModel\`, and the \`value\` MUST be an array of restaurants.
+-   IMPORTANT: Always specify the path when using updateDataModel. The part message is ignored when the path is missing.
 -   If the number of restaurants is 5 or fewer, you MUST use the \`SINGLE_COLUMN_LIST_EXAMPLE\` template.
 -   If the number of restaurants is more than 5, you MUST use the \`TWO_COLUMN_LIST_EXAMPLE\` template.
 -   If the query is to book a restaurant (e.g., "USER_WANTS_TO_BOOK..."), you MUST use the \`BOOKING_FORM_EXAMPLE\` template.
 -   If the query is a booking submission (e.g., "User submitted a booking..."), you MUST use the \`CONFIRMATION_EXAMPLE\` template.
+
+CRITICAL DATA-PATH RULES (failing these will produce empty UI):
+-   A path that STARTS WITH "/" is an ABSOLUTE path resolved from the data-model root.
+-   A path that does NOT start with "/" is a RELATIVE path resolved against the surrounding list-item context.
+-   When a List/Grid uses the dynamic-template form \`children: { componentId, path: "/items" }\`, every component reachable from that template MUST reference per-item fields with RELATIVE paths.
+    -   CORRECT (relative):  { "text": { "path": "name" } }     -> resolves to /items/<i>/name
+    -   CORRECT (relative):  { "url":  { "path": "imageUrl" } } -> resolves to /items/<i>/imageUrl
+    -   WRONG  (absolute):   { "text": { "path": "/name" } }    -> always reads /name from the root and renders empty
+-   Only use absolute paths (with leading "/") when binding to top-level fields outside any list template, e.g. a page title at /title.
 `;
 
 export function getTextPrompt(): string {

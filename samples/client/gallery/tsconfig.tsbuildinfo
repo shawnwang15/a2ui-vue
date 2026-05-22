@@ -1,0 +1,1 @@
+{"root":["./src/main.ts","./src/shims-vue.d.ts","./src/theme.ts","./src/utils/surface.ts","./src/app.vue","./src/components/galleryview.vue","./src/components/libraryview.vue","./vite.config.ts"],"version":"5.9.3"}

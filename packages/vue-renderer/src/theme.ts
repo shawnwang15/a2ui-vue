@@ -1,7 +1,7 @@
 
 
 import * as Styles from '@a2ui/web_core/styles/index';
-import * as Types from '@a2ui/web_core/types/types';
+import type { A2UITheme } from './config';
 
 /** Elements */
 
@@ -145,7 +145,7 @@ const orderedListLight = Styles.merge(orderedList, {});
 const unorderedListLight = Styles.merge(unorderedList, {});
 const listItemLight = Styles.merge(listItem, {});
 
-export const theme: Types.Theme = {
+export const theme: A2UITheme = {
   additionalStyles: {
     Button: {
       '--n-35': 'var(--n-100)',
@@ -296,7 +296,7 @@ export const theme: Types.Theme = {
         'color-bc-p80': true,
       },
     },
-    MultipleChoice: {
+    ChoicePicker: {
       container: {},
       label: {},
       element: {},

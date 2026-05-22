@@ -38,18 +38,14 @@ export class ComponentGalleryAgent {
       await delay(500);
       const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
       const responseUpdate = {
-        surfaceUpdate: {
+        version: 'v0.9',
+        updateComponents: {
           surfaceId: 'response-surface',
           components: [
             {
               id: 'response-text',
-              component: {
-                Text: {
-                  text: {
-                    literalString: `Agent Processed Action: ${query} at ${timestamp}`,
-                  },
-                },
-              },
+              component: 'Text',
+              text: `Agent Processed Action: ${query} at ${timestamp}`,
             },
           ],
         },

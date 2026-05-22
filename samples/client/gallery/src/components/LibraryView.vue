@@ -1,254 +1,166 @@
 
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { A2UISurface } from 'a2ui-vue';
-import * as Types from '@a2ui/web_core/types/types';
+import { ref, computed, onMounted } from 'vue';
+import { A2UISurface, useMessageProcessor } from 'a2ui-vue';
+import type { A2uiMessage } from '@a2ui/web_core/v0_9';
 import { createSingleComponentSurface, createComponent, getJson } from '@/utils/surface';
 
 interface Block {
   name: string;
   tag: string;
-  surface: Types.Surface;
+  surfaceId: string;
+  messages: A2uiMessage[];
 }
 
+const processor = useMessageProcessor();
 const dialog = ref<HTMLDialogElement | null>(null);
 const selectedBlock = ref<Block | null>(null);
 
+function surface(name: string, type: string, props: Record<string, unknown>): Block {
+  const surfaceId = 'lib-' + name;
+  return {
+    name,
+    tag: '',
+    surfaceId,
+    messages: createSingleComponentSurface(surfaceId, type, props),
+  };
+}
+
 const blocks = computed<Block[]>(() => [
   // Layout Components
-  {
-    name: 'Card',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('Card', {
-      child: createComponent('Text', { text: { literalString: 'Content inside a card' } }),
-    }),
-  },
-  {
-    name: 'Column',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('Column', {
+  { ...surface('Card', 'Card', {
+      child: createComponent('Text', { text: 'Content inside a card' }),
+    }), tag: 'Layout' },
+  { ...surface('Column', 'Column', {
       children: [
-        createComponent('Text', { text: { literalString: 'Item 1' } }),
-        createComponent('Text', { text: { literalString: 'Item 2' } }),
-        createComponent('Text', { text: { literalString: 'Item 3' } }),
+        createComponent('Text', { text: 'Item 1' }),
+        createComponent('Text', { text: 'Item 2' }),
+        createComponent('Text', { text: 'Item 3' }),
       ],
-      alignment: 'center',
-      distribution: 'space-around',
-    }),
-  },
-  {
-    name: 'Divider',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('Column', {
+      align: 'center',
+      justify: 'space-around',
+    }), tag: 'Layout' },
+  { ...surface('Divider', 'Column', {
       children: [
-        createComponent('Text', { text: { literalString: 'Above Divider' } }),
+        createComponent('Text', { text: 'Above Divider' }),
         createComponent('Divider', {}),
-        createComponent('Text', { text: { literalString: 'Below Divider' } }),
+        createComponent('Text', { text: 'Below Divider' }),
       ],
-    }),
-  },
-  {
-    name: 'List',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('List', {
+    }), tag: 'Layout' },
+  { ...surface('List', 'List', {
       children: [
-        createComponent('Text', { text: { literalString: 'List Item 1' } }),
-        createComponent('Text', { text: { literalString: 'List Item 2' } }),
-        createComponent('Text', { text: { literalString: 'List Item 3' } }),
+        createComponent('Text', { text: 'List Item 1' }),
+        createComponent('Text', { text: 'List Item 2' }),
+        createComponent('Text', { text: 'List Item 3' }),
       ],
       direction: 'vertical',
-    }),
-  },
-  {
-    name: 'Modal',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('Modal', {
-      entryPointChild: createComponent('Button', {
+    }), tag: 'Layout' },
+  { ...surface('Modal', 'Modal', {
+      trigger: createComponent('Button', {
         action: { type: 'none' },
-        child: createComponent('Text', { text: { literalString: 'Open Modal' } }),
+        child: createComponent('Text', { text: 'Open Modal' }),
       }),
-      contentChild: createComponent('Card', {
-        child: createComponent('Text', {
-          text: { literalString: 'This is the modal content.' },
-        }),
+      content: createComponent('Card', {
+        child: createComponent('Text', { text: 'This is the modal content.' }),
       }),
-    }),
-  },
-  {
-    name: 'Row',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('Row', {
+    }), tag: 'Layout' },
+  { ...surface('Row', 'Row', {
       children: [
-        createComponent('Text', { text: { literalString: 'Left' } }),
-        createComponent('Text', { text: { literalString: 'Center' } }),
-        createComponent('Text', { text: { literalString: 'Right' } }),
+        createComponent('Text', { text: 'Left' }),
+        createComponent('Text', { text: 'Center' }),
+        createComponent('Text', { text: 'Right' }),
       ],
-      alignment: 'center',
-      distribution: 'space-between',
-    }),
-  },
-  {
-    name: 'Tabs',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('Tabs', {
-      tabItems: [
-        {
-          title: { literalString: 'Tab 1' },
-          child: createComponent('Text', { text: { literalString: 'Content for Tab 1' } }),
-        },
-        {
-          title: { literalString: 'Tab 2' },
-          child: createComponent('Text', { text: { literalString: 'Content for Tab 2' } }),
-        },
+      align: 'center',
+      justify: 'space-between',
+    }), tag: 'Layout' },
+  { ...surface('Tabs', 'Tabs', {
+      tabs: [
+        { title: 'Tab 1', child: createComponent('Text', { text: 'Content for Tab 1' }) },
+        { title: 'Tab 2', child: createComponent('Text', { text: 'Content for Tab 2' }) },
       ],
-    }),
-  },
-  {
-    name: 'Text',
-    tag: 'Layout',
-    surface: createSingleComponentSurface('Column', {
+    }), tag: 'Layout' },
+  { ...surface('Text', 'Column', {
       children: [
-        createComponent('Heading', { text: { literalString: 'Heading Text' } }),
-        createComponent('Text', { text: { literalString: 'Standard body text.' } }),
-        createComponent('Text', {
-          text: { literalString: 'Caption text' },
-          usageHint: 'caption',
-        }),
+        createComponent('Heading', { text: 'Heading Text' }),
+        createComponent('Text', { text: 'Standard body text.' }),
+        createComponent('Text', { text: 'Caption text', variant: 'caption' }),
       ],
-    }),
-  },
+    }), tag: 'Layout' },
 
   // Media Components
-  {
-    name: 'AudioPlayer',
-    tag: 'Media',
-    surface: createSingleComponentSurface('AudioPlayer', {
-      url: { literalString: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
-    }),
-  },
-  {
-    name: 'Icon',
-    tag: 'Media',
-    surface: createSingleComponentSurface('Row', {
+  { ...surface('AudioPlayer', 'AudioPlayer', {
+      url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    }), tag: 'Media' },
+  { ...surface('Icon', 'Row', {
       children: [
-        createComponent('Icon', { name: { literalString: 'home' } }),
-        createComponent('Icon', { name: { literalString: 'favorite' } }),
-        createComponent('Icon', { name: { literalString: 'settings' } }),
+        createComponent('Icon', { name: 'home' }),
+        createComponent('Icon', { name: 'favorite' }),
+        createComponent('Icon', { name: 'settings' }),
       ],
-      distribution: 'space-around',
-    }),
-  },
-  {
-    name: 'Image',
-    tag: 'Media',
-    surface: createSingleComponentSurface('Image', {
-      url: { literalString: 'https://picsum.photos/id/10/300/200' },
-    }),
-  },
-  {
-    name: 'Video',
-    tag: 'Media',
-    surface: createSingleComponentSurface('Video', {
-      url: {
-        literalString: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      },
-    }),
-  },
+      justify: 'space-around',
+    }), tag: 'Media' },
+  { ...surface('Image', 'Image', {
+      url: 'https://picsum.photos/id/10/300/200',
+    }), tag: 'Media' },
+  { ...surface('Video', 'Video', {
+      url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    }), tag: 'Media' },
 
   // Input Components
-  {
-    name: 'Button',
-    tag: 'Inputs',
-    surface: createSingleComponentSurface('Row', {
+  { ...surface('Button', 'Row', {
       children: [
         createComponent('Button', {
-          label: { literalString: 'Primary' },
+          label: 'Primary',
           action: { type: 'click' },
-          child: createComponent('Text', { text: { literalString: 'Primary' } }),
+          child: createComponent('Text', { text: 'Primary' }),
         }),
         createComponent('Button', {
-          label: { literalString: 'Secondary' },
+          label: 'Secondary',
           action: { type: 'click' },
-          child: createComponent('Text', { text: { literalString: 'Secondary' } }),
+          child: createComponent('Text', { text: 'Secondary' }),
         }),
       ],
-      distribution: 'space-around',
-    }),
-  },
-  {
-    name: 'CheckBox',
-    tag: 'Inputs',
-    surface: createSingleComponentSurface('Column', {
+      justify: 'space-around',
+    }), tag: 'Inputs' },
+  { ...surface('CheckBox', 'Column', {
       children: [
-        createComponent('CheckBox', {
-          label: { literalString: 'Unchecked' },
-          value: { literalBoolean: false },
-        }),
-        createComponent('CheckBox', {
-          label: { literalString: 'Checked' },
-          value: { literalBoolean: true },
-        }),
+        createComponent('CheckBox', { label: 'Unchecked', value: false }),
+        createComponent('CheckBox', { label: 'Checked', value: true }),
       ],
-    }),
-  },
-  {
-    name: 'DateTimeInput',
-    tag: 'Inputs',
-    surface: createSingleComponentSurface('Column', {
+    }), tag: 'Inputs' },
+  { ...surface('DateTimeInput', 'Column', {
       children: [
         createComponent('DateTimeInput', {
-          enableDate: true,
-          enableTime: false,
-          value: { literalString: '2025-12-09' },
+          enableDate: true, enableTime: false, value: '2025-12-09',
         }),
         createComponent('DateTimeInput', {
-          enableDate: true,
-          enableTime: true,
-          value: { literalString: '2025-12-09T12:00:00' },
+          enableDate: true, enableTime: true, value: '2025-12-09T12:00:00',
         }),
       ],
-    }),
-  },
-  {
-    name: 'MultipleChoice',
-    tag: 'Inputs',
-    surface: createSingleComponentSurface('MultipleChoice', {
+    }), tag: 'Inputs' },
+  { ...surface('ChoicePicker', 'ChoicePicker', {
       options: [
-        { value: 'opt1', label: { literalString: 'Option 1' } },
-        { value: 'opt2', label: { literalString: 'Option 2' } },
-        { value: 'opt3', label: { literalString: 'Option 3' } },
+        { value: 'opt1', label: 'Option 1' },
+        { value: 'opt2', label: 'Option 2' },
+        { value: 'opt3', label: 'Option 3' },
       ],
-      selections: { literalString: 'opt1' },
-    }),
-  },
-  {
-    name: 'Slider',
-    tag: 'Inputs',
-    surface: createSingleComponentSurface('Slider', {
-      value: { literalNumber: 50 },
-      minValue: 0,
-      maxValue: 100,
-    }),
-  },
-  {
-    name: 'TextField',
-    tag: 'Inputs',
-    surface: createSingleComponentSurface('Column', {
+      selections: 'opt1',
+    }), tag: 'Inputs' },
+  { ...surface('Slider', 'Slider', { value: 50, min: 0, max: 100 }), tag: 'Inputs' },
+  { ...surface('TextField', 'Column', {
       children: [
-        createComponent('TextField', {
-          label: { literalString: 'Standard Input' },
-          text: { literalString: 'Some text' },
-        }),
-        createComponent('TextField', {
-          label: { literalString: 'Password' },
-          type: 'password',
-          text: { literalString: '' },
-        }),
+        createComponent('TextField', { label: 'Standard Input', value: 'Some text' }),
+        createComponent('TextField', { label: 'Password', type: 'password', value: '' }),
       ],
-    }),
-  },
+    }), tag: 'Inputs' },
 ]);
+
+onMounted(() => {
+  for (const block of blocks.value) {
+    processor.processMessages(block.messages);
+  }
+});
 
 function openDialog(block: Block) {
   selectedBlock.value = block;
@@ -271,7 +183,7 @@ function closeDialog() {
       <section class="block-header">
         <p class="block-title">{{ block.name }}</p>
       </section>
-      <A2UISurface :surface-id="'lib-' + block.name" :surface="block.surface" />
+      <A2UISurface :surface-id="block.surfaceId" />
     </article>
   </section>
 
@@ -283,13 +195,10 @@ function closeDialog() {
       </section>
       <div class="dialog-content-grid">
         <section class="block-surface">
-          <A2UISurface
-            :surface-id="'dialog-' + selectedBlock.name"
-            :surface="selectedBlock.surface"
-          />
+          <A2UISurface :surface-id="selectedBlock.surfaceId" />
         </section>
         <section class="json-pane">
-          <pre>{{ getJson(selectedBlock.surface) }}</pre>
+          <pre>{{ getJson(selectedBlock.messages) }}</pre>
         </section>
       </div>
     </article>

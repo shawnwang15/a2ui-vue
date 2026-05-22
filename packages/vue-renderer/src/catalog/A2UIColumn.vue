@@ -2,37 +2,44 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Types from '@a2ui/web_core/types/types';
+import type { VueComponentNode } from '@/rendering/catalog';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
 import A2UiRenderer from '@/rendering/A2UIRenderer.vue';
 
+type ColumnAlign = 'start' | 'center' | 'end' | 'stretch';
+type ColumnJustify = 'start' | 'center' | 'end' | 'spaceBetween' | 'spaceAround' | 'spaceEvenly';
+
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.ColumnNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  alignment?: Types.ResolvedColumn['alignment'];
-  distribution?: Types.ResolvedColumn['distribution'];
+  align?: ColumnAlign;
+  justify?: ColumnJustify;
 }>();
 
 const { theme } = useDynamicComponent(props);
 
 const classes = computed(() => {
-  const alignment = props.alignment ?? 'stretch';
-  const distribution = props.distribution ?? 'start';
+  const align = props.align ?? 'stretch';
+  const justify = props.justify ?? 'start';
 
   return {
     ...theme.components.Column,
-    [`align-${alignment}`]: true,
-    [`distribute-${distribution}`]: true,
+    [`align-${align}`]: true,
+    [`justify-${justify}`]: true,
   };
 });
+
+const children = computed<VueComponentNode[]>(
+  () => ((props.component.properties as any).children as VueComponentNode[]) ?? [],
+);
 </script>
 
 <template>
   <a2ui-column>
     <section :class="classes" :style="theme.additionalStyles?.Column">
       <A2UiRenderer
-        v-for="(child, index) in component.properties.children"
+        v-for="(child, index) in children"
         :key="child.id || index"
         :surface-id="surfaceId!"
         :component="child"
@@ -71,27 +78,27 @@ section {
   align-items: stretch;
 }
 
-.distribute-start {
+.justify-start {
   justify-content: start;
 }
 
-.distribute-center {
+.justify-center {
   justify-content: center;
 }
 
-.distribute-end {
+.justify-end {
   justify-content: end;
 }
 
-.distribute-spaceBetween {
+.justify-spaceBetween {
   justify-content: space-between;
 }
 
-.distribute-spaceAround {
+.justify-spaceAround {
   justify-content: space-around;
 }
 
-.distribute-spaceEvenly {
+.justify-spaceEvenly {
   justify-content: space-evenly;
 }
 </style>

@@ -2,14 +2,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Primitives from '@a2ui/web_core/types/primitives';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.AudioPlayerNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  url: Primitives.StringValue | null;
+  url: unknown;
 }>();
 
 const { theme, resolvePrimitive } = useDynamicComponent(props);
@@ -20,7 +19,7 @@ const resolvedUrl = computed(() => resolvePrimitive(props.url));
 <template>
   <a2ui-audio>
     <section v-if="resolvedUrl" :class="theme.components.AudioPlayer" :style="theme.additionalStyles?.AudioPlayer">
-      <audio is="audio" controls :src="resolvedUrl" />
+      <audio is="audio" controls :src="resolvedUrl as string" />
     </section>
   </a2ui-audio>
 </template>

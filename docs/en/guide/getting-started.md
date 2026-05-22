@@ -76,10 +76,9 @@ Pass each entry from `surfaces` to `<A2UISurface>` for rendering:
 ```vue
 <template>
   <A2UISurface
-    v-for="[surfaceId, surface] in surfaces"
+    v-for="[surfaceId] in surfaces"
     :key="surfaceId"
     :surface-id="surfaceId"
-    :surface="surface"
   />
 </template>
 ```
@@ -100,78 +99,49 @@ provideA2UI({ catalog: DEFAULT_CATALOG, theme: defaultTheme })
 
 const processor = useMessageProcessor()
 
-// 向渲染器推送一条示例消息
+// Push a sample message to the renderer (A2UI v0.9 protocol)
 processor.processMessages([
   {
-    "surfaceUpdate": {
+    "createSurface": {
+      "surfaceId": "main",
+      "root": "root"
+    }
+  },
+  {
+    "updateComponents": {
       "surfaceId": "main",
       "components": [
         {
           "id": "root",
-          "component": {
-            "Column": {
-              "children": {
-                "explicitList": [
-                  "heading",
-                  "text",
-                  "button"
-                ]
-              },
-              "alignment": "start"
-            }
-          }
+          "component": "Column",
+          "children": ["heading", "text", "button"],
+          "align": "start"
         },
         {
           "id": "heading",
-          "component": {
-            "Text": {
-              "text": {
-                "literalString": "Hello, A2UI!"
-              },
-              "usageHint": "h1"
-            }
-          }
+          "component": "Text",
+          "text": "Hello, A2UI!",
+          "variant": "h1"
         },
         {
           "id": "text",
-          "component": {
-            "Text": {
-              "text": {
-                "literalString": "Welcome to the a2ui-vue . Copy and Edit the JSON  to see changes in real-time."
-              },
-              "usageHint": "body"
-            }
-          }
+          "component": "Text",
+          "text": "Welcome to a2ui-vue. Copy and edit the JSON to see changes in real-time.",
+          "variant": "body"
         },
         {
           "id": "button",
-          "component": {
-            "Button": {
-              "child": "button-text",
-              "primary": true,
-              "action": {
-                "name": "hello-click"
-              }
-            }
-          }
+          "component": "Button",
+          "child": "button-text",
+          "variant": "primary",
+          "action": { "event": { "name": "hello-click" } }
         },
         {
           "id": "button-text",
-          "component": {
-            "Text": {
-              "text": {
-                "literalString": "Get Started"
-              }
-            }
-          }
+          "component": "Text",
+          "text": "Get Started"
         }
       ]
-    }
-  },
-  {
-    "beginRendering": {
-      "surfaceId": "main",
-      "root": "root"
     }
   }
 ])
@@ -182,10 +152,9 @@ const surfaces = processor.getSurfaces()
 <template>
   <div class="app">
     <A2UISurface
-        v-for="[id, surface] in surfaces"
+        v-for="[id] in surfaces"
         :key="id"
         :surface-id="id"
-        :surface="surface"
     />
   </div>
 </template>

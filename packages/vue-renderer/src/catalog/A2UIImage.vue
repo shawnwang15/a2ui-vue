@@ -2,18 +2,19 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Primitives from '@a2ui/web_core/types/primitives';
 import * as Styles from '@a2ui/web_core/styles/index';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
+
+type ImageVariant = 'icon' | 'avatar' | 'header' | 'smallFeature' | 'mediumFeature' | 'largeFeature';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.ImageNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  url: Primitives.StringValue | null;
-  altText: Primitives.StringValue | null;
-  usageHint: Types.ResolvedImage['usageHint'] | null;
+  url: unknown;
+  altText: unknown;
+  variant: ImageVariant | null;
 }>();
 
 const { theme, resolvePrimitive } = useDynamicComponent(props);
@@ -25,11 +26,11 @@ const resolvedAltText = computed(() => {
 });
 
 const classes = computed(() => {
-  const usageHint = props.usageHint;
+  const variant = props.variant;
 
   return Styles.merge(
     theme.components.Image.all,
-    usageHint ? theme.components.Image[usageHint] : {},
+    variant ? (theme.components.Image as Record<string, any>)[variant] : {},
   );
 });
 </script>
@@ -37,7 +38,7 @@ const classes = computed(() => {
 <template>
   <a2ui-image>
     <section v-if="resolvedUrl" :class="classes" :style="theme.additionalStyles?.Image">
-      <img :src="resolvedUrl" :alt="resolvedAltText??''" />
+      <img :src="resolvedUrl as string" :alt="(resolvedAltText as string) ?? ''" />
     </section>
   </a2ui-image>
 </template>

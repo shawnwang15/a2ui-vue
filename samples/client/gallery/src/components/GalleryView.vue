@@ -1,138 +1,127 @@
 
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { A2UISurface } from 'a2ui-vue';
-import * as Types from '@a2ui/web_core/types/types';
+import { ref, computed, onMounted } from 'vue';
+import { A2UISurface, useMessageProcessor } from 'a2ui-vue';
+import type { A2uiMessage } from '@a2ui/web_core/v0_9';
 import { createSingleComponentSurface, createComponent, getJson } from '@/utils/surface';
 
 interface GallerySample {
   id: string;
   title: string;
   description: string;
-  surface: Types.Surface;
+  surfaceId: string;
+  messages: A2uiMessage[];
 }
 
+const processor = useMessageProcessor();
 const dialog = ref<HTMLDialogElement | null>(null);
 const selectedSample = ref<GallerySample | null>(null);
 
+function sample(
+  id: string,
+  title: string,
+  description: string,
+  type: string,
+  props: Record<string, unknown>,
+): GallerySample {
+  const surfaceId = 'gallery-' + id;
+  return {
+    id,
+    title,
+    description,
+    surfaceId,
+    messages: createSingleComponentSurface(surfaceId, type, props),
+  };
+}
+
 const samples = computed<GallerySample[]>(() => [
-  {
-    id: 'photo-list',
-    title: 'List of items',
-    description: 'List of items with images',
-    surface: createSingleComponentSurface('Card', {
-      child: createComponent('Column', {
-        children: [
-          createComponent('Row', {
-            children: [
-              createComponent('Image', {
-                url: { literalString: 'https://picsum.photos/id/11/300/300' },
-              }),
-              createComponent('Column', {
-                children: [
-                  createComponent('Text', {
-                    text: { literalString: 'A misty, serene natural landscape.' },
-                  }),
-                ],
-              }),
-            ],
-          }),
-          createComponent('Row', {
-            children: [
-              createComponent('Image', {
-                url: { literalString: 'https://picsum.photos/id/12/300/300' },
-              }),
-              createComponent('Column', {
-                children: [
-                  createComponent('Text', {
-                    text: { literalString: 'A river flows through marsh toward hazy, forested mountains.' },
-                  }),
-                ],
-              }),
-            ],
-          }),
-          createComponent('Row', {
-            children: [
-              createComponent('Image', {
-                url: { literalString: 'https://picsum.photos/id/13/300/300' },
-              }),
-              createComponent('Text', {
-                text: { literalString: 'Large dark rocks overlook sandy beach and ocean with distant islands.' },
-              }),
-            ],
-          }),
-        ],
-      }),
+  sample('photo-list', 'List of items', 'List of items with images', 'Card', {
+    child: createComponent('Column', {
+      children: [
+        createComponent('Row', {
+          children: [
+            createComponent('Image', { url: 'https://picsum.photos/id/11/300/300' }),
+            createComponent('Column', {
+              children: [
+                createComponent('Text', { text: 'A misty, serene natural landscape.' }),
+              ],
+            }),
+          ],
+        }),
+        createComponent('Row', {
+          children: [
+            createComponent('Image', { url: 'https://picsum.photos/id/12/300/300' }),
+            createComponent('Column', {
+              children: [
+                createComponent('Text', {
+                  text: 'A river flows through marsh toward hazy, forested mountains.',
+                }),
+              ],
+            }),
+          ],
+        }),
+        createComponent('Row', {
+          children: [
+            createComponent('Image', { url: 'https://picsum.photos/id/13/300/300' }),
+            createComponent('Text', {
+              text: 'Large dark rocks overlook sandy beach and ocean with distant islands.',
+            }),
+          ],
+        }),
+      ],
     }),
-  },
-  {
-    id: 'welcome',
-    title: 'Welcome Card',
-    description: 'A simple welcome card with an image and text.',
-    surface: createSingleComponentSurface('Card', {
-      child: createComponent('Column', {
-        children: [
-          createComponent('Image', {
-            url: { literalString: 'https://picsum.photos/id/10/600/300' },
-          }),
-          createComponent('Text', {
-            text: { literalString: 'Explore the possibilities of A2UI components with this interactive gallery.' },
-          }),
-          createComponent('Button', {
-            action: { type: 'submit' },
-            child: createComponent('Text', { text: { literalString: 'Get Started' } }),
-          }),
-        ],
-        alignment: 'center',
-      }),
+  }),
+  sample('welcome', 'Welcome Card', 'A simple welcome card with an image and text.', 'Card', {
+    child: createComponent('Column', {
+      children: [
+        createComponent('Image', { url: 'https://picsum.photos/id/10/600/300' }),
+        createComponent('Text', {
+          text: 'Explore the possibilities of A2UI components with this interactive gallery.',
+        }),
+        createComponent('Button', {
+          action: { type: 'submit' },
+          child: createComponent('Text', { text: 'Get Started' }),
+        }),
+      ],
+      align: 'center',
     }),
-  },
-  {
-    id: 'form',
-    title: 'Contact Form',
-    description: 'A sample contact form with validation.',
-    surface: createSingleComponentSurface('Card', {
-      child: createComponent('Column', {
-        children: [
-          createComponent('Row', {
-            children: [
-              createComponent('TextField', {
-                label: { literalString: 'Name' },
-                type: 'text',
-                text: { literalString: '' },
-              }),
-            ],
-          }),
-          createComponent('Row', {
-            children: [
-              createComponent('TextField', {
-                label: { literalString: 'Email Address' },
-                type: 'email',
-                text: { literalString: '' },
-              }),
-            ],
-          }),
-          createComponent('Row', {
-            children: [
-              createComponent('TextField', {
-                label: { literalString: 'Message' },
-                text: { literalString: '' },
-              }),
-            ],
-          }),
-          createComponent('Button', {
-            action: { type: 'submit' },
-            child: createComponent('Text', { text: { literalString: 'Send Message' } }),
-          }),
-        ],
-      }),
+  }),
+  sample('form', 'Contact Form', 'A sample contact form with validation.', 'Card', {
+    child: createComponent('Column', {
+      children: [
+        createComponent('Row', {
+          children: [
+            createComponent('TextField', { label: 'Name', type: 'text', value: '' }),
+          ],
+        }),
+        createComponent('Row', {
+          children: [
+            createComponent('TextField', { label: 'Email Address', type: 'email', value: '' }),
+          ],
+        }),
+        createComponent('Row', {
+          children: [
+            createComponent('TextField', { label: 'Message', value: '' }),
+          ],
+        }),
+        createComponent('Button', {
+          action: { type: 'submit' },
+          child: createComponent('Text', { text: 'Send Message' }),
+        }),
+      ],
     }),
-  },
+  }),
 ]);
 
-function openDialog(sample: GallerySample) {
-  selectedSample.value = sample;
+onMounted(() => {
+  for (const s of samples.value) {
+    processor.processMessages(s.messages);
+  }
+});
+
+function openDialog(s: GallerySample) {
+  selectedSample.value = s;
   dialog.value?.showModal();
 }
 
@@ -160,10 +149,7 @@ function closeDialog() {
       </section>
 
       <div class="preview-card">
-        <A2UISurface
-          :surface-id="'gallery-' + sample.id"
-          :surface="sample.surface"
-        />
+        <A2UISurface :surface-id="sample.surfaceId" />
       </div>
     </article>
   </article>
@@ -176,13 +162,10 @@ function closeDialog() {
       </section>
       <div class="dialog-content-grid">
         <section class="sample-surface">
-          <A2UISurface
-            :surface-id="'dialog-' + selectedSample.id"
-            :surface="selectedSample.surface"
-          />
+          <A2UISurface :surface-id="selectedSample.surfaceId" />
         </section>
         <section class="json-pane">
-          <pre>{{ getJson(selectedSample.surface) }}</pre>
+          <pre>{{ getJson(selectedSample.messages) }}</pre>
         </section>
       </div>
     </article>

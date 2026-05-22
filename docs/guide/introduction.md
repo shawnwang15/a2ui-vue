@@ -17,7 +17,7 @@ AI Agent  ──(A2UI JSON 消息)──►  Vue Renderer  ──►  用户界�
 
 - **Agent 无需了解 UI 框架**：只需输出合规的 A2UI JSON，渲染方案随时可切换
 - **前端可复用**：同一个 Vue Renderer 可以接入任意符合协议的 Agent
-- **协议版本化**：当前支持 v0.8 / v0.9 / v0.10，可平滑迁移
+- **协议版本化**：当前面向 v0.9 发布，仓库同时包含 v0.8 / v0.10 规范供参考
 
 ## 什么是 a2ui-vue？
 
@@ -82,6 +82,6 @@ a2ui-vue (Vue Renderer)
 
 ## 版本说明
 
-当前发布版本为 **v0.8.x**，npm 包名为 `a2ui-vue`，以 ESM / CJS 双格式分发。
+当前发布版本为 **v0.9.x**（对应 A2UI 协议 v0.9），npm 包名为 `a2ui-vue`，以 ESM / CJS 双格式分发。
 
 > 遵循 MIT 协议。Vue Renderer 为社区贡献。

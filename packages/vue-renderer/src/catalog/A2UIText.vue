@@ -3,11 +3,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import DOMPurify from 'dompurify';
-import * as Primitives from '@a2ui/web_core/types/primitives';
 import * as Styles from '@a2ui/web_core/styles/index';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 import { useMarkdownRenderer } from '../data/markdown';
+
+type TextVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'body' | 'caption';
 
 interface HintedStyles {
   h1: Record<string, string>;
@@ -20,25 +21,25 @@ interface HintedStyles {
 }
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.TextNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  text: Primitives.StringValue | null;
-  usageHint: Types.ResolvedText['usageHint'] | null;
+  text: unknown;
+  variant: TextVariant | null;
 }>();
 
 const { theme, resolvePrimitive } = useDynamicComponent(props);
 const markdownRenderer = useMarkdownRenderer();
 
 const resolvedText = computed(() => {
-  const usageHint = props.usageHint;
+  const variant = props.variant;
   let value = resolvePrimitive(props.text);
 
   if (value == null) {
     return '(empty)';
   }
 
-  switch (usageHint) {
+  switch (variant) {
     case 'h1':
       value = `# ${value}`;
       break;
@@ -64,21 +65,21 @@ const resolvedText = computed(() => {
 
   return DOMPurify.sanitize(markdownRenderer.render(
       value,
-      Styles.appendToAll(theme.markdown, ['ol', 'ul', 'li'], {}),
+      Styles.appendToAll(theme.markdown ?? {}, ['ol', 'ul', 'li'], {}),
   ));
 });
 
 const classes = computed(() => {
-  const usageHint = props.usageHint;
+  const variant = props.variant;
 
   return Styles.merge(
     theme.components.Text.all,
-    usageHint ? theme.components.Text[usageHint] : {},
+    variant ? (theme.components.Text as Record<string, any>)[variant] : {},
   );
 });
 
 const additionalStyles = computed(() => {
-  const usageHint = props.usageHint;
+  const variant = props.variant;
   const styles = theme.additionalStyles?.Text;
 
   if (!styles) {
@@ -88,7 +89,7 @@ const additionalStyles = computed(() => {
   let additionalStyles: Record<string, string> = {};
 
   if (areHintedStyles(styles)) {
-    additionalStyles = styles[usageHint ?? 'body'];
+    additionalStyles = styles[variant ?? 'body'];
   } else {
     additionalStyles = styles as Record<string, string>;
   }

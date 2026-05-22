@@ -3,15 +3,11 @@
 <script setup lang="ts">
 import { ref, computed, onUnmounted } from 'vue';
 import { provideA2UI, DEFAULT_CATALOG, A2UISurface } from 'a2ui-vue';
-import * as Types from '@a2ui/web_core/types/types';
 import { useClient } from './client';
 import { theme } from './theme';
 
 // Provide A2UI configuration
-provideA2UI({
-  catalog: DEFAULT_CATALOG,
-  theme,
-});
+
 
 const { isLoading, makeRequest, processor } = useClient();
 
@@ -37,8 +33,7 @@ async function handleSubmit(event: Event) {
 
   if (inputValue.value) {
     startLoadingAnimation();
-    const message = inputValue.value as unknown as Types.A2UIClientEventMessage;
-    await makeRequest(message);
+    await makeRequest(inputValue.value);
     hasData.value = true;
     stopLoadingAnimation();
   }
@@ -109,10 +104,9 @@ onUnmounted(() => {
     <!-- Results state -->
     <div v-else class="surfaces">
       <A2UISurface
-        v-for="[surfaceId, surface] in surfaces"
+        v-for="[surfaceId] in surfaces"
         :key="surfaceId"
         :surface-id="surfaceId"
-        :surface="surface"
       />
     </div>
 

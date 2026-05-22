@@ -22,149 +22,142 @@ export function getGalleryJson(baseUrl: string): string {
   const messages: AnyRecord[] = [];
 
   // Common data model shared across all demo surfaces
-  const galleryDataContent: AnyRecord = {
-    key: 'galleryData',
-    valueMap: [
-      { key: 'textField', valueString: 'Hello World' },
-      { key: 'checkbox', valueBoolean: false },
-      { key: 'checkboxChecked', valueBoolean: true },
-      { key: 'slider', valueNumber: 30 },
-      { key: 'date', valueString: '2025-10-26' },
-      { key: 'favorites', valueMap: [{ key: '0', valueString: 'A' }] },
-      { key: 'favoritesChips', valueMap: [] },
-      { key: 'favoritesFilter', valueMap: [] },
-    ],
+  const galleryDataValue: AnyRecord = {
+    galleryData: {
+      textField: 'Hello World',
+      checkbox: false,
+      checkboxChecked: true,
+      slider: 30,
+      date: '2025-10-26',
+      favorites: ['A'],
+      favoritesChips: [],
+      favoritesFilter: [],
+    },
   };
 
-  function addDemoSurface(surfaceId: string, componentDef: AnyRecord): void {
+  function addDemoSurface(surfaceId: string, componentProps: AnyRecord): void {
     const rootId = `${surfaceId}-root`;
-    messages.push({ beginRendering: { surfaceId, root: rootId } });
+    messages.push({ createSurface: { surfaceId, root: rootId } });
     messages.push({
-      surfaceUpdate: {
+      updateComponents: {
         surfaceId,
-        components: [{ id: rootId, component: componentDef }],
+        components: [{ id: rootId, ...componentProps }],
       },
     });
     messages.push({
-      dataModelUpdate: { surfaceId, contents: [galleryDataContent] },
+      updateDataModel: { surfaceId, value: galleryDataValue },
     });
   }
 
   // 1. TextField
   addDemoSurface('demo-text', {
-    TextField: {
-      label: { literalString: 'Enter some text' },
-      text: { path: 'galleryData/textField' },
-    },
+    component: 'TextField',
+    label: 'Enter some text',
+    value: { path: 'galleryData/textField' },
   });
 
   // 1b. TextField (Regex)
   addDemoSurface('demo-text-regex', {
-    TextField: {
-      label: { literalString: 'Enter exactly 5 digits' },
-      text: { path: 'galleryData/textFieldRegex' },
-      validationRegexp: '^\\d{5}$',
-    },
+    component: 'TextField',
+    label: 'Enter exactly 5 digits',
+    value: { path: 'galleryData/textFieldRegex' },
+    validationRegexp: '^\\d{5}$',
   });
 
   // 2. CheckBox
   addDemoSurface('demo-checkbox', {
-    CheckBox: {
-      label: { literalString: 'Toggle me' },
-      value: { path: 'galleryData/checkbox' },
-    },
+    component: 'CheckBox',
+    label: 'Toggle me',
+    value: { path: 'galleryData/checkbox' },
   });
 
   // 3. Slider
   addDemoSurface('demo-slider', {
-    Slider: {
-      value: { path: 'galleryData/slider' },
-      minValue: 0,
-      maxValue: 100,
-    },
+    component: 'Slider',
+    value: { path: 'galleryData/slider' },
+    min: 0,
+    max: 100,
   });
 
   // 4. DateTimeInput
   addDemoSurface('demo-date', {
-    DateTimeInput: { value: { path: 'galleryData/date' }, enableDate: true },
+    component: 'DateTimeInput',
+    value: { path: 'galleryData/date' },
+    enableDate: true,
   });
 
-  // 5. MultipleChoice (Default)
+  // 5. ChoicePicker (Default)
   addDemoSurface('demo-multichoice', {
-    MultipleChoice: {
-      selections: { path: 'galleryData/favorites' },
-      options: [
-        { label: { literalString: 'Apple' }, value: 'A' },
-        { label: { literalString: 'Banana' }, value: 'B' },
-        { label: { literalString: 'Cherry' }, value: 'C' },
-      ],
-    },
+    component: 'ChoicePicker',
+    selections: { path: 'galleryData/favorites' },
+    options: [
+      { label: 'Apple', value: 'A' },
+      { label: 'Banana', value: 'B' },
+      { label: 'Cherry', value: 'C' },
+    ],
   });
 
-  // 5b. MultipleChoice (Chips)
+  // 5b. ChoicePicker (Chips)
   addDemoSurface('demo-multichoice-chips', {
-    MultipleChoice: {
-      selections: { path: 'galleryData/favoritesChips' },
-      description: 'Select tags (Chips)',
-      variant: 'chips',
-      options: [
-        { label: { literalString: 'Work' }, value: 'work' },
-        { label: { literalString: 'Home' }, value: 'home' },
-        { label: { literalString: 'Urgent' }, value: 'urgent' },
-        { label: { literalString: 'Later' }, value: 'later' },
-      ],
-    },
+    component: 'ChoicePicker',
+    selections: { path: 'galleryData/favoritesChips' },
+    description: 'Select tags (Chips)',
+    variant: 'chips',
+    options: [
+      { label: 'Work', value: 'work' },
+      { label: 'Home', value: 'home' },
+      { label: 'Urgent', value: 'urgent' },
+      { label: 'Later', value: 'later' },
+    ],
   });
 
-  // 5c. MultipleChoice (Filterable)
+  // 5c. ChoicePicker (Filterable)
   addDemoSurface('demo-multichoice-filter', {
-    MultipleChoice: {
-      selections: { path: 'galleryData/favoritesFilter' },
-      description: 'Select countries (Filterable)',
-      filterable: true,
-      options: [
-        { label: { literalString: 'United States' }, value: 'US' },
-        { label: { literalString: 'Canada' }, value: 'CA' },
-        { label: { literalString: 'United Kingdom' }, value: 'UK' },
-        { label: { literalString: 'Australia' }, value: 'AU' },
-        { label: { literalString: 'Germany' }, value: 'DE' },
-        { label: { literalString: 'France' }, value: 'FR' },
-        { label: { literalString: 'Japan' }, value: 'JP' },
-      ],
-    },
+    component: 'ChoicePicker',
+    selections: { path: 'galleryData/favoritesFilter' },
+    description: 'Select countries (Filterable)',
+    filterable: true,
+    options: [
+      { label: 'United States', value: 'US' },
+      { label: 'Canada', value: 'CA' },
+      { label: 'United Kingdom', value: 'UK' },
+      { label: 'Australia', value: 'AU' },
+      { label: 'Germany', value: 'DE' },
+      { label: 'France', value: 'FR' },
+      { label: 'Japan', value: 'JP' },
+    ],
   });
 
   // 6. Image
   addDemoSurface('demo-image', {
-    Image: {
-      url: { literalString: `${baseUrl}/assets/a2ui.png` },
-      usageHint: 'mediumFeature',
-    },
+    component: 'Image',
+    url: `${baseUrl}/assets/a2ui.png`,
+    variant: 'mediumFeature',
   });
 
   // 7. Button (needs a child Text component)
   const buttonSurfaceId = 'demo-button';
   const btnRootId = 'demo-button-root';
   const btnTextId = 'demo-button-text';
-  messages.push({ beginRendering: { surfaceId: buttonSurfaceId, root: btnRootId } });
+  messages.push({ createSurface: { surfaceId: buttonSurfaceId, root: btnRootId } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: buttonSurfaceId,
       components: [
         {
           id: btnTextId,
-          component: { Text: { text: { literalString: 'Trigger Action' } } },
+          component: 'Text',
+          text: 'Trigger Action',
         },
         {
           id: btnRootId,
-          component: {
-            Button: {
-              child: btnTextId,
-              primary: true,
-              action: {
-                name: 'custom_action',
-                context: [{ key: 'info', value: { literalString: 'Custom Button Clicked' } }],
-              },
+          component: 'Button',
+          child: btnTextId,
+          variant: 'primary',
+          action: {
+            event: {
+              name: 'custom_action',
+              context: { info: 'Custom Button Clicked' },
             },
           },
         },
@@ -177,23 +170,20 @@ export function getGalleryJson(baseUrl: string): string {
   const tabsRootId = 'demo-tabs-root';
   const tab1Id = 'tab-1-content';
   const tab2Id = 'tab-2-content';
-  messages.push({ beginRendering: { surfaceId: tabsSurfaceId, root: tabsRootId } });
+  messages.push({ createSurface: { surfaceId: tabsSurfaceId, root: tabsRootId } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: tabsSurfaceId,
       components: [
-        { id: tab1Id, component: { Text: { text: { literalString: 'First Tab Content' } } } },
-        { id: tab2Id, component: { Text: { text: { literalString: 'Second Tab Content' } } } },
+        { id: tab1Id, component: 'Text', text: 'First Tab Content' },
+        { id: tab2Id, component: 'Text', text: 'Second Tab Content' },
         {
           id: tabsRootId,
-          component: {
-            Tabs: {
-              tabItems: [
-                { title: { literalString: 'View One' }, child: tab1Id },
-                { title: { literalString: 'View Two' }, child: tab2Id },
-              ],
-            },
-          },
+          component: 'Tabs',
+          tabs: [
+            { title: 'View One', child: tab1Id },
+            { title: 'View Two', child: tab2Id },
+          ],
         },
       ],
     },
@@ -201,98 +191,90 @@ export function getGalleryJson(baseUrl: string): string {
 
   // 9. Icon
   const iconSurfaceId = 'demo-icon';
-  messages.push({ beginRendering: { surfaceId: iconSurfaceId, root: 'icon-root' } });
+  messages.push({ createSurface: { surfaceId: iconSurfaceId, root: 'icon-root' } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: iconSurfaceId,
       components: [
         {
           id: 'icon-root',
-          component: {
-            Row: {
-              children: { explicitList: ['icon-1', 'icon-2', 'icon-3'] },
-              distribution: 'spaceEvenly',
-              alignment: 'center',
-            },
-          },
+          component: 'Row',
+          children: ['icon-1', 'icon-2', 'icon-3'],
+          justify: 'spaceEvenly',
+          align: 'center',
         },
-        { id: 'icon-1', component: { Icon: { name: { literalString: 'star' } } } },
-        { id: 'icon-2', component: { Icon: { name: { literalString: 'home' } } } },
-        { id: 'icon-3', component: { Icon: { name: { literalString: 'settings' } } } },
+        { id: 'icon-1', component: 'Icon', name: 'star' },
+        { id: 'icon-2', component: 'Icon', name: 'home' },
+        { id: 'icon-3', component: 'Icon', name: 'settings' },
       ],
     },
   });
 
   // 10. Divider
   const divSurfaceId = 'demo-divider';
-  messages.push({ beginRendering: { surfaceId: divSurfaceId, root: 'div-root' } });
+  messages.push({ createSurface: { surfaceId: divSurfaceId, root: 'div-root' } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: divSurfaceId,
       components: [
         {
           id: 'div-root',
-          component: {
-            Column: {
-              children: { explicitList: ['div-text-1', 'div-horiz', 'div-text-2'] },
-              distribution: 'start',
-              alignment: 'stretch',
-            },
-          },
+          component: 'Column',
+          children: ['div-text-1', 'div-horiz', 'div-text-2'],
+          justify: 'start',
+          align: 'stretch',
         },
-        { id: 'div-text-1', component: { Text: { text: { literalString: 'Above Divider' } } } },
-        { id: 'div-horiz', component: { Divider: { axis: 'horizontal' } } },
-        { id: 'div-text-2', component: { Text: { text: { literalString: 'Below Divider' } } } },
+        { id: 'div-text-1', component: 'Text', text: 'Above Divider' },
+        { id: 'div-horiz', component: 'Divider', axis: 'horizontal' },
+        { id: 'div-text-2', component: 'Text', text: 'Below Divider' },
       ],
     },
   });
 
   // 11. Card
   const cardSurfaceId = 'demo-card';
-  messages.push({ beginRendering: { surfaceId: cardSurfaceId, root: 'card-root' } });
+  messages.push({ createSurface: { surfaceId: cardSurfaceId, root: 'card-root' } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: cardSurfaceId,
       components: [
-        { id: 'card-root', component: { Card: { child: 'card-text' } } },
-        { id: 'card-text', component: { Text: { text: { literalString: 'I am inside a Card' } } } },
+        { id: 'card-root', component: 'Card', child: 'card-text' },
+        { id: 'card-text', component: 'Text', text: 'I am inside a Card' },
       ],
     },
   });
 
   // 12. Video
   addDemoSurface('demo-video', {
-    Video: {
-      url: {
-        literalString:
-          'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      },
-    },
+    component: 'Video',
+    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   });
 
   // 13. Modal
   const modalSurfaceId = 'demo-modal';
-  messages.push({ beginRendering: { surfaceId: modalSurfaceId, root: 'modal-root' } });
+  messages.push({ createSurface: { surfaceId: modalSurfaceId, root: 'modal-root' } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: modalSurfaceId,
       components: [
         {
           id: 'modal-root',
-          component: {
-            Modal: { entryPointChild: 'modal-btn', contentChild: 'modal-content' },
-          },
+          component: 'Modal',
+          trigger: 'modal-btn',
+          content: 'modal-content',
         },
         {
           id: 'modal-btn',
-          component: {
-            Button: { child: 'modal-btn-text', primary: false, action: { name: 'noop' } },
-          },
+          component: 'Button',
+          child: 'modal-btn-text',
+          variant: 'secondary',
+          action: { event: { name: 'noop' } },
         },
-        { id: 'modal-btn-text', component: { Text: { text: { literalString: 'Open Modal' } } } },
+        { id: 'modal-btn-text', component: 'Text', text: 'Open Modal' },
         {
           id: 'modal-content',
-          component: { Text: { text: { literalString: 'This is the modal content!' } } },
+          component: 'Text',
+          text: 'This is the modal content!',
         },
       ],
     },
@@ -300,53 +282,44 @@ export function getGalleryJson(baseUrl: string): string {
 
   // 14. List
   const listSurfaceId = 'demo-list';
-  messages.push({ beginRendering: { surfaceId: listSurfaceId, root: 'list-root' } });
+  messages.push({ createSurface: { surfaceId: listSurfaceId, root: 'list-root' } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: listSurfaceId,
       components: [
         {
           id: 'list-root',
-          component: {
-            List: {
-              children: { explicitList: ['list-item-1', 'list-item-2', 'list-item-3'] },
-              direction: 'vertical',
-              alignment: 'stretch',
-            },
-          },
+          component: 'List',
+          children: ['list-item-1', 'list-item-2', 'list-item-3'],
+          direction: 'vertical',
+          align: 'stretch',
         },
-        { id: 'list-item-1', component: { Text: { text: { literalString: 'Item 1' } } } },
-        { id: 'list-item-2', component: { Text: { text: { literalString: 'Item 2' } } } },
-        { id: 'list-item-3', component: { Text: { text: { literalString: 'Item 3' } } } },
+        { id: 'list-item-1', component: 'Text', text: 'Item 1' },
+        { id: 'list-item-2', component: 'Text', text: 'Item 2' },
+        { id: 'list-item-3', component: 'Text', text: 'Item 3' },
       ],
     },
   });
 
   // 15. AudioPlayer
   addDemoSurface('demo-audio', {
-    AudioPlayer: {
-      url: { literalString: `${baseUrl}/assets/audio.mp3` },
-      description: { literalString: 'Local Audio Sample' },
-    },
+    component: 'AudioPlayer',
+    url: `${baseUrl}/assets/audio.mp3`,
+    description: 'Local Audio Sample',
   });
 
   // Response surface
-  messages.push({ beginRendering: { surfaceId: 'response-surface', root: 'response-text' } });
+  messages.push({ createSurface: { surfaceId: 'response-surface', root: 'response-text' } });
   messages.push({
-    surfaceUpdate: {
+    updateComponents: {
       surfaceId: 'response-surface',
       components: [
         {
           id: 'response-text',
-          component: {
-            Text: {
-              text: {
-                literalString:
-                  'Interact with the gallery to see responses. This view is updated by the ' +
-                  'agent by relaying the raw action commands it received from the client',
-              },
-            },
-          },
+          component: 'Text',
+          text:
+            'Interact with the gallery to see responses. This view is updated by the ' +
+            'agent by relaying the raw action commands it received from the client',
         },
       ],
     },

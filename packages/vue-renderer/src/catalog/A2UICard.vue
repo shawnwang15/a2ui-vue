@@ -2,21 +2,23 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Types from '@a2ui/web_core/types/types';
+import type { VueComponentNode } from '@/rendering/catalog';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
 import A2UiRenderer from '@/rendering/A2UIRenderer.vue';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.CardNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
 }>();
 
 const { theme } = useDynamicComponent(props);
 
-const children = computed(() => {
-  const properties = props.component.properties;
-  return properties.children || [properties.child];
+const children = computed<VueComponentNode[]>(() => {
+  const properties = props.component.properties as any;
+  const list: VueComponentNode[] = (properties.children as VueComponentNode[]) ?? [];
+  if (list.length > 0) return list;
+  return properties.child ? [properties.child as VueComponentNode] : [];
 });
 </script>
 
