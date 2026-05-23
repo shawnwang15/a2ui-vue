@@ -6,7 +6,7 @@ It showcases the appearance and interactive behavior of all built-in `a2ui-vue` 
 ## Video Demo
 
 <div class="video-placeholder">
-    <video controls autoplay src="../../samples/videos/gallery.mp4"></video>
+    <video controls autoplay src="../../../samples/videos/gallery.mp4"></video>
 </div>
 
 ## Features
@@ -57,4 +57,4 @@ Button · CheckBox · DateTimeInput · MultipleChoice · Slider · TextField
 
 ---
 
-> For the full component API, see [Component Reference](/en/guide/components).
+> For the full component API, see [Component Reference](/en/v0.9/guide/components).

@@ -13,21 +13,33 @@ description: "深入了解 a2ui-vue(A2UI、a2ui) 的核心抽象：Config 配置
 `provideA2UI` 将全局配置注入 Vue 的 provide/inject 树，所有子组件均可通过 `useA2UIConfig()` 消费：
 
 ```ts
-import { provideA2UI, useA2UIConfig,defaultTheme } from 'a2ui-vue'
+import { createApp } from 'vue'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
+import App from './App.vue'
 
-// 在根组件提供配置
+const app = createApp(App)
+
+// 在 mount 之前提供配置
 provideA2UI({
-  catalog: DEFAULT_CATALOG, // 组件目录
-  theme: defaultTheme,      // 主题对象
+  app,                        // Vue 应用实例
+  catalog: DEFAULT_CATALOG,   // 组件目录
+  theme: defaultTheme,        // 主题对象
 })
 
-// 在任意子组件消费
+app.mount('#app')
+```
+
+在任意子组件中消费配置：
+
+```ts
+import { useA2UIConfig } from 'a2ui-vue'
+
 const config = useA2UIConfig()
 console.log(config.catalog, config.theme)
 ```
 
 ::: warning 注意
-`useA2UIConfig()` 必须在 `provideA2UI()` 的后代组件中调用，否则会抛出异常。
+`provideA2UI()` 必须传入 `app` 实例并在 `app.mount()` 之前调用。`useA2UIConfig()` 必须在其后代组件中调用，否则会抛出异常。
 :::
 
 ### 主题（Theme）
@@ -35,10 +47,13 @@ console.log(config.catalog, config.theme)
 主题对象遵循 `@a2ui/web_core` 中定义的 `Types.Theme` 结构，用于统一控制颜色、字体、圆角等设计 Token：
 
 ```ts
-import { defaultTheme } from 'a2ui-vue'
-// 可查看defaultTheme 默认示例
+import { createApp } from 'vue'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
 
-provideA2UI({ catalog: DEFAULT_CATALOG, theme: defaultTheme })
+const app = createApp(App)
+
+provideA2UI({ app, catalog: DEFAULT_CATALOG, theme: defaultTheme })
+app.mount('#app')
 ```
 
 ---

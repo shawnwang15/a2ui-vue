@@ -10,7 +10,7 @@ UI 生成速度受模型、网络影响，且因模型能力差异，生成的 U
 ## 视频演示
 
 <div class="video-placeholder">
-  <video controls autoplay src="./videos/restaurant.mp4"></video>
+  <video controls autoplay src="../../samples/videos/restaurant.mp4"></video>
 </div>
 
 ## 功能特性

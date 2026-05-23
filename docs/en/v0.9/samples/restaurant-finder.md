@@ -10,7 +10,7 @@ UI generation speed depends on model and network conditions, and generated UIs m
 ## Video Demo
 
 <div class="video-placeholder">
-  <video controls autoplay src="../../samples/videos/restaurant.mp4"></video>
+  <video controls autoplay src="../../../samples/videos/restaurant.mp4"></video>
 </div>
 
 ## Features

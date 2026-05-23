@@ -68,7 +68,7 @@ a2ui-vue (Vue Renderer)
 	└── 把消息渲染成页面
 ```
 
-更多细节可继续阅读 [Node A2UI 与 Agent](/guide/node-a2ui)。
+更多细节可继续阅读 [Node A2UI 与 Agent](/v0.9/guide/node-a2ui)。
 
 ## samples 中的 agent 做什么？
 

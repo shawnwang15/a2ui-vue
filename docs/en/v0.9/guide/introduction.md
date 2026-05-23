@@ -68,7 +68,7 @@ a2ui-vue (Vue Renderer)
 	└── Renders messages into pages
 ```
 
-For more details, see [Node A2UI & Agents](/en/guide/node-a2ui).
+For more details, see [Node A2UI & Agents](/en/v0.9/guide/node-a2ui).
 
 ## What do the sample agents do?
 

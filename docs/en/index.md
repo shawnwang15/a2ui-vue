@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /en/guide/getting-started
+      link: /en/v0.9/guide/getting-started
     - theme: alt
       text: View Samples
-      link: /en/samples/overview
+      link: /en/v0.9/samples/overview
     - theme: alt
       text: GitHub
       link: https://github.com/shawnwang15/a2ui-vue

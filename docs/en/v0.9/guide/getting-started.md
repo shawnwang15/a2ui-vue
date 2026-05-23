@@ -30,24 +30,30 @@ yarn add a2ui-vue
 
 ### 1. Provide Configuration (provideA2UI)
 
-Call `provideA2UI` in your root component (typically `App.vue`) to inject the Catalog and theme:
+Call `provideA2UI` in your app entry file `main.ts` to inject the Catalog and theme:
 
-```vue
-<script setup lang="ts">
-import { provideA2UI, DEFAULT_CATALOG ,defaultTheme} from 'a2ui-vue'
+```ts
+// main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
 import 'a2ui-vue/dist/a2ui-vue.css'
 
-// Use built-in default configuration
+const app = createApp(App)
+
+// Inject A2UI config (must be called before mount)
 provideA2UI({
+  app,
   catalog: DEFAULT_CATALOG,
   theme: defaultTheme,
 })
-</script>
 
-<template>
-  <RouterView />
-</template>
+app.mount('#app')
 ```
+
+::: tip
+`provideA2UI` requires the `app` instance and must be called before `app.mount()`. This ensures all child components can consume the config via `useA2UIConfig()`.
+:::
 
 ### 2. Process Agent Messages (useMessageProcessor)
 
@@ -84,30 +90,48 @@ Pass each entry from `surfaces` to `<A2UISurface>` for rendering:
 ```
 
 ## Complete Example
-:::demo
+
+Here's a complete integration example based on `samples/client/restaurant`:
+
+### main.ts
+
+```ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
+import 'a2ui-vue/dist/a2ui-vue.css'
+
+const app = createApp(App)
+
+provideA2UI({
+  app,
+  catalog: DEFAULT_CATALOG,
+  theme: defaultTheme,
+})
+
+app.mount('#app')
+```
+
+### App.vue
+
 ```vue
 <script setup lang="ts">
-import {
-  A2UISurface,
-  useMessageProcessor,
-  provideA2UI,
-  DEFAULT_CATALOG,
-  defaultTheme
-} from 'a2ui-vue'
-import 'a2ui-vue/dist/a2ui-vue.css'
-provideA2UI({ catalog: DEFAULT_CATALOG, theme: defaultTheme })
+import { computed } from 'vue'
+import { A2UISurface, useMessageProcessor } from 'a2ui-vue'
 
 const processor = useMessageProcessor()
 
-// Push a sample message to the renderer (A2UI v0.9 protocol)
+// Push A2UI v0.9 protocol messages to the renderer
 processor.processMessages([
   {
+    "version": "v0.9",
     "createSurface": {
       "surfaceId": "main",
-      "root": "root"
+      "catalogId": "https://a2ui.org/specification/v0_9/catalogs/basic/catalog.json"
     }
   },
   {
+    "version": "v0.9",
     "updateComponents": {
       "surfaceId": "main",
       "components": [
@@ -126,7 +150,7 @@ processor.processMessages([
         {
           "id": "text",
           "component": "Text",
-          "text": "Welcome to a2ui-vue. Copy and edit the JSON to see changes in real-time.",
+          "text": "Welcome to a2ui-vue.",
           "variant": "body"
         },
         {
@@ -146,23 +170,20 @@ processor.processMessages([
   }
 ])
 
-const surfaces = processor.getSurfaces()
+const surfaces = computed(() => Array.from(processor.getSurfaces()))
 </script>
 
 <template>
-  <div class="app">
-    <A2UISurface
-        v-for="[id] in surfaces"
-        :key="id"
-        :surface-id="id"
-    />
-  </div>
+  <A2UISurface
+    v-for="[surfaceId] in surfaces"
+    :key="surfaceId"
+    :surface-id="surfaceId"
+  />
 </template>
-
 ```
-:::
+
 ## Next Steps
 
-- Dive deeper into [Vue Renderer Core Concepts](/en/guide/vue-renderer)
-- Browse all [Built-in Components](/en/guide/components)
-- Check out real-running [Sample Demos](/en/samples/overview)
+- Dive deeper into [Vue Renderer Core Concepts](/en/v0.9/guide/vue-renderer)
+- Browse all [Built-in Components](/en/v0.9/guide/components)
+- Check out real-running [Sample Demos](/en/v0.9/samples/overview)

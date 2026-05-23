@@ -16,9 +16,9 @@ UI generation speed depends on model and network conditions, and generated UIs m
 
 | Demo               | Description                                          | Agent Port | Client Port |
 |--------------------|---------------------------------------------|-----------|-----------|
-| [Component Gallery](/en/samples/component-gallery) | Showcases all built-in A2UI components | `10005`   | `4000`    |
-| [Contact Lookup](/en/samples/contact-lookup)  | LLM-driven contact search and display  | `10003`   | `4000`    |
-| [Restaurant Finder](/en/samples/restaurant-finder) | LLM-driven restaurant recommendation and display | `10002`   | `4000`    |
+| [Component Gallery](/en/v0.9/samples/component-gallery) | Showcases all built-in A2UI components | `10005`   | `4000`    |
+| [Contact Lookup](/en/v0.9/samples/contact-lookup)  | LLM-driven contact search and display  | `10003`   | `4000`    |
+| [Restaurant Finder](/en/v0.9/samples/restaurant-finder) | LLM-driven restaurant recommendation and display | `10002`   | `4000`    |
 
 ## Monorepo Directory Mapping
 

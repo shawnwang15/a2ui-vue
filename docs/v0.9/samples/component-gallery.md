@@ -70,7 +70,7 @@ const galleryDemo = {
 ## 视频演示
 
 <div class="video-placeholder">
-    <video controls autoplay src="./videos/gallery.mp4"></video>
+    <video controls autoplay src="../../samples/videos/gallery.mp4"></video>
 </div>
 
 ## 功能特性
@@ -119,4 +119,4 @@ Button · CheckBox · DateTimeInput · MultipleChoice · Slider · TextField
 
 ---
 
-> 完整组件 API 参见 [组件参考](/guide/components)。
+> 完整组件 API 参见 [组件参考](/v0.9/guide/components)。
