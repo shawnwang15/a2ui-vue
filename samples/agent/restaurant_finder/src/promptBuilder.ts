@@ -31,11 +31,19 @@ export const UI_DESCRIPTION = `
 CRITICAL DATA-PATH RULES (failing these will produce empty UI):
 -   A path that STARTS WITH "/" is an ABSOLUTE path resolved from the data-model root.
 -   A path that does NOT start with "/" is a RELATIVE path resolved against the surrounding list-item context.
--   When a List/Grid uses the dynamic-template form \`children: { componentId, path: "/items" }\`, every component reachable from that template MUST reference per-item fields with RELATIVE paths.
-    -   CORRECT (relative):  { "text": { "path": "name" } }     -> resolves to /items/<i>/name
-    -   CORRECT (relative):  { "url":  { "path": "imageUrl" } } -> resolves to /items/<i>/imageUrl
-    -   WRONG  (absolute):   { "text": { "path": "/name" } }    -> always reads /name from the root and renders empty
--   Only use absolute paths (with leading "/") when binding to top-level fields outside any list template, e.g. a page title at /title.
+-   Inside a List template's children (e.g., \`restaurant-card\` and its descendants), you MUST use RELATIVE paths like \`name\`, \`imageUrl\`, \`rating\`, etc.
+-   NEVER use absolute paths like \`/name\`, \`/imageUrl\` inside list-item templates — this will search from the root and return empty.
+-   Only use an absolute path when you explicitly want data from the root (e.g., \`/items\` in the List \`children.path\`).
+
+CRITICAL SYNTAX RULES (you MUST follow these exactly):
+-   To bind a component property to data, you MUST use the object format: \`{ "path": "..." }\`.
+-   \`"text": "name"\` means the LITERAL string "name" will be displayed — this is WRONG for dynamic data.
+-   \`"text": { "path": "name" }\` means look up the value of "name" from the data model — this is CORRECT.
+-   For Image url: \`"url": { "path": "imageUrl" }\` — NOT \`"url": "imageUrl"\`.
+-   Every restaurant card MUST include a "Book Now" Button with action event \`book_restaurant\` and context containing \`restaurantName\`, \`imageUrl\`, \`address\` (all using \`{ "path": "..." }\` format).
+-   You MUST follow the SINGLE_COLUMN_LIST_EXAMPLE structure exactly — do NOT invent your own template.
+-   The \`surfaceId\` MUST be EXACTLY the same string across ALL messages (createSurface, updateComponents, updateDataModel). Use \`"default"\` as the surfaceId for all messages unless there is a specific reason to use another value.
+-   Every response MUST contain ALL THREE messages in this exact order: 1) \`createSurface\` 2) \`updateComponents\` 3) \`updateDataModel\`. NEVER omit \`createSurface\` — without it the surface does not exist and all subsequent messages will fail.
 `;
 
 export function getTextPrompt(): string {

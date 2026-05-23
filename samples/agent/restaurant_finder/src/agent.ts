@@ -138,7 +138,7 @@ export class RestaurantAgent {
   async stream(query: string): Promise<WirePart[]> {
     console.log(`[RestaurantAgent] Query: ${query}, useUI: ${this.useUI}`);
 
-    const maxRetries = 1;
+    const maxRetries = 3;
     let currentQuery = query;
 
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
