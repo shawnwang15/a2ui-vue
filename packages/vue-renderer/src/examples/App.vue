@@ -9,13 +9,7 @@ import DividerExample from './components/DividerExample.vue';
 import RowExample from './components/RowExample.vue';
 import ColumnExample from './components/ColumnExample.vue';
 import ListExample from './components/ListExample.vue';
-import {provideA2UI} from "@/config.ts";
-import {DEFAULT_CATALOG} from "@/catalog/default.ts";
-import { theme } from '../theme.ts';
-provideA2UI({
-  catalog: DEFAULT_CATALOG,
-  theme,
-});
+
 const currentExample = ref('all');
 
 const examples = [

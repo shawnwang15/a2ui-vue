@@ -1,6 +1,6 @@
 {
   "name": "a2ui-vue",
-  "version": "0.9.0-rc.1",
+  "version": "0.9.0-rc.2",
   "type": "module",
   "description": "A2UI Vue3 Renderer (A2UI protocol v0.9, built on @a2ui/web_core)",
   "author": "shawnwang15@163.com",
@@ -29,7 +29,13 @@
     "markdown-it": "^14.1.0"
   },
   "peerDependencies": {
-    "vue": "^3.4.0"
+    "vue": "^3.4.0",
+    "@a2ui/web_core": "^0.9.1"
+  },
+  "peerDependenciesMeta": {
+    "@a2ui/web_core": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",

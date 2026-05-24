@@ -124,50 +124,78 @@ const processor = useMessageProcessor()
 // 向渲染器推送 A2UI v0.9 协议消息
 processor.processMessages([
   {
-    "version": "v0.9",
-    "createSurface": {
-      "surfaceId": "main",
-      "catalogId": "https://a2ui.org/specification/v0_9/catalogs/basic/catalog.json"
-    }
+    version: 'v0.9',
+    createSurface: {
+      surfaceId: 'gallery-form',
+      catalogId: 'default',
+    },
   },
   {
-    "version": "v0.9",
-    "updateComponents": {
-      "surfaceId": "main",
-      "components": [
+    version: 'v0.9',
+    updateComponents: {
+      surfaceId: 'gallery-form',
+      components: [
         {
-          "id": "root",
-          "component": "Column",
-          "children": ["heading", "text", "button"],
-          "align": "start"
+          id: 'root',
+          component: 'Card',
+          child: 'column-53',
         },
         {
-          "id": "heading",
-          "component": "Text",
-          "text": "Hello, A2UI!",
-          "variant": "h1"
+          id: 'textfield-55',
+          component: 'TextField',
+          label: 'Name',
+          type: 'text',
+          value: '',
         },
         {
-          "id": "text",
-          "component": "Text",
-          "text": "Welcome to a2ui-vue.",
-          "variant": "body"
+          id: 'row-54',
+          component: 'Row',
+          children: ['textfield-55'],
         },
         {
-          "id": "button",
-          "component": "Button",
-          "child": "button-text",
-          "variant": "primary",
-          "action": { "event": { "name": "hello-click" } }
+          id: 'textfield-57',
+          component: 'TextField',
+          label: 'Email Address',
+          type: 'email',
+          value: '',
         },
         {
-          "id": "button-text",
-          "component": "Text",
-          "text": "Get Started"
-        }
-      ]
-    }
-  }
+          id: 'row-56',
+          component: 'Row',
+          children: ['textfield-57'],
+        },
+        {
+          id: 'textfield-59',
+          component: 'TextField',
+          label: 'Message',
+          value: '',
+        },
+        {
+          id: 'row-58',
+          component: 'Row',
+          children: ['textfield-59'],
+        },
+        {
+          id: 'text-61',
+          component: 'Text',
+          text: 'Send Message',
+        },
+        {
+          id: 'button-60',
+          component: 'Button',
+          action: {
+            type: 'submit',
+          },
+          child: 'text-61',
+        },
+        {
+          id: 'column-53',
+          component: 'Column',
+          children: ['row-54', 'row-56', 'row-58', 'button-60'],
+        },
+      ],
+    },
+  },
 ])
 
 const surfaces = computed(() => Array.from(processor.getSurfaces()))
