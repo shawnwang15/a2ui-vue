@@ -1,18 +1,25 @@
 
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue';
-import * as Types from '@a2ui/web_core/types/types';
+import { ref, watch, nextTick, computed } from 'vue';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 import A2UiRenderer from '@/rendering/A2UIRenderer.vue';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.ModalNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
 }>();
 
 const { theme } = useDynamicComponent(props);
+
+const content = computed<VueComponentNode | null>(
+  () => ((props.component.properties as any).content as VueComponentNode) ?? null,
+);
+const trigger = computed<VueComponentNode | null>(
+  () => ((props.component.properties as any).trigger as VueComponentNode) ?? null,
+);
 
 const showDialog = ref(false);
 const dialogRef = ref<HTMLDialogElement | null>(null);
@@ -53,16 +60,18 @@ function closeDialog() {
       </div>
 
       <A2UiRenderer
+          v-if="content"
           :surface-id="surfaceId!"
-          :component="component.properties.contentChild"
+          :component="content"
       />
     </section>
   </dialog>
   <a2ui-modal>
     <section  @click="showDialog = true">
       <A2UiRenderer
+          v-if="trigger"
           :surface-id="surfaceId!"
-          :component="component.properties.entryPointChild"
+          :component="trigger"
         />
     </section>
   </a2ui-modal>

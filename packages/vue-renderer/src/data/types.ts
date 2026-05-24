@@ -1,6 +1,6 @@
 
 
-import * as Types from '@a2ui/web_core/types/types';
+import type { A2uiMessage } from '@a2ui/web_core/v0_9';
 
 export interface A2TextPayload {
   kind: 'text';
@@ -9,7 +9,7 @@ export interface A2TextPayload {
 
 export interface A2DataPayload {
   kind: 'data';
-  data: Types.ServerToClientMessage;
+  data: A2uiMessage;
 }
 
 export type A2AServerPayload = Array<A2DataPayload | A2TextPayload> | { error: string };

@@ -1,7 +1,7 @@
 
 
 import * as Styles from '@a2ui/web_core/styles/index';
-import * as Types from '@a2ui/web_core/types/types';
+import type { A2UITheme } from 'a2ui-vue';
 
 /** Elements */
 
@@ -166,7 +166,7 @@ const listItemLight = Styles.merge(listItem, {
   'color-c-n35': true,
 });
 
-export const theme: Types.Theme = {
+export const theme: A2UITheme = {
   additionalStyles: {
     Card: {
       'min-width': '320px',
@@ -295,7 +295,7 @@ export const theme: Types.Theme = {
         'color-bc-p80': true,
       },
     },
-    MultipleChoice: {
+    ChoicePicker: {
       container: {},
       label: {},
       element: {},

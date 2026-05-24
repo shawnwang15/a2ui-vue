@@ -3,11 +3,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { A2UiRenderer } from '../../index';
-import type * as Types from '@a2ui/web_core/types/types';
 
 const clickCount = ref(0);
 
-const buttonExamples: Array<{ description: string; component: Types.AnyComponentNode }> = [
+const buttonExamples: Array<{ description: string; component: any }> = [
   {
     description: 'Primary Button',
     component: {

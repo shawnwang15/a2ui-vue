@@ -23,8 +23,12 @@ import {
 } from './constants.js';
 import { wrapAsJsonArray } from './utils.js';
 
-// RFC 6901 compliant regex for JSON Pointer
-const JSON_POINTER_PATTERN = /^(?:\/(?:[^~/]|~[01])*)*$/;
+// JSON Pointer pattern aligned with the official Kotlin Validator.kt.
+// Accepts both absolute ("/items/0/name", "") and relative ("name", "items/0/name") forms.
+// web_core/DataContext.resolvePath supports both:
+//   - absolute: "/items/0/name"  -> resolved from data-model root
+//   - relative: "name"           -> resolved against current dataContext.path
+const JSON_POINTER_PATTERN = /^(?:(?:\/(?:[^~/]|~[01])*)*|(?:[^~/]|~[01])+(?:\/(?:[^~/]|~[01])*)*)$/;
 
 // Recursion Limits
 const MAX_GLOBAL_DEPTH = 50;
@@ -216,6 +220,11 @@ export class A2uiValidator {
 
 function _findRootId(messages: SchemaObj[]): string {
   for (const message of messages) {
+    // v0.9
+    if ('createSurface' in message) {
+      return ((message['createSurface'] as SchemaObj)?.[ROOT] as string | undefined) ?? ROOT;
+    }
+    // v0.8
     if ('beginRendering' in message) {
       return ((message['beginRendering'] as SchemaObj)?.[ROOT] as string | undefined) ?? ROOT;
     }

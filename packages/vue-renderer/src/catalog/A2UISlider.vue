@@ -2,36 +2,36 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Primitives from '@a2ui/web_core/types/primitives';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.SliderNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  value: Primitives.NumberValue | null;
-  label?: string;
-  minValue: number | undefined;
-  maxValue: number | undefined;
+  value: unknown;
+  label?: unknown;
+  min: number | undefined;
+  max: number | undefined;
 }>();
 
-const { theme, resolvePrimitive, getUniqueId, setData } = useDynamicComponent(props);
+const { theme, resolvePrimitive, getUniqueId, setData, getBindingPath } = useDynamicComponent(props);
 
 const inputId = getUniqueId('a2ui-slider');
-const resolvedValue = computed(() => resolvePrimitive(props.value) ?? 0);
+const resolvedValue = computed(() => Number(resolvePrimitive(props.value) ?? 0));
+const resolvedLabel = computed(() => (props.label ? resolvePrimitive(props.label) : ''));
 
 const percentComplete = computed(() => computePercentage(resolvedValue.value));
 
 function computePercentage(value: number): number {
-  const min = props.minValue ?? 0;
-  const max = props.maxValue ?? 100;
+  const min = props.min ?? 0;
+  const max = props.max ?? 100;
   const range = max - min;
   return range > 0 ? Math.max(0, Math.min(100, ((value - min) / range) * 100)) : 0;
 }
 
 function handleInput(event: Event) {
-  const path = props.value?.path;
+  const path = getBindingPath(props.value);
 
   if (!(event.target instanceof HTMLInputElement)) {
     return;
@@ -53,15 +53,15 @@ function handleInput(event: Event) {
   <a2ui-slider>
     <section :class="theme.components.Slider.container">
       <label :class="theme.components.Slider.label" :for="inputId">
-        {{ label }}
+        {{ resolvedLabel }}
       </label>
 
       <input
         autocomplete="off"
         type="range"
         :value="resolvedValue"
-        :min="minValue"
-        :max="maxValue"
+        :min="min"
+        :max="max"
         :id="inputId"
         @input="handleInput"
         :class="theme.components.Slider.element"

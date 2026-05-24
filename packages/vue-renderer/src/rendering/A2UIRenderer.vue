@@ -1,14 +1,21 @@
 
 
+
 <script setup lang="ts">
 import { ref, watch, shallowRef, onMounted, type Component } from 'vue';
-import * as Types from '@a2ui/web_core/types/types';
 import * as Styles from '@a2ui/web_core/styles/index';
 import { useA2UIConfig } from '../config';
+import type { VueComponentNode } from './catalog';
 
+/**
+ * Loads and renders a single component from the catalog using the supplied
+ * `VueComponentNode`. The node is produced by the v0.9 processor (see
+ * `MessageProcessor.buildVueNode`) and carries an absolute `dataContextPath`
+ * for relative path resolution within the data model.
+ */
 const props = defineProps<{
-  surfaceId: Types.SurfaceID;
-  component: Types.AnyComponentNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
 }>();
 
 const { catalog } = useA2UIConfig();

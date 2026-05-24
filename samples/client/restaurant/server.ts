@@ -81,7 +81,7 @@ export function createA2AMiddleware(): Connect.NextHandleFunction {
 
 async function fetchWithCustomHeader(url: RequestInfo | URL, init?: RequestInit) {
   const headers = new Headers(init?.headers);
-  headers.set('X-A2A-Extensions', 'https://a2ui.org/a2a-extension/a2ui/v0.8');
+  headers.set('X-A2A-Extensions', 'https://a2ui.org/a2a-extension/a2ui/v0.9');
   const newInit = { ...init, headers };
   return fetch(url, newInit);
 }

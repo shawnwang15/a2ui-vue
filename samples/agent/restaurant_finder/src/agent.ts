@@ -27,7 +27,7 @@ import { z } from 'zod';
 import {
   A2uiSchemaManager,
   BasicCatalog,
-  VERSION_0_8,
+  VERSION_0_9,
   parseResponse,
   parseResponseToParts,
   A2UI_OPEN_TAG,
@@ -61,6 +61,12 @@ export class RestaurantAgent {
   private readonly systemPrompt: string;
 
   private static resolveModel(): LanguageModel {
+    console.log('[Env check]', {
+      series: process.env['LLM_MODEL_SERIES'],
+      base: process.env['LLM_API_BASE'],
+      model: process.env['MODEL_NAME'],
+      keyPrefix: process.env['LLM_API_KEY']?.slice(0, 12),
+    });
     const series = (process.env['LLM_MODEL_SERIES'] ?? 'qwen').toLowerCase();
     const apiKey =
       process.env['LLM_API_KEY'] ??
@@ -96,7 +102,7 @@ export class RestaurantAgent {
       process.env['LLM_API_BASE'] ??
       'https://dashscope.aliyuncs.com/compatible-mode/v1';
     const openai = createOpenAI({ apiKey, baseURL: apiBase, compatibility: 'compatible' });
-
+    console.log('===openai====',openai)
     const modelName = process.env['MODEL_NAME'] ?? 'qwen-flash';
     return openai(modelName);
   }
@@ -109,8 +115,8 @@ export class RestaurantAgent {
 
     if (useUI) {
       this.schemaManager = new A2uiSchemaManager({
-        version: VERSION_0_8,
-        catalogs: [BasicCatalog.getConfig(VERSION_0_8, 'examples')],
+        version: VERSION_0_9,
+        catalogs: [BasicCatalog.getConfig(VERSION_0_9, 'examples')],
       });
       this.systemPrompt = this.schemaManager.generateSystemPrompt({
         roleDescription: ROLE_DESCRIPTION,
@@ -132,7 +138,7 @@ export class RestaurantAgent {
   async stream(query: string): Promise<WirePart[]> {
     console.log(`[RestaurantAgent] Query: ${query}, useUI: ${this.useUI}`);
 
-    const maxRetries = 1;
+    const maxRetries = 3;
     let currentQuery = query;
 
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -223,34 +229,56 @@ export class RestaurantAgent {
   }
 
   private async callLLM(userQuery: string): Promise<string | null> {
-    const result = streamText ({
-      model: this.model,
-      system: this.systemPrompt,
-      prompt: userQuery,
-      tools: {
+    console.log('[RestaurantAgent] -> calling LLM...');
+    const abortController = new AbortController();
+    const timeoutMs = Number(process.env['LLM_TIMEOUT_MS'] ?? 60000);
+    const timer = setTimeout(() => {
+      console.error(`[RestaurantAgent] LLM request timed out after ${timeoutMs}ms, aborting.`);
+      abortController.abort();
+    }, timeoutMs);
+
+    try {
+      const result = streamText({
+        model: this.model,
+        system: this.systemPrompt,
+        prompt: userQuery,
+        abortSignal: abortController.signal,
+        tools: {
         get_restaurants: tool({
           description:
             'Get a list of restaurants based on cuisine and location. Returns JSON array of matching restaurants.',
           parameters: z.object({
             cuisine: z.string().describe('The type of cuisine to search for.'),
             location: z.string().describe('The city or location to search in.'),
-            count: z.number().optional().describe('The number of restaurants to return (default 5).'),
+            count: z
+              .number()
+              .nullable()
+              .describe('The number of restaurants to return (default 5). Pass null to use default.'),
           }),
           execute: async ({ cuisine, location, count }) => {
             return getRestaurants(cuisine, location, this.baseUrl, count ?? 5);
           },
         }),
-      },
-      maxSteps: 5,
-    });
-    const reader = result.textStream.getReader();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        break;
+        },
+        maxSteps: 5,
+        onError: ({ error }) => {
+          console.error('[RestaurantAgent] streamText onError:', error);
+        },
+      });
+      const reader = result.textStream.getReader();
+      let firstChunk = true;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (firstChunk) {
+          console.log('[RestaurantAgent] <- first token received');
+          firstChunk = false;
+        }
+        process.stdout.write(value);
       }
-      process.stdout.write(value);
+      return (await result.text) || null;
+    } finally {
+      clearTimeout(timer);
     }
-    return result.text || null;
   }
 }

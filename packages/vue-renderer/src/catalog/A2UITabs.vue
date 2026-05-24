@@ -2,16 +2,21 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import * as Types from '@a2ui/web_core/types/types';
 import * as Styles from '@a2ui/web_core/styles/index';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 import A2UiRenderer from '@/rendering/A2UIRenderer.vue';
 
+interface ResolvedTab {
+  title: unknown;
+  child: VueComponentNode;
+}
+
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.TabsNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  tabs: Types.ResolvedTabItem[];
+  tabs: ResolvedTab[];
 }>();
 
 const { theme, resolvePrimitive } = useDynamicComponent(props);

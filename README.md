@@ -2,7 +2,7 @@
 # a2ui-vue
 
 
-[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.8.x-646cff.svg)](https://a2ui.org/)
+[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.9.x-646cff.svg)](https://a2ui.org/)
 [![docs](https://img.shields.io/badge/docs-online-brightgreen)](https://shawnwang15.github.io/a2ui-vue/en/)
 
 > **a2ui-vue** is a community **Vue 3 renderer** for the [A2UI (Agent-to-UI) open protocol](https://a2ui.org/).  
@@ -20,7 +20,7 @@
 - Output: rich, interactive Vue user interfaces
 - Best for: generative UI, agent UX, AI copilots, tool-driven workflows, structured frontend rendering
 - Stack: Vue 3, TypeScript, Composition API, extensible component catalog
-- Compatibility: A2UI v0.8 (Supported). v0.9 is in progress
+- Compatibility: A2UI v0.9 (default). v0.8 / v0.10 specs are included in the repository for reference
 
 ## Navigation
 

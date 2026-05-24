@@ -30,7 +30,7 @@ import type { A2uiValidator } from './core/schema/validator.js';
 // Constants
 // ---------------------------------------------------------------------------
 
-export const A2UI_EXTENSION_URI = 'https://a2ui.org/a2a-extension/a2ui/v0.8';
+export const A2UI_EXTENSION_URI = 'https://a2ui.org/a2a-extension/a2ui/v0.9';
 export const AGENT_EXTENSION_SUPPORTED_CATALOG_IDS_KEY = 'supportedCatalogIds';
 export const AGENT_EXTENSION_ACCEPTS_INLINE_CATALOGS_KEY = 'acceptsInlineCatalogs';
 export const MIME_TYPE_KEY = 'mimeType';

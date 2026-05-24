@@ -1,18 +1,23 @@
 
 
 <script setup lang="ts">
-import * as Types from '@a2ui/web_core/types/types';
+import { computed } from 'vue';
+import type { VueComponentNode } from '@/rendering/catalog';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
 import A2UiRenderer from '@/rendering/A2UIRenderer.vue';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.ListNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
   direction?: 'vertical' | 'horizontal';
 }>();
 
 const { theme } = useDynamicComponent(props);
+
+const children = computed<VueComponentNode[]>(
+  () => ((props.component.properties as any).children as VueComponentNode[]) ?? [],
+);
 </script>
 
 <template>
@@ -20,9 +25,8 @@ const { theme } = useDynamicComponent(props);
     :data-direction="direction ?? 'vertical'"
   >
     <section :class="theme.components.List" :style="theme.additionalStyles?.List">
-      <div class="a2ui-list-item" v-for="(child, index) in component.properties.children">
+      <div class="a2ui-list-item" v-for="(child, index) in children" :key="child.id || index">
         <A2UiRenderer
-            :key="child.id || index"
             :surface-id="surfaceId!"
             :component="child"
         />

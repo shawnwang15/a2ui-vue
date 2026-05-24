@@ -115,9 +115,8 @@ export class MessageProcessor<T extends ComponentApi> {
   private processCreateSurfaceMessage(message: CreateSurfaceMessage): void {
     const payload = message.createSurface;
     const { surfaceId, catalogId, theme } = payload;
-
     // Find catalog
-    const catalog = this.catalogs.find((c) => c.id === catalogId);
+    const catalog = this.catalogs.find((c) => c.id === catalogId)??this.catalogs.find(c => c.id === 'default');
     if (!catalog) {
       throw new A2uiStateError(`Catalog not found: ${catalogId}`);
     }

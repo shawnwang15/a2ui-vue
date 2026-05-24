@@ -2,27 +2,28 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Primitives from '@a2ui/web_core/types/primitives';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
+
+type TextFieldVariant = 'text' | 'number';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.TextFieldNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  text: Primitives.StringValue | null;
-  label: Primitives.StringValue | null;
-  textFieldType: Types.ResolvedTextField['textFieldType'] | null;
+  value: unknown;
+  label: unknown;
+  variant: TextFieldVariant | null;
 }>();
 
-const { theme, resolvePrimitive, getUniqueId, setData } = useDynamicComponent(props);
+const { theme, resolvePrimitive, getUniqueId, setData, getBindingPath } = useDynamicComponent(props);
 
-const inputValue = computed(() => resolvePrimitive(props.text) || '');
+const inputValue = computed(() => resolvePrimitive(props.value) || '');
 const resolvedLabel = computed(() => resolvePrimitive(props.label));
 const inputId = getUniqueId('a2ui-input');
 
 function handleInput(event: Event) {
-  const path = props.text?.path;
+  const path = getBindingPath(props.value);
 
   if (!(event.target instanceof HTMLInputElement) || !path) {
     return;
@@ -49,9 +50,9 @@ function handleInput(event: Event) {
         :style="theme.additionalStyles?.TextField"
         @input="handleInput"
         :id="inputId"
-        :value="inputValue"
+        :value="inputValue as string | number"
         placeholder="Please enter a value"
-        :type="textFieldType === 'number' ? 'number' : 'text'"
+        :type="variant === 'number' ? 'number' : 'text'"
       />
     </section>
   </a2ui-text-field>

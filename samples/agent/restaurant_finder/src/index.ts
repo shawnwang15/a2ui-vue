@@ -20,7 +20,7 @@ import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import express from 'express';
-import { A2uiSchemaManager, BasicCatalog, VERSION_0_8 } from '@a2ui/agent-sdk';
+import { A2uiSchemaManager, BasicCatalog, VERSION_0_9 } from '@a2ui/agent-sdk';
 import { RestaurantAgent } from './agent.js';
 import { createServer, buildAgentCard, attachHandlers } from './server.js';
 
@@ -34,8 +34,8 @@ const PORT = parseInt(process.env['PORT'] ?? '10002', 10);
 const BASE_URL = `http://${HOST}:${PORT}`;
 
 const uiSchemaManager = new A2uiSchemaManager({
-  version: VERSION_0_8,
-  catalogs: [BasicCatalog.getConfig(VERSION_0_8, 'examples')],
+  version: VERSION_0_9,
+  catalogs: [BasicCatalog.getConfig(VERSION_0_9, 'examples')],
 });
 
 const uiAgent = new RestaurantAgent(BASE_URL, true);

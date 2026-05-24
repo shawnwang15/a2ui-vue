@@ -139,37 +139,44 @@ export default defineConfig({
       lang: 'zh-CN',
       themeConfig: {
         nav: [
-          { text: '指南', link: '/guide/introduction', activeMatch: '/guide/' },
-          { text: '示例', link: '/samples/overview', activeMatch: '/samples/' },
+          {
+            text: 'v0.9',
+            items: [
+              { text: 'v0.9 (当前)', link: '/v0.9/guide/introduction' },
+              { text: 'v0.8', link: '/v0.8/guide/introduction' },
+            ],
+          },
+          { text: '指南', link: '/v0.9/guide/introduction', activeMatch: '/v0.9/guide/' },
+          { text: '示例', link: '/v0.9/samples/overview', activeMatch: '/v0.9/samples/' },
           // { text: 'Playground', link: '/playground/', activeMatch: '/playground/' },
           { text: 'GitHub', link: 'https://github.com/shawnwang15/a2ui-vue' },
         ],
         sidebar: {
-          '/guide/': [
+          '/v0.9/guide/': [
             {
               text: '开始',
               items: [
-                { text: '简介', link: '/guide/introduction' },
-                { text: '快速上手', link: '/guide/getting-started' },
-                { text: 'Node A2UI 与 Agent', link: '/guide/node-a2ui' },
+                { text: '简介', link: '/v0.9/guide/introduction' },
+                { text: '快速上手', link: '/v0.9/guide/getting-started' },
+                { text: 'Node A2UI 与 Agent', link: '/v0.9/guide/node-a2ui' },
               ],
             },
             {
               text: 'Vue Renderer',
               items: [
-                { text: '核心概念', link: '/guide/vue-renderer' },
-                { text: '组件参考', link: '/guide/components' },
+                { text: '核心概念', link: '/v0.9/guide/vue-renderer' },
+                { text: '组件参考', link: '/v0.9/guide/components' },
               ],
             },
           ],
-          '/samples/': [
+          '/v0.9/samples/': [
             {
               text: '示例演示',
               items: [
-                { text: '总览', link: '/samples/overview' },
-                { text: '组件画廊', link: '/samples/component-gallery' },
-                { text: '联系人查询', link: '/samples/contact-lookup' },
-                { text: '餐厅查找', link: '/samples/restaurant-finder' },
+                { text: '总览', link: '/v0.9/samples/overview' },
+                { text: '组件画廊', link: '/v0.9/samples/component-gallery' },
+                { text: '联系人查询', link: '/v0.9/samples/contact-lookup' },
+                { text: '餐厅查找', link: '/v0.9/samples/restaurant-finder' },
               ],
             },
           ],
@@ -178,6 +185,29 @@ export default defineConfig({
               text: 'Playground',
               items: [
                 { text: '实时渲染', link: '/playground/' },
+              ],
+            },
+          ],
+          '/v0.8/guide/': [
+            {
+              text: '开始',
+              items: [
+                { text: '简介', link: '/v0.8/guide/introduction' },
+                { text: '快速上手', link: '/v0.8/guide/getting-started' },
+              ],
+            },
+            {
+              text: '参考',
+              items: [
+                { text: '组件参考', link: '/v0.8/guide/components' },
+              ],
+            },
+          ],
+          '/v0.8/samples/': [
+            {
+              text: '示例',
+              items: [
+                { text: '总览', link: '/v0.8/samples/overview' },
               ],
             },
           ],
@@ -206,37 +236,44 @@ export default defineConfig({
       link: '/en/',
       themeConfig: {
         nav: [
-          { text: 'Guide', link: '/en/guide/introduction', activeMatch: '/en/guide/' },
-          { text: 'Samples', link: '/en/samples/overview', activeMatch: '/en/samples/' },
+          {
+            text: 'v0.9',
+            items: [
+              { text: 'v0.9 (Current)', link: '/en/v0.9/guide/introduction' },
+              { text: 'v0.8', link: '/en/v0.8/guide/introduction' },
+            ],
+          },
+          { text: 'Guide', link: '/en/v0.9/guide/introduction', activeMatch: '/en/v0.9/guide/' },
+          { text: 'Samples', link: '/en/v0.9/samples/overview', activeMatch: '/en/v0.9/samples/' },
           // { text: 'Playground', link: '/en/playground/', activeMatch: '/en/playground/' },
           { text: 'GitHub', link: 'https://github.com/shawnwang15/a2ui-vue' },
         ],
         sidebar: {
-          '/en/guide/': [
+          '/en/v0.9/guide/': [
             {
               text: 'Getting Started',
               items: [
-                { text: 'Introduction', link: '/en/guide/introduction' },
-                { text: 'Quick Start', link: '/en/guide/getting-started' },
-                { text: 'Node A2UI & Agents', link: '/en/guide/node-a2ui' },
+                { text: 'Introduction', link: '/en/v0.9/guide/introduction' },
+                { text: 'Quick Start', link: '/en/v0.9/guide/getting-started' },
+                { text: 'Node A2UI & Agents', link: '/en/v0.9/guide/node-a2ui' },
               ],
             },
             {
               text: 'Vue Renderer',
               items: [
-                { text: 'Core Concepts', link: '/en/guide/vue-renderer' },
-                { text: 'Component Reference', link: '/en/guide/components' },
+                { text: 'Core Concepts', link: '/en/v0.9/guide/vue-renderer' },
+                { text: 'Component Reference', link: '/en/v0.9/guide/components' },
               ],
             },
           ],
-          '/en/samples/': [
+          '/en/v0.9/samples/': [
             {
               text: 'Samples',
               items: [
-                { text: 'Overview', link: '/en/samples/overview' },
-                { text: 'Component Gallery', link: '/en/samples/component-gallery' },
-                { text: 'Contact Lookup', link: '/en/samples/contact-lookup' },
-                { text: 'Restaurant Finder', link: '/en/samples/restaurant-finder' },
+                { text: 'Overview', link: '/en/v0.9/samples/overview' },
+                { text: 'Component Gallery', link: '/en/v0.9/samples/component-gallery' },
+                { text: 'Contact Lookup', link: '/en/v0.9/samples/contact-lookup' },
+                { text: 'Restaurant Finder', link: '/en/v0.9/samples/restaurant-finder' },
               ],
             },
           ],
@@ -245,6 +282,29 @@ export default defineConfig({
               text: 'Playground',
               items: [
                 { text: 'Live Renderer', link: '/en/playground/' },
+              ],
+            },
+          ],
+          '/en/v0.8/guide/': [
+            {
+              text: 'Getting Started',
+              items: [
+                { text: 'Introduction', link: '/en/v0.8/guide/introduction' },
+                { text: 'Quick Start', link: '/en/v0.8/guide/getting-started' },
+              ],
+            },
+            {
+              text: 'Reference',
+              items: [
+                { text: 'Component Reference', link: '/en/v0.8/guide/components' },
+              ],
+            },
+          ],
+          '/en/v0.8/samples/': [
+            {
+              text: 'Samples',
+              items: [
+                { text: 'Overview', link: '/en/v0.8/samples/overview' },
               ],
             },
           ],

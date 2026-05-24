@@ -36,7 +36,7 @@ export interface WirePart {
   metadata?: Record<string, unknown>;
 }
 
-const A2UI_EXTENSION_URI = 'https://a2ui.org/a2a-extension/a2ui/v0.8';
+const A2UI_EXTENSION_URI = 'https://a2ui.org/a2a-extension/a2ui/v0.9';
 
 /** Returns true when the client announces A2UI extension support. */
 function clientSupportsA2UI(req: Request, message?: { extensions?: string[] }): boolean {
@@ -135,7 +135,9 @@ export function attachMessageSendHandler(
         query = part.text;
       } else if (part.kind === 'data' && part.data) {
         const data = part.data as Record<string, unknown>;
-        if ('userAction' in data) {
+        if ('action' in data) {
+          uiEvent = data['action'] as Record<string, unknown>;
+        } else if ('userAction' in data) {
           uiEvent = data['userAction'] as Record<string, unknown>;
         } else if ('request' in data) {
           query = data['request'] as string;

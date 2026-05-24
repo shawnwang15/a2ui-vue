@@ -2,15 +2,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import * as Primitives from '@a2ui/web_core/types/primitives';
-import * as Types from '@a2ui/web_core/types/types';
 import { useDynamicComponent } from '@/rendering/useDynamicComponent';
+import type { VueComponentNode } from '@/rendering/catalog';
 
 const props = defineProps<{
-  surfaceId: Types.SurfaceID | null;
-  component: Types.IconNode;
+  surfaceId: string | null;
+  component: VueComponentNode;
   weight: string | number;
-  name: Primitives.StringValue | null;
+  name: unknown;
 }>();
 
 const { theme, resolvePrimitive } = useDynamicComponent(props);
