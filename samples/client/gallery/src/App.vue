@@ -2,16 +2,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { provideA2UI, DEFAULT_CATALOG } from 'a2ui-vue';
-import { theme } from './theme';
+
 import LibraryView from './components/LibraryView.vue';
 import GalleryView from './components/GalleryView.vue';
 
-// Provide A2UI configuration
-provideA2UI({
-  catalog: DEFAULT_CATALOG,
-  theme,
-});
 
 const currentView = ref<'library' | 'gallery'>('library');
 
