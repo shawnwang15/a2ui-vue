@@ -1,9 +1,9 @@
 # a2ui-vue
 
-[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.9.x-646cff.svg)](https://a2ui.org/)
+[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.9-646cff.svg)](https://a2ui.org/)
 [![docs](https://img.shields.io/badge/文档-在线阅读-brightgreen)](https://shawnwang15.github.io/a2ui-vue/)
 
-> **a2ui-vue** 是 [A2UI（Agent-to-UI）开放协议](https://a2ui.org/) 的社区 **Vue 3 渲染器**。  
+> **a2ui-vue** 是 [A2UI（Agent-to-UI）开放协议](https://a2ui.org/) 的社区 **Vue 3 渲染器**，已完整支持官方 **A2UI v0.9** 规范。  
 > 让 AI Agent 通过结构化 JSON 表达 UI 意图，在任意 Vue 3 应用中渲染出丰富的、可交互的用户界面——无需 Agent 了解任何 HTML/CSS。
 
 **[📖 文档](https://shawnwang15.github.io/a2ui-vue/)** · **[🌐 English](README.md)**
@@ -15,14 +15,15 @@
 - 输出：丰富的、可交互的 Vue 用户界面
 - 适用场景：生成式 UI、Agent 工作流、AI Copilot、工具驱动型前端界面
 - 技术栈：Vue 3、TypeScript、Composition API、可扩展组件 Catalog
-- 协议兼容：默认面向 A2UI v0.9，仓库同时包含 v0.8 / v0.10 规范供参考
+- 协议兼容：已完整支持官方 A2UI v0.9 规范（含 Surface 管理、组件渲染、DataModel 数据绑定、函数调用等全部能力），仓库同时包含 v0.8 规范供参考
+- 版本对应：使用 A2UI v0.8 规范请安装 `a2ui-vue@0.8.x`；使用 A2UI v0.9 规范请安装 `a2ui-vue@0.9.x`
 
 ## 导航
 
 - [为什么选择 a2ui-vue？](#为什么选择-a2ui-vue)
 - [什么是 A2UI？](#什么是-a2ui)
 - [安装](#安装)
-- [三行代码快速接入](#三行代码快速接入)
+- [快速接入](#快速接入)
 - [适用场景](#适用场景)
 - [文档地图](#文档地图)
 - [常见问题](#常见问题)
@@ -65,29 +66,46 @@ pnpm add a2ui-vue
 
 > **前置要求**：Vue 3.4+、Node.js 18+
 
-## 三行代码快速接入
+## 快速接入
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
+import 'a2ui-vue/dist/a2ui-vue.css'
+
+const app = createApp(App)
+
+provideA2UI({
+  app,
+  catalog: DEFAULT_CATALOG,
+  theme: defaultTheme,
+})
+
+app.mount('#app')
+```
 
 ```vue
 <!-- App.vue -->
 <script setup lang="ts">
-import { provideA2UI, DEFAULT_CATALOG } from 'a2ui-vue'
-import 'a2ui-vue/dist/vue.css'
-
-provideA2UI({ catalog: DEFAULT_CATALOG })
-</script>
-```
-
-```vue
-<!-- YourPage.vue -->
-<script setup lang="ts">
-import { useMessageProcessor, A2UIRenderer } from 'a2ui-vue'
+import { computed } from 'vue'
+import { A2UISurface, useMessageProcessor } from 'a2ui-vue'
 
 const processor = useMessageProcessor()
-// 接入 Agent 消息：processor.processMessage(msg)
+
+// 接收 Agent 消息并渲染
+processor.processMessages(messages)
+
+const surfaces = computed(() => Array.from(processor.getSurfaces()))
 </script>
 
 <template>
-  <A2UIRenderer :surfaces="processor.surfaces" />
+  <A2UISurface
+    v-for="[surfaceId] in surfaces"
+    :key="surfaceId"
+    :surface-id="surfaceId"
+  />
 </template>
 ```
 
@@ -103,9 +121,9 @@ const processor = useMessageProcessor()
 | 主题 | 链接 |
 |------|------|
 | 项目简介 | [文档：简介](https://shawnwang15.github.io/a2ui-vue/) |
-| 快速上手 | [文档：快速上手](https://shawnwang15.github.io/a2ui-vue/guide/getting-started.html) |
-| 渲染器核心概念 | [文档：Vue Renderer](https://shawnwang15.github.io/a2ui-vue/guide/vue-renderer.html) |
-| 组件参考 | [文档：组件参考](https://shawnwang15.github.io/a2ui-vue/guide/components.html) |
+| 快速上手 | [文档：快速上手](https://shawnwang15.github.io/a2ui-vue/v0.9/guide/getting-started.html) |
+| 渲染器核心概念 | [文档：Vue Renderer](https://shawnwang15.github.io/a2ui-vue/v0.9/guide/vue-renderer.html) |
+| 组件参考 | [文档：组件参考](https://shawnwang15.github.io/a2ui-vue/v0.9/guide/components.html) |
 
 
 ## 常见问题
