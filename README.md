@@ -2,10 +2,10 @@
 # a2ui-vue
 
 
-[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.9.x-646cff.svg)](https://a2ui.org/)
+[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.9-646cff.svg)](https://a2ui.org/)
 [![docs](https://img.shields.io/badge/docs-online-brightgreen)](https://shawnwang15.github.io/a2ui-vue/en/)
 
-> **a2ui-vue** is a community **Vue 3 renderer** for the [A2UI (Agent-to-UI) open protocol](https://a2ui.org/).  
+> **a2ui-vue** is a community **Vue 3 renderer** for the [A2UI (Agent-to-UI) open protocol](https://a2ui.org/), fully supporting the official **A2UI v0.9** specification.  
 > It enables AI agents to express UI intent as structured JSON and have it rendered as rich, interactive components inside any Vue 3 application — with no HTML/CSS knowledge required by the agent.
 
 **[📖 Documentation](https://shawnwang15.github.io/a2ui-vue/en/)** · **[🌐 中文说明](README.zh-CN.md)**
@@ -20,14 +20,15 @@
 - Output: rich, interactive Vue user interfaces
 - Best for: generative UI, agent UX, AI copilots, tool-driven workflows, structured frontend rendering
 - Stack: Vue 3, TypeScript, Composition API, extensible component catalog
-- Compatibility: A2UI v0.9 (default). v0.8 / v0.10 specs are included in the repository for reference
+- Compatibility: Fully supports the official A2UI v0.9 specification (Surface management, component rendering, DataModel binding, function calls, and more). v0.8 specs are included in the repository for reference
+- Version mapping: Use `a2ui-vue@0.8.x` for A2UI v0.8 specification; use `a2ui-vue@0.9.x` for A2UI v0.9 specification
 
 ## Navigation
 
 - [Why a2ui-vue?](#why-a2ui-vue)
 - [What is A2UI?](#what-is-a2ui)
 - [Installation](#installation)
-- [Quick Start](#quick-start-3-lines)
+- [Quick Start](#quick-start)
 - [Use Cases](#use-cases)
 - [Documentation Map](#documentation-map)
 - [FAQ](#faq)
@@ -69,29 +70,46 @@ pnpm add a2ui-vue
 
 > **Requirements**: Vue 3.4+, Node.js 18+
 
-## Quick Start (3 lines)
+## Quick Start
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
+import 'a2ui-vue/dist/a2ui-vue.css'
+
+const app = createApp(App)
+
+provideA2UI({
+  app,
+  catalog: DEFAULT_CATALOG,
+  theme: defaultTheme,
+})
+
+app.mount('#app')
+```
 
 ```vue
 <!-- App.vue -->
 <script setup lang="ts">
-import { provideA2UI, DEFAULT_CATALOG } from 'a2ui-vue'
-import 'a2ui-vue/dist/vue.css'
-
-provideA2UI({ catalog: DEFAULT_CATALOG })
-</script>
-```
-
-```vue
-<!-- YourPage.vue -->
-<script setup lang="ts">
-import { useMessageProcessor, A2UIRenderer } from 'a2ui-vue'
+import { computed } from 'vue'
+import { A2UISurface, useMessageProcessor } from 'a2ui-vue'
 
 const processor = useMessageProcessor()
-// feed agent messages: processor.processMessage(msg)
+
+// Feed agent messages and render
+processor.processMessages(messages)
+
+const surfaces = computed(() => Array.from(processor.getSurfaces()))
 </script>
 
 <template>
-  <A2UIRenderer :surfaces="processor.surfaces" />
+  <A2UISurface
+    v-for="[surfaceId] in surfaces"
+    :key="surfaceId"
+    :surface-id="surfaceId"
+  />
 </template>
 ```
 
@@ -106,10 +124,10 @@ const processor = useMessageProcessor()
 
 | Topic | Link |
 |------|------|
-| Introduction | [Docs: Introduction](https://shawnwang15.github.io/a2ui-vue/) |
-| Quick Start | [Docs: Getting Started](https://shawnwang15.github.io/a2ui-vue/guide/getting-started.html) |
-| Renderer Concepts | [Docs: Vue Renderer](https://shawnwang15.github.io/a2ui-vue/guide/vue-renderer.html) |
-| Components | [Docs: Component Reference](https://shawnwang15.github.io/a2ui-vue/guide/components.html) |
+| Introduction | [Docs: Introduction](https://shawnwang15.github.io/a2ui-vue/en/) |
+| Quick Start | [Docs: Getting Started](https://shawnwang15.github.io/a2ui-vue/en/v0.9/guide/getting-started.html) |
+| Renderer Concepts | [Docs: Vue Renderer](https://shawnwang15.github.io/a2ui-vue/en/v0.9/guide/vue-renderer.html) |
+| Components | [Docs: Component Reference](https://shawnwang15.github.io/a2ui-vue/en/v0.9/guide/components.html) |
 
 ## FAQ
 
