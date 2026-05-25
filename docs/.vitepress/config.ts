@@ -1,4 +1,5 @@
 import { resolve } from 'node:path'
+import { writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
 import { demoblockPlugin, demoblockVitePlugin } from 'vitepress-theme-demoblock'
@@ -6,8 +7,57 @@ const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
 const vueRendererSrc = resolve(repoRoot, 'packages/vue-renderer/src')
 const webCoreV08Src = resolve(repoRoot, 'packages/web_core/src/v0_8')
 
+const LATEST_VERSION = 'v0.9'
+const SITE_BASE = '/a2ui-vue'
+
+// Pages that need version redirect
+const REDIRECT_PAGES = [
+  'guide/introduction',
+  'guide/getting-started',
+  'guide/node-a2ui',
+  'guide/vue-renderer',
+  'guide/components',
+  'samples/overview',
+  'samples/component-gallery',
+  'samples/contact-lookup',
+  'samples/restaurant-finder',
+]
+
+// Shared: build redirect target URL for a given page + locale
+function getRedirectTarget(locale: string, page: string) {
+  return locale
+    ? `${SITE_BASE}/${locale}/${LATEST_VERSION}/${page}.html`
+    : `${SITE_BASE}/${LATEST_VERSION}/${page}.html`
+}
+
+// Vite plugin: handles redirects in both dev server and production build
+function versionRedirectPlugin() {
+  return {
+    name: 'a2ui-version-redirect',
+    // Dev server: 302 redirect via middleware
+    configureServer(server: any) {
+      server.middlewares.use((req: any, res: any, next: any) => {
+        const url = req.url?.split('?')[0] ?? ''
+        for (const page of REDIRECT_PAGES) {
+          if (url === `${SITE_BASE}/${page}.html` || url === `${SITE_BASE}/${page}`) {
+            res.writeHead(302, { Location: getRedirectTarget('', page) })
+            res.end()
+            return
+          }
+          if (url === `${SITE_BASE}/en/${page}.html` || url === `${SITE_BASE}/en/${page}`) {
+            res.writeHead(302, { Location: getRedirectTarget('en', page) })
+            res.end()
+            return
+          }
+        }
+        next()
+      })
+    },
+  }
+}
+
 const viteConfig = {
-  plugins: [demoblockVitePlugin()],
+  plugins: [demoblockVitePlugin(), versionRedirectPlugin()],
   resolve: {
     alias: {
       '@': vueRendererSrc,
@@ -27,7 +77,6 @@ const viteConfig = {
 }
 
 const SITE_HOSTNAME = 'https://github.com/shawnwang15'
-const SITE_BASE = '/a2ui-vue'
 const SITE_URL = `${SITE_HOSTNAME}${SITE_BASE}`
 const OG_IMAGE = `${SITE_URL}/og-image.png`
 
@@ -340,5 +389,36 @@ export default defineConfig({
       message: 'Released under the MIT License.',
       copyright: 'Community Contributors',
     },
+  },
+
+  buildEnd(siteConfig) {
+    // Production build: generate static HTML redirect files (for GitHub Pages etc.)
+    const locales = ['', 'en']
+    for (const locale of locales) {
+      for (const page of REDIRECT_PAGES) {
+        const from = locale ? `${locale}/${page}` : page
+        const to = getRedirectTarget(locale, page)
+
+        const outFile = resolve(siteConfig.outDir, `${from}.html`)
+        const dir = resolve(outFile, '..')
+        if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+
+        const html = [
+          '<!DOCTYPE html>',
+          '<html>',
+          '<head>',
+          '  <meta charset="utf-8">',
+          `  <meta http-equiv="refresh" content="0;url=${to}">`,
+          `  <link rel="canonical" href="${to}">`,
+          '</head>',
+          '<body>',
+          `  <p>Redirecting to <a href="${to}">${to}</a></p>`,
+          '</body>',
+          '</html>',
+        ].join('\n')
+
+        writeFileSync(outFile, html)
+      }
+    }
   },
 })
