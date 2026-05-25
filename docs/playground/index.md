@@ -13,4 +13,6 @@ import A2UIPlayground from '../.vitepress/theme/components/A2UIPlayground.vue'
 
 通过 A2UI JSON 实时渲染组件。左侧直接编辑组件树，右侧会立即展示当前可成功解析的渲染结果。
 
-<A2UIPlayground />
+<ClientOnly>
+  <A2UIPlayground />
+</ClientOnly>
