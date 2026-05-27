@@ -10,17 +10,36 @@ A Vue 3 renderer for A2UI (Agent-to-UI) protocol.
 
 ![项目截图](images/gallery.jpeg)![项目截图](images/restaurants.jpeg)
 
-## Usage
+## Usage  
+
+```bash [npm]
+npm install a2ui-vue
+```
+
+### main.ts
+
+```ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
+import 'a2ui-vue/dist/a2ui-vue.css'
+
+const app = createApp(App)
+
+provideA2UI({
+  app,
+  catalog: DEFAULT_CATALOG,
+  theme: defaultTheme,
+})
+
+app.mount('#app')
+```
 
 ```vue
 <script setup lang="ts">
-import { A2UISurface, useMessageProcessor, provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue';
+import { A2UISurface, useMessageProcessor} from 'a2ui-vue';
 import 'a2ui-vue/dist/vue.css';
-// Provide A2UI configuration
-provideA2UI({
-  catalog: DEFAULT_CATALOG,
-  theme: defaultTheme,
-});
+
 
 const processor = useMessageProcessor();
 
