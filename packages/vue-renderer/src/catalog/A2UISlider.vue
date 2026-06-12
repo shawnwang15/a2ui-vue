@@ -15,24 +15,24 @@ const props = defineProps<{
   max: number | undefined;
 }>();
 
-const { theme, resolvePrimitive, getUniqueId, setData, getBindingPath } = useDynamicComponent(props);
+const { theme, bound, getUniqueId } = useDynamicComponent(props);
 
 const inputId = getUniqueId('a2ui-slider');
-const resolvedValue = computed(() => Number(resolvePrimitive(props.value) ?? 0));
-const resolvedLabel = computed(() => (props.label ? resolvePrimitive(props.label) : ''));
+const resolvedMin = computed(() => Number(bound.value.min ?? props.min ?? 0));
+const resolvedMax = computed(() => Number(bound.value.max ?? props.max ?? 100));
+const resolvedValue = computed(() => Number(bound.value.value ?? 0));
+const resolvedLabel = computed(() => (bound.value.label ?? '') as string);
 
 const percentComplete = computed(() => computePercentage(resolvedValue.value));
 
 function computePercentage(value: number): number {
-  const min = props.min ?? 0;
-  const max = props.max ?? 100;
+  const min = resolvedMin.value;
+  const max = resolvedMax.value;
   const range = max - min;
   return range > 0 ? Math.max(0, Math.min(100, ((value - min) / range) * 100)) : 0;
 }
 
 function handleInput(event: Event) {
-  const path = getBindingPath(props.value);
-
   if (!(event.target instanceof HTMLInputElement)) {
     return;
   }
@@ -43,8 +43,9 @@ function handleInput(event: Event) {
   // Inject CSS variable directly to avoid change detection lag/snapback
   event.target.style.setProperty('--slider-percent', percent + '%');
 
-  if (path) {
-    setData(props.component, path, newValue, props.surfaceId);
+  const setValue = bound.value.setValue;
+  if (typeof setValue === 'function') {
+    setValue(newValue);
   }
 }
 </script>
@@ -52,16 +53,19 @@ function handleInput(event: Event) {
 <template>
   <a2ui-slider>
     <section :class="theme.components.Slider.container">
-      <label :class="theme.components.Slider.label" :for="inputId">
-        {{ resolvedLabel }}
-      </label>
+      <div class="a2ui-slider-header">
+        <label v-if="resolvedLabel" :class="theme.components.Slider.label" :for="inputId">
+          {{ resolvedLabel }}
+        </label>
+        <span class="a2ui-slider-value">{{ resolvedValue }}</span>
+      </div>
 
       <input
         autocomplete="off"
         type="range"
         :value="resolvedValue"
-        :min="min"
-        :max="max"
+        :min="resolvedMin"
+        :max="resolvedMax"
         :id="inputId"
         @input="handleInput"
         :class="theme.components.Slider.element"
@@ -76,6 +80,13 @@ a2ui-slider {
   display: block;
   flex: v-bind(props.weight);
   width: 100%;
+}
+
+.a2ui-slider-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 input {

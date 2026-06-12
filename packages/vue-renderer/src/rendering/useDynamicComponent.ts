@@ -5,6 +5,7 @@ import type { A2uiClientAction, A2uiMessage } from '@a2ui/web_core/v0_9';
 import { useA2UIConfig } from '../config';
 import { useMessageProcessor } from '../data/processor';
 import type { VueComponentNode } from './catalog';
+import { useBinder } from './useBinder';
 
 let idCounter = 0;
 
@@ -29,6 +30,10 @@ export function useDynamicComponent<T extends VueComponentNode = VueComponentNod
   const { theme } = useA2UIConfig();
   const processor = useMessageProcessor();
 
+  // GenericBinder-backed reactive props (mirrors the Lit `A2uiController`).
+  // Additive: existing helpers below remain fully functional.
+  const { bound, resolveChildren } = useBinder(props);
+
   /**
    * Build a v0.9 `A2uiClientAction` from a component-side action descriptor
    * and forward it through the processor to any registered listener.
@@ -46,6 +51,17 @@ export function useDynamicComponent<T extends VueComponentNode = VueComponentNod
       }
     }
 
+    // v0.9 shape: action.functionCall is { call, args } where each arg is a
+    // DynamicValue. Resolve the args (data bindings / literals) into context.
+    if (a.functionCall) {
+      const args = a.functionCall.args as Record<string, unknown> | undefined;
+      if (args) {
+        for (const [key, value] of Object.entries(args)) {
+          context[key] = resolveDynamicValue(value);
+        }
+      }
+    }
+
     // v0.8 backward-compat: action.context is an array of { key, value } pairs
     if (Array.isArray(a.context)) {
       for (const item of a.context) {
@@ -53,8 +69,8 @@ export function useDynamicComponent<T extends VueComponentNode = VueComponentNod
       }
     }
 
+    // const name: string = a.event?.name ?? a.functionCall?.call ?? a.name ?? '';
     const name: string = a.event?.name ?? a.name ?? '';
-
     const clientAction: A2uiClientAction = {
       name,
       sourceComponentId: component.id,
@@ -166,6 +182,8 @@ export function useDynamicComponent<T extends VueComponentNode = VueComponentNod
   return {
     theme,
     processor,
+    bound,
+    resolveChildren,
     sendAction,
     resolveDynamicValue,
     resolvePrimitive,

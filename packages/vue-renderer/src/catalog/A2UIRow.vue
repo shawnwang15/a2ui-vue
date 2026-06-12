@@ -17,11 +17,11 @@ const props = defineProps<{
   justify?: RowJustify;
 }>();
 
-const { theme } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
 
 const classes = computed(() => {
-  const align = props.align ?? 'stretch';
-  const justify = props.justify ?? 'start';
+  const align = (bound.value.align ?? props.align ?? 'stretch') as RowAlign;
+  const justify = (bound.value.justify ?? props.justify ?? 'start') as RowJustify;
 
   return {
     ...theme.components.Row,

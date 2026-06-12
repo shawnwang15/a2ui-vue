@@ -1,0 +1,508 @@
+[
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "gallery-all-components",
+      "catalogId": "default"
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "gallery-all-components",
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "page-column"
+        },
+        {
+          "id": "page-column",
+          "component": "Column",
+          "children": ["header-title", "header-subtitle", "header-divider", "main-tabs", "footer-divider", "details-modal"],
+          "align": "stretch"
+        },
+        {
+          "id": "header-title",
+          "component": "Text",
+          "text": "Component Gallery",
+          "variant": "h2"
+        },
+        {
+          "id": "header-subtitle",
+          "component": "Text",
+          "text": {"path": "/subtitle"},
+          "variant": "caption"
+        },
+        {
+          "id": "header-divider",
+          "component": "Divider"
+        },
+
+        {
+          "id": "main-tabs",
+          "component": "Tabs",
+          "tabs": [
+            {"title": "Layout", "child": "tab-layout"},
+            {"title": "Media", "child": "tab-media"},
+            {"title": "Form", "child": "tab-form"}
+          ]
+        },
+
+        {
+          "id": "tab-layout",
+          "component": "Column",
+          "children": ["layout-row", "layout-divider", "layout-list-title", "layout-list", "text-samples-title", "text-samples"],
+          "align": "stretch"
+        },
+        {
+          "id": "layout-row",
+          "component": "Row",
+          "children": ["layout-card-a", "layout-card-b"],
+          "justify": "spaceBetween"
+        },
+        {
+          "id": "layout-card-a",
+          "component": "Card",
+          "child": "layout-card-a-text",
+          "weight": 1
+        },
+        {
+          "id": "layout-card-a-text",
+          "component": "Text",
+          "text": "Row + Card (weight 1)"
+        },
+        {
+          "id": "layout-card-b",
+          "component": "Card",
+          "child": "layout-card-b-text",
+          "weight": 1
+        },
+        {
+          "id": "layout-card-b-text",
+          "component": "Text",
+          "text": "Row + Card (weight 1)"
+        },
+        {
+          "id": "layout-divider",
+          "component": "Divider"
+        },
+        {
+          "id": "layout-list-title",
+          "component": "Text",
+          "text": "List",
+          "variant": "h3"
+        },
+        {
+          "id": "layout-list",
+          "component": "List",
+          "direction": "vertical",
+          "children": ["list-item-1", "list-item-2", "list-item-3"]
+        },
+        {
+          "id": "list-item-1",
+          "component": "Text",
+          "text": "First list item"
+        },
+        {
+          "id": "list-item-2",
+          "component": "Text",
+          "text": "Second list item"
+        },
+        {
+          "id": "list-item-3",
+          "component": "Card",
+          "child": "list-item-3-text"
+        },
+        {
+          "id": "list-item-3-text",
+          "component": "Text",
+          "text": "Third item wrapped in a Card"
+        },
+        {
+          "id": "text-samples-title",
+          "component": "Text",
+          "text": "Text variants",
+          "variant": "h3"
+        },
+        {
+          "id": "text-samples",
+          "component": "Column",
+          "children": ["text-h1", "text-h3", "text-body", "text-caption"],
+          "align": "start"
+        },
+        {
+          "id": "text-h1",
+          "component": "Text",
+          "text": "Heading 1",
+          "variant": "h1"
+        },
+        {
+          "id": "text-h3",
+          "component": "Text",
+          "text": "Heading 3",
+          "variant": "h3"
+        },
+        {
+          "id": "text-body",
+          "component": "Text",
+          "text": "Body text paragraph.",
+          "variant": "body"
+        },
+        {
+          "id": "text-caption",
+          "component": "Text",
+          "text": "Caption text",
+          "variant": "caption"
+        },
+
+        {
+          "id": "tab-media",
+          "component": "Column",
+          "children": ["media-image", "media-icons", "media-video-title", "media-video", "media-audio-title", "media-audio"],
+          "align": "stretch"
+        },
+        {
+          "id": "media-image",
+          "component": "Image",
+          "url": {"path": "/media/image"},
+          "altText": "Sample landscape",
+          "fit": "cover"
+        },
+        {
+          "id": "media-icons",
+          "component": "Row",
+          "children": ["icon-home", "icon-favorite", "icon-star", "icon-settings", "icon-search"],
+          "justify": "spaceAround",
+          "align": "center"
+        },
+        {
+          "id": "icon-home",
+          "component": "Icon",
+          "name": "home"
+        },
+        {
+          "id": "icon-favorite",
+          "component": "Icon",
+          "name": "favorite"
+        },
+        {
+          "id": "icon-star",
+          "component": "Icon",
+          "name": "star"
+        },
+        {
+          "id": "icon-settings",
+          "component": "Icon",
+          "name": "settings"
+        },
+        {
+          "id": "icon-search",
+          "component": "Icon",
+          "name": "search"
+        },
+        {
+          "id": "media-video-title",
+          "component": "Text",
+          "text": "Video",
+          "variant": "h3"
+        },
+        {
+          "id": "media-video",
+          "component": "Video",
+          "url": {"path": "/media/video"}
+        },
+        {
+          "id": "media-audio-title",
+          "component": "Text",
+          "text": "Audio",
+          "variant": "h3"
+        },
+        {
+          "id": "media-audio",
+          "component": "AudioPlayer",
+          "url": {"path": "/media/audio"}
+        },
+
+        {
+          "id": "tab-form",
+          "component": "Column",
+          "children": [
+            "field-name",
+            "field-age",
+            "field-password",
+            "field-bio",
+            "field-meeting-time",
+            "field-rating",
+            "field-department",
+            "field-skills",
+            "field-newsletter",
+            "field-terms",
+            "submit-btn"
+          ],
+          "align": "stretch"
+        },
+        {
+          "id": "field-name",
+          "component": "TextField",
+          "label": "Full Name",
+          "variant": "shortText",
+          "value": {"path": "/form/name"},
+          "checks": [
+            {
+              "condition": {
+                "call": "required",
+                "args": {"value": {"path": "/form/name"}},
+                "returnType": "boolean"
+              },
+              "message": "Name is required"
+            }
+          ]
+        },
+        {
+          "id": "field-age",
+          "component": "TextField",
+          "label": "Age",
+          "variant": "number",
+          "value": {"path": "/form/age"},
+          "checks": [
+            {
+              "condition": {
+                "call": "numeric",
+                "args": {"value": {"path": "/form/age"}, "min": 18, "max": 120},
+                "returnType": "boolean"
+              },
+              "message": "Age must be between 18 and 120"
+            }
+          ]
+        },
+        {
+          "id": "field-password",
+          "component": "TextField",
+          "label": "Password",
+          "variant": "obscured",
+          "value": {"path": "/form/password"},
+          "checks": [
+            {
+              "condition": {
+                "call": "length",
+                "args": {"value": {"path": "/form/password"}, "min": 8},
+                "returnType": "boolean"
+              },
+              "message": "Password must be at least 8 characters"
+            }
+          ]
+        },
+        {
+          "id": "field-bio",
+          "component": "TextField",
+          "label": "Bio",
+          "variant": "longText",
+          "value": {"path": "/form/bio"}
+        },
+        {
+          "id": "field-meeting-time",
+          "component": "DateTimeInput",
+          "label": "Next Meeting",
+          "enableDate": true,
+          "enableTime": true,
+          "value": {"path": "/form/meetingTime"}
+        },
+        {
+          "id": "field-rating",
+          "component": "Slider",
+          "label": "Priority",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "value": {"path": "/form/rating"}
+        },
+        {
+          "id": "field-department",
+          "component": "ChoicePicker",
+          "label": "Department",
+          "variant": "mutuallyExclusive",
+          "options": [
+            {"label": "Engineering", "value": "engineering"},
+            {"label": "Design", "value": "design"},
+            {"label": "Product", "value": "product"},
+            {"label": "Marketing", "value": "marketing"}
+          ],
+          "value": {"path": "/form/department"}
+        },
+        {
+          "id": "field-skills",
+          "component": "ChoicePicker",
+          "label": "Skills",
+          "variant": "multipleSelection",
+          "displayStyle": "chips",
+          "filterable": true,
+          "options": [
+            {"label": "TypeScript", "value": "typescript"},
+            {"label": "Vue", "value": "vue"},
+            {"label": "Python", "value": "python"},
+            {"label": "Go", "value": "go"}
+          ],
+          "value": {"path": "/form/skills"},
+          "checks": [
+            {
+              "condition": {
+                "call": "length",
+                "args": {"value": {"path": "/form/skills"}, "min": 1},
+                "returnType": "boolean"
+              },
+              "message": "Select at least one skill"
+            }
+          ]
+        },
+        {
+          "id": "field-newsletter",
+          "component": "CheckBox",
+          "label": "Subscribe to newsletter",
+          "value": {"path": "/form/newsletter"}
+        },
+        {
+          "id": "field-terms",
+          "component": "CheckBox",
+          "label": "I accept the terms and conditions",
+          "value": {"path": "/form/acceptTerms"},
+          "checks": [
+            {
+              "condition": {
+                "call": "equals",
+                "args": {"a": {"path": "/form/acceptTerms"}, "b": true},
+                "returnType": "boolean"
+              },
+              "message": "You must accept the terms"
+            }
+          ]
+        },
+        {
+          "id": "submit-btn",
+          "component": "Button",
+          "child": "submit-btn-text",
+          "variant": "primary",
+          "checks": [
+            {
+              "condition": {
+                "call": "required",
+                "args": {"value": {"path": "/form/name"}},
+                "returnType": "boolean"
+              },
+              "message": "Name is required"
+            },
+            {
+              "condition": {
+                "call": "equals",
+                "args": {"a": {"path": "/form/acceptTerms"}, "b": true},
+                "returnType": "boolean"
+              },
+              "message": "You must accept the terms"
+            }
+          ],
+          "action": {
+            "event": {
+              "name": "submit_gallery_form",
+              "context": {
+                "name": {"path": "/form/name"},
+                "age": {"path": "/form/age"},
+                "department": {"path": "/form/department"},
+                "skills": {"path": "/form/skills"},
+                "newsletter": {"path": "/form/newsletter"}
+              }
+            }
+          }
+        },
+        {
+          "id": "submit-btn-text",
+          "component": "Text",
+          "text": "Submit"
+        },
+
+        {
+          "id": "footer-divider",
+          "component": "Divider"
+        },
+        {
+          "id": "details-modal",
+          "component": "Modal",
+          "trigger": "modal-trigger-btn",
+          "content": "modal-content-card"
+        },
+        {
+          "id": "modal-trigger-btn",
+          "component": "Button",
+          "child": "modal-trigger-text",
+          "action": {
+            "functionCall": {
+              "call": "open_modal",
+              "args": {}
+            }
+          }
+        },
+        {
+          "id": "modal-trigger-text",
+          "component": "Text",
+          "text": "Open details (Modal)"
+        },
+        {
+          "id": "modal-content-card",
+          "component": "Card",
+          "child": "modal-content-column"
+        },
+        {
+          "id": "modal-content-column",
+          "component": "Column",
+          "children": ["modal-title", "modal-image", "modal-body"],
+          "align": "stretch"
+        },
+        {
+          "id": "modal-title",
+          "component": "Text",
+          "text": "Modal Details",
+          "variant": "h3"
+        },
+        {
+          "id": "modal-image",
+          "component": "Image",
+          "url": {"path": "/media/image"},
+          "altText": "Modal image",
+          "fit": "cover"
+        },
+        {
+          "id": "modal-body",
+          "component": "Text",
+          "text": "This content is rendered inside a Modal dialog.",
+          "variant": "body"
+        }
+      ]
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateDataModel": {
+      "surfaceId": "gallery-all-components",
+      "path": "/",
+      "value": {
+        "subtitle": "A complete showcase of every default-catalog component.",
+        "media": {
+          "image": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=300&fit=crop",
+          "video": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          "audio": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        },
+        "form": {
+          "name": "Ada Lovelace",
+          "age": "36",
+          "password": "",
+          "bio": "Mathematician and writer.",
+          "meetingTime": "",
+          "rating": 3,
+          "department": ["engineering"],
+          "skills": ["typescript", "vue"],
+          "newsletter": true,
+          "acceptTerms": false
+        }
+      }
+    }
+  }
+]

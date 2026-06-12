@@ -63,6 +63,12 @@ export class MessageProcessor {
       });
       surface.componentsModel.onDeleted.subscribe(() => this.bump());
       surface.dataModel.subscribe('/', () => this.bump());
+      // Forward actions dispatched through the v0.9 surface (e.g. by
+      // GenericBinder's resolved ACTION callbacks) to the renderer's own
+      // dispatch pipeline so sample apps receive them via `onEvent`.
+      surface.onAction.subscribe((action) => {
+        void this.dispatch(action);
+      });
       this.bump();
     });
     next.onSurfaceDeleted(() => this.bump());
@@ -142,16 +148,17 @@ export class MessageProcessor {
     if (!sid) return null;
     const surface = this.getSurface(sid);
     if (!surface) return null;
-    const functions = surface.catalog.functions;
-    const functionInvoker = functions
-      ? (name: string, args: Record<string, any>, ctx: DataContext, abortSignal?: AbortSignal) => {
-          const fn = functions.get(name);
-          if (!fn) throw new Error(`A2UI function not registered: ${name}`);
-          return fn(args, ctx, abortSignal);
-        }
-      : undefined;
+    // const functions = surface.catalog.functions;
+    // const functionInvoker = functions
+    //   ? (name: string, args: Record<string, any>, ctx: DataContext, abortSignal?: AbortSignal) => {
+    //       const fn = functions.get(name);
+    //       if (!fn) throw new Error(`A2UI function not registered: ${name}`);
+    //       // @ts-ignore
+    //       return fn(args, ctx, abortSignal);
+    //     }
+    //   : undefined;
     const basePath = node.dataContextPath || '/';
-    const dataContext = new DataContext(surface.dataModel, basePath, functionInvoker);
+    const dataContext = new DataContext(surface, basePath);
     try {
       const sig = dataContext.resolveSignal(value as any);
       return sig.value;

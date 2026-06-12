@@ -227,11 +227,11 @@ export const theme: A2UITheme = {
         'typography-f-sf': true,
         'typography-v-r': true,
         'typography-w-400': true,
-        'layout-flx-1': true,
         'typography-sz-ll': true,
       },
       container: {
-        'layout-dsp-iflex': true,
+        'layout-dsp-flexhor': true,
+        'layout-fw-w': true,
         'layout-al-c': true,
       },
     },

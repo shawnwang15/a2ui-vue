@@ -13,7 +13,11 @@ const props = defineProps<{
   direction?: 'vertical' | 'horizontal';
 }>();
 
-const { theme } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
+
+const direction = computed<'vertical' | 'horizontal'>(
+  () => (bound.value.direction ?? props.direction ?? 'vertical') as 'vertical' | 'horizontal',
+);
 
 const children = computed<VueComponentNode[]>(
   () => ((props.component.properties as any).children as VueComponentNode[]) ?? [],
@@ -22,7 +26,7 @@ const children = computed<VueComponentNode[]>(
 
 <template>
   <a2ui-list
-    :data-direction="direction ?? 'vertical'"
+    :data-direction="direction"
   >
     <section :class="theme.components.List" :style="theme.additionalStyles?.List">
       <div class="a2ui-list-item" v-for="(child, index) in children" :key="child.id || index">

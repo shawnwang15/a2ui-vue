@@ -17,11 +17,11 @@ const props = defineProps<{
   justify?: ColumnJustify;
 }>();
 
-const { theme } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
 
 const classes = computed(() => {
-  const align = props.align ?? 'stretch';
-  const justify = props.justify ?? 'start';
+  const align = (bound.value.align ?? props.align ?? 'stretch') as ColumnAlign;
+  const justify = (bound.value.justify ?? props.justify ?? 'start') as ColumnJustify;
 
   return {
     ...theme.components.Column,
@@ -52,6 +52,7 @@ const children = computed<VueComponentNode[]>(
 a2ui-column {
   display: flex;
   flex: v-bind(props.weight);
+  align-self: stretch;
 }
 
 section {
