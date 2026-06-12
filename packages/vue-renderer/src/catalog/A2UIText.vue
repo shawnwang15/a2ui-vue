@@ -28,15 +28,15 @@ const props = defineProps<{
   variant: TextVariant | null;
 }>();
 
-const { theme, resolvePrimitive } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
 const markdownRenderer = useMarkdownRenderer();
 
 const resolvedText = computed(() => {
-  const variant = props.variant;
-  let value = resolvePrimitive(props.text);
+  const variant = (bound.value.variant ?? props.variant) as TextVariant | null;
+  let value: unknown = bound.value.text ?? null;
 
   if (value == null) {
-    return '(empty)';
+    value = '';
   }
 
   switch (variant) {
@@ -64,13 +64,13 @@ const resolvedText = computed(() => {
   }
 
   return DOMPurify.sanitize(markdownRenderer.render(
-      value,
+      String(value),
       Styles.appendToAll(theme.markdown ?? {}, ['ol', 'ul', 'li'], {}),
   ));
 });
 
 const classes = computed(() => {
-  const variant = props.variant;
+  const variant = (bound.value.variant ?? props.variant) as TextVariant | null;
 
   return Styles.merge(
     theme.components.Text.all,
@@ -79,7 +79,7 @@ const classes = computed(() => {
 });
 
 const additionalStyles = computed(() => {
-  const variant = props.variant;
+  const variant = (bound.value.variant ?? props.variant) as TextVariant | null;
   const styles = theme.additionalStyles?.Text;
 
   if (!styles) {

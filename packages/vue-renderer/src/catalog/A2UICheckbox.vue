@@ -13,20 +13,23 @@ const props = defineProps<{
   label: unknown;
 }>();
 
-const { theme, resolvePrimitive, getUniqueId, setData, getBindingPath } = useDynamicComponent(props);
+const { theme, bound, getUniqueId } = useDynamicComponent(props);
 
-const inputChecked = computed(() => Boolean(resolvePrimitive(props.value) ?? false));
-const resolvedLabel = computed(() => resolvePrimitive(props.label));
+const inputChecked = computed(() => Boolean(bound.value.value ?? false));
+const resolvedLabel = computed(() => bound.value.label as string | null);
+const isInvalid = computed(() => bound.value.isValid === false);
+const validationErrors = computed<string[]>(() => bound.value.validationErrors ?? []);
+const firstError = computed<string | null>(() =>
+  isInvalid.value && validationErrors.value.length ? validationErrors.value[0] : null,
+);
 const inputId = getUniqueId('a2ui-checkbox');
 
 function handleChange(event: Event) {
-  const path = getBindingPath(props.value);
-
-  if (!(event.target instanceof HTMLInputElement) || !path) {
-    return;
+  if (!(event.target instanceof HTMLInputElement)) return;
+  const setValue = bound.value.setValue;
+  if (typeof setValue === 'function') {
+    setValue(event.target.checked);
   }
-
-  setData(props.component, path, event.target.checked, props.surfaceId);
 }
 </script>
 
@@ -36,18 +39,25 @@ function handleChange(event: Event) {
       :class="theme.components.CheckBox.container"
       :style="theme.additionalStyles?.CheckBox"
     >
-      <input
-        autocomplete="off"
-        type="checkbox"
-        :id="inputId"
-        :checked="inputChecked"
-        :class="theme.components.CheckBox.element"
-        @change="handleChange"
-      />
+      <div class="a2ui-checkbox-row">
+        <input
+          autocomplete="off"
+          type="checkbox"
+          :id="inputId"
+          :checked="inputChecked"
+          :aria-invalid="isInvalid"
+          :class="theme.components.CheckBox.element"
+          @change="handleChange"
+        />
 
-      <label :for="inputId" :class="theme.components.CheckBox.label">
-        {{ resolvedLabel }}
-      </label>
+        <label :for="inputId" :class="theme.components.CheckBox.label">
+          {{ resolvedLabel }}
+        </label>
+      </div>
+
+      <p v-if="firstError" class="a2ui-checkbox-errors">
+        {{ firstError }}
+      </p>
     </section>
   </a2ui-checkbox>
 </template>
@@ -60,8 +70,20 @@ a2ui-checkbox {
   overflow: auto;
 }
 
+.a2ui-checkbox-row {
+  display: flex;
+  align-items: center;
+}
+
 input {
-  display: block;
-  width: 100%;
+  flex: none;
+  width: auto;
+}
+
+.a2ui-checkbox-errors {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  color: #b3261e;
+  font-size: 0.75rem;
 }
 </style>

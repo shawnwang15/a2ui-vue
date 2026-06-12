@@ -1,0 +1,408 @@
+[
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "gallery-contact-card",
+      "catalogId": "default"
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "gallery-contact-card",
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "main-column"
+        },
+        {
+          "id": "main-column",
+          "component": "Column",
+          "children": [
+            "avatar-image",
+            "name",
+            "title",
+            "divider",
+            "contact-info",
+            "actions",
+            "form-divider",
+            "form-section"
+          ],
+          "align": "center"
+        },
+        {
+          "id": "avatar-image",
+          "component": "Image",
+          "url": {"path": "/avatar"},
+          "fit": "cover"
+        },
+        {
+          "id": "name",
+          "component": "Text",
+          "text": {"path": "/name"},
+          "weight": 700
+        },
+        {
+          "id": "title",
+          "component": "Text",
+          "text": {"path": "/title"}
+        },
+        {
+          "id": "divider",
+          "component": "Divider"
+        },
+        {
+          "id": "contact-info",
+          "component": "Column",
+          "children": ["phone-row", "email-row", "location-row"],
+          "align": "center"
+        },
+        {
+          "id": "phone-row",
+          "component": "Row",
+          "children": ["phone-icon", "phone-text"],
+          "align": "center"
+        },
+        {
+          "id": "phone-icon",
+          "component": "Icon",
+          "name": "phone"
+        },
+        {
+          "id": "phone-text",
+          "component": "Text",
+          "text": {"path": "/phone"}
+        },
+        {
+          "id": "email-row",
+          "component": "Row",
+          "children": ["email-icon", "email-text"],
+          "align": "center"
+        },
+        {
+          "id": "email-icon",
+          "component": "Icon",
+          "name": "mail"
+        },
+        {
+          "id": "email-text",
+          "component": "Text",
+          "text": {"path": "/email"}
+        },
+        {
+          "id": "location-row",
+          "component": "Row",
+          "children": ["location-icon", "location-text"],
+          "align": "center"
+        },
+        {
+          "id": "location-icon",
+          "component": "Icon",
+          "name": "locationOn"
+        },
+        {
+          "id": "location-text",
+          "component": "Text",
+          "text": {"path": "/location"}
+        },
+        {
+          "id": "actions",
+          "component": "Row",
+          "children": ["call-btn", "message-btn"]
+        },
+        {
+          "id": "call-btn",
+          "component": "Button",
+          "child": "call-btn-text",
+          "action": {
+            "functionCall": {
+              "call": "call",
+              "args": {"number": {"path": "/phone"}}
+            }
+          }
+        },
+        {
+          "id": "call-btn-text",
+          "component": "Text",
+          "text": "Call"
+        },
+        {
+          "id": "message-btn",
+          "component": "Button",
+          "child": "message-btn-text",
+          "action": {
+            "event": {
+              "name": "submit_form",
+              "context": {
+                "itemId": "123"
+              }
+            }
+          }
+        },
+        {
+          "id": "message-btn-text",
+          "component": "Text",
+          "text": "Message"
+        },
+        {
+          "id": "form-divider",
+          "component": "Divider"
+        },
+        {
+          "id": "form-section",
+          "component": "Column",
+          "children": [
+            "form-title",
+            "field-name",
+            "field-age",
+            "field-password",
+            "field-bio",
+            "field-meeting-time",
+            "field-rating",
+            "field-department",
+            "field-skills",
+            "field-newsletter",
+            "field-terms",
+            "submit-btn"
+          ],
+          "align": "stretch"
+        },
+        {
+          "id": "form-title",
+          "component": "Text",
+          "text": "Edit Contact",
+          "variant": "h3"
+        },
+        {
+          "id": "field-name",
+          "component": "TextField",
+          "label": "Full Name",
+          "variant": "shortText",
+          "value": {"path": "/form/name"},
+          "checks": [
+            {
+              "condition": {
+                "call": "required",
+                "args": {"value": {"path": "/form/name"}},
+                "returnType": "boolean"
+              },
+              "message": "Name is required"
+            }
+          ]
+        },
+        {
+          "id": "field-age",
+          "component": "TextField",
+          "label": "Age",
+          "variant": "number",
+          "value": {"path": "/form/age"},
+          "checks": [
+            {
+              "condition": {
+                "call": "numeric",
+                "args": {"value": {"path": "/form/age"}, "min": 18, "max": 120},
+                "returnType": "boolean"
+              },
+              "message": "Age must be between 18 and 120"
+            }
+          ]
+        },
+        {
+          "id": "field-password",
+          "component": "TextField",
+          "label": "Password",
+          "variant": "obscured",
+          "value": {"path": "/form/password"},
+          "checks": [
+            {
+              "condition": {
+                "call": "length",
+                "args": {"value": {"path": "/form/password"}, "min": 8},
+                "returnType": "boolean"
+              },
+              "message": "Password must be at least 8 characters"
+            }
+          ]
+        },
+        {
+          "id": "field-bio",
+          "component": "TextField",
+          "label": "Bio",
+          "variant": "longText",
+          "value": {"path": "/form/bio"}
+        },
+        {
+          "id": "field-meeting-time",
+          "component": "DateTimeInput",
+          "label": "Next Meeting",
+          "enableDate": true,
+          "enableTime": true,
+          "value": {"path": "/form/meetingTime"}
+        },
+        {
+          "id": "field-rating",
+          "component": "Slider",
+          "label": "Priority",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "value": {"path": "/form/rating"}
+        },
+        {
+          "id": "field-department",
+          "component": "ChoicePicker",
+          "label": "Department",
+          "variant": "mutuallyExclusive",
+          "options": [
+            {"label": "Engineering", "value": "engineering"},
+            {"label": "Design", "value": "design"},
+            {"label": "Product", "value": "product"},
+            {"label": "Marketing", "value": "marketing"}
+          ],
+          "value": {"path": "/form/department"}
+        },
+        {
+          "id": "field-skills",
+          "component": "ChoicePicker",
+          "label": "Skills",
+          "variant": "multipleSelection",
+          "displayStyle": "chips",
+          "filterable": true,
+          "options": [
+            {"label": "TypeScript", "value": "typescript"},
+            {"label": "Vue", "value": "vue"},
+            {"label": "Python", "value": "python"},
+            {"label": "Go", "value": "go"}
+          ],
+          "value": {"path": "/form/skills"},
+          "checks": [
+            {
+              "condition": {
+                "call": "length",
+                "args": {"value": {"path": "/form/skills"}, "min": 1},
+                "returnType": "boolean"
+              },
+              "message": "Select at least one skill"
+            }
+          ]
+        },
+        {
+          "id": "field-newsletter",
+          "component": "CheckBox",
+          "label": "Subscribe to newsletter",
+          "value": {"path": "/form/newsletter"}
+        },
+        {
+          "id": "field-terms",
+          "component": "CheckBox",
+          "label": "I accept the terms and conditions",
+          "value": {"path": "/form/acceptTerms"},
+          "checks": [
+            {
+              "condition": {
+                "call": "equals",
+                "args": {"a": {"path": "/form/acceptTerms"}, "b": true},
+                "returnType": "boolean"
+              },
+              "message": "You must accept the terms"
+            }
+          ]
+        },
+        {
+          "id": "submit-btn",
+          "component": "Button",
+          "child": "submit-btn-text",
+          "variant": "primary",
+          "checks": [
+            {
+              "condition": {
+                "call": "required",
+                "args": {"value": {"path": "/form/name"}},
+                "returnType": "boolean"
+              },
+              "message": "Name is required"
+            },
+            {
+              "condition": {
+                "call": "numeric",
+                "args": {"value": {"path": "/form/age"}, "min": 18, "max": 120},
+                "returnType": "boolean"
+              },
+              "message": "Age must be between 18 and 120"
+            },
+            {
+              "condition": {
+                "call": "length",
+                "args": {"value": {"path": "/form/password"}, "min": 8},
+                "returnType": "boolean"
+              },
+              "message": "Password must be at least 8 characters"
+            },
+            {
+              "condition": {
+                "call": "length",
+                "args": {"value": {"path": "/form/skills"}, "min": 1},
+                "returnType": "boolean"
+              },
+              "message": "Select at least one skill"
+            },
+            {
+              "condition": {
+                "call": "equals",
+                "args": {"a": {"path": "/form/acceptTerms"}, "b": true},
+                "returnType": "boolean"
+              },
+              "message": "You must accept the terms"
+            }
+          ],
+          "action": {
+            "event": {
+              "name": "submit_contact_form",
+              "context": {
+                "name": {"path": "/form/name"},
+                "age": {"path": "/form/age"},
+                "department": {"path": "/form/department"},
+                "skills": {"path": "/form/skills"},
+                "newsletter": {"path": "/form/newsletter"},
+                "password": {"path": "/form/password"}
+              }
+            }
+          }
+        },
+        {
+          "id": "submit-btn-text",
+          "component": "Text",
+          "text": "Save"
+        }
+      ]
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateDataModel": {
+      "surfaceId": "gallery-contact-card",
+      "path": "/",
+      "value": {
+        "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+        "name": "David Park",
+        "title": "Engineering Manager",
+        "phone": "+1 (555) 234-5678",
+        "email": "david.park@company.com",
+        "location": "San Francisco, CA",
+        "form": {
+          "name": "David Park",
+          "age": "34",
+          "password": "",
+          "bio": "Engineering manager passionate about developer tooling.",
+          "meetingTime": "",
+          "rating": 3,
+          "department": ["engineering"],
+          "skills": ["typescript", "vue"],
+          "newsletter": true,
+          "acceptTerms": false
+        }
+      }
+    }
+  }
+]

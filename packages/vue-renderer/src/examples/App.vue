@@ -9,6 +9,7 @@ import DividerExample from './components/DividerExample.vue';
 import RowExample from './components/RowExample.vue';
 import ColumnExample from './components/ColumnExample.vue';
 import ListExample from './components/ListExample.vue';
+import ContactCardExample from './components/ContactCardExample.vue';
 
 const currentExample = ref('all');
 
@@ -21,6 +22,7 @@ const examples = [
   { name: 'column', label: 'Column', component: ColumnExample },
   { name: 'list', label: 'List', component: ListExample },
   { name: 'divider', label: 'Divider', component: DividerExample },
+  { name: 'contact-card', label: 'Contact Card', component: ContactCardExample },
 ];
 
 function setExample(name: string) {
@@ -55,6 +57,7 @@ function setExample(name: string) {
         <ColumnExample />
         <ListExample />
         <DividerExample />
+        <ContactCardExample />
       </template>
       <component v-else :is="examples.find(e => e.name === currentExample)?.component" />
     </div>

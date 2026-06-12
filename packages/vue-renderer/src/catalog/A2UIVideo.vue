@@ -12,9 +12,9 @@ const props = defineProps<{
   url: unknown;
 }>();
 
-const { theme, resolvePrimitive } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
 
-const resolvedUrl = computed(() => resolvePrimitive(props.url));
+const resolvedUrl = computed(() => bound.value.url ?? null);
 </script>
 
 <template>

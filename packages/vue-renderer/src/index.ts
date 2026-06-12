@@ -11,6 +11,9 @@ export type { A2AServerPayload, A2TextPayload, A2DataPayload } from './data/type
 // Rendering exports
 export { default as A2UiRenderer } from './rendering/A2UIRenderer.vue';
 export { useDynamicComponent } from './rendering/useDynamicComponent';
+export { useBinder } from './rendering/useBinder';
+export type { ChildRef, UseBinderResult } from './rendering/useBinder';
+export { SCHEMA_REGISTRY } from './rendering/schemas';
 export { buildCoreCatalog } from './rendering/catalog';
 export type {
   Catalog,

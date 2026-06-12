@@ -45,7 +45,6 @@ const buttonClasses = computed(() => {
           v-for="(tab, index) in tabs"
           :key="index"
           @click="selectedIndex = index"
-          :disabled="selectedIndex === index"
           :class="buttonClasses[index]"
         >
           {{ resolvePrimitive(tab.title) }}

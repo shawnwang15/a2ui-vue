@@ -14,19 +14,26 @@ const props = defineProps<{
   weight: string | number;
   url: unknown;
   altText: unknown;
-  variant: ImageVariant | null;
+  description?: unknown;
+  variant?: ImageVariant;
+  fit?: unknown;
 }>();
 
-const { theme, resolvePrimitive } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
 
-const resolvedUrl = computed(() => resolvePrimitive(props.url));
+const resolvedUrl = computed(() => bound.value.url ?? null);
 const resolvedAltText = computed(() => {
-  const raw = props.altText;
-  return raw ? resolvePrimitive(raw) : '';
+  const value = bound.value.description ?? bound.value.altText;
+  return (value ?? '') as string;
 });
+const objectFit = computed(() => (bound.value.fit ?? 'fill') as string);
+
+const variantClass = computed<ImageVariant | undefined>(
+  () => ((bound.value.variant ?? props.variant) as ImageVariant | null) || undefined,
+);
 
 const classes = computed(() => {
-  const variant = props.variant;
+  const variant = (bound.value.variant ?? props.variant) as ImageVariant | null;
 
   return Styles.merge(
     theme.components.Image.all,
@@ -38,7 +45,12 @@ const classes = computed(() => {
 <template>
   <a2ui-image>
     <section v-if="resolvedUrl" :class="classes" :style="theme.additionalStyles?.Image">
-      <img :src="resolvedUrl as string" :alt="(resolvedAltText as string) ?? ''" />
+      <img
+        :src="resolvedUrl as string"
+        :alt="resolvedAltText"
+        :class="variantClass"
+        :style="`object-fit: ${objectFit}`"
+      />
     </section>
   </a2ui-image>
 </template>

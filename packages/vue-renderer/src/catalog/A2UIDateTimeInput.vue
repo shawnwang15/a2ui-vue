@@ -13,23 +13,23 @@ const props = defineProps<{
   enableDate: boolean;
   enableTime: boolean;
   label?: unknown;
-  min?: unknown;
-  max?: unknown;
 }>();
 
-const { theme, resolvePrimitive, getUniqueId, setData, getBindingPath } = useDynamicComponent(props);
+const { theme, bound, getUniqueId } = useDynamicComponent(props);
 
 const inputId = getUniqueId('a2ui-datetime-input');
 
-const inputType = computed(() => {
-  const enableDate = props.enableDate;
-  const enableTime = props.enableTime;
+const enableDate = computed(() => Boolean(bound.value.enableDate ?? props.enableDate));
+const enableTime = computed(() => Boolean(bound.value.enableTime ?? props.enableTime));
 
-  if (enableDate && enableTime) {
+const enabled = computed(() => enableDate.value || enableTime.value);
+
+const inputType = computed(() => {
+  if (enableDate.value && enableTime.value) {
     return 'datetime-local';
-  } else if (enableDate) {
+  } else if (enableDate.value) {
     return 'date';
-  } else if (enableTime) {
+  } else if (enableTime.value) {
     return 'time';
   }
 
@@ -38,8 +38,9 @@ const inputType = computed(() => {
 
 const label = computed(() => {
   // Use provided label if available
-  if (props.label) {
-    return resolvePrimitive(props.label);
+  const provided = bound.value.label ?? props.label;
+  if (provided) {
+    return provided as string;
   }
   const type = inputType.value;
 
@@ -52,47 +53,49 @@ const label = computed(() => {
   return 'Date & Time';
 });
 
-const inputValue = computed(() => {
-  const type = inputType.value;
-  const parsed = (resolvePrimitive(props.value) as string) || '';
-  const date = parsed ? new Date(parsed) : null;
+/**
+ * Normalizes an incoming ISO or partial date/time value into a format accepted
+ * by HTML5 inputs. HTML5 date/time/datetime-local inputs reject timezone
+ * indicators (`Z`, `+00:00`) and trailing seconds/milliseconds in `.value` and
+ * will reset to empty. This strips those without shifting timezones.
+ */
+function normalizeDateTimeValue(value: string | null | undefined, type: string): string {
+  if (!value) return '';
 
-  if (!date || isNaN(date.getTime())) {
-    return '';
+  const hasT = value.includes('T');
+  const split = value.split('T');
+
+  const datePart = (hasT ? split[0] : value)?.substring(0, 10) ?? '';
+  const timePart = (hasT ? split[1] : value)?.substring(0, 5) ?? '';
+
+  switch (type) {
+    case 'date':
+      return datePart;
+    case 'time':
+      return timePart;
+    case 'datetime-local':
+      return `${datePart}T${timePart}`;
   }
-
-  const year = padNumber(date.getFullYear());
-  const month = padNumber(date.getMonth() + 1);
-  const day = padNumber(date.getDate());
-  const hours = padNumber(date.getHours());
-  const minutes = padNumber(date.getMinutes());
-
-  if (type === 'date') {
-    return `${year}-${month}-${day}`;
-  } else if (type === 'time') {
-    return `${hours}:${minutes}`;
-  }
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-});
-
-function padNumber(value: number) {
-  return value.toString().padStart(2, '0');
+  return '';
 }
 
-function handleInput(event: Event) {
-  const path = getBindingPath(props.value);
+const inputValue = computed(() =>
+  normalizeDateTimeValue((bound.value.value as string | null | undefined) ?? '', inputType.value),
+);
 
-  if (!(event.target instanceof HTMLInputElement) || !path) {
+function handleInput(event: Event) {
+  if (!(event.target instanceof HTMLInputElement)) {
     return;
   }
-
-  setData(props.component, path, event.target.value, props.surfaceId);
+  const setValue = bound.value.setValue;
+  if (typeof setValue === 'function') {
+    setValue(event.target.value);
+  }
 }
 </script>
 
 <template>
-  <a2ui-datetime-input>
+  <a2ui-datetime-input v-if="enabled">
     <section :class="theme.components.DateTimeInput.container">
       <label :for="inputId" :class="theme.components.DateTimeInput.label">
         {{ label }}

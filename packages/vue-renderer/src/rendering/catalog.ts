@@ -7,6 +7,7 @@ import {
   type ComponentApi,
 } from '@a2ui/web_core/v0_9';
 import { BASIC_FUNCTIONS } from '@a2ui/web_core/v0_9/basic_catalog';
+import { SCHEMA_REGISTRY } from './schemas';
 
 /**
  * A v0.9 ComponentApi specialised for the Vue renderer.
@@ -67,7 +68,9 @@ export interface Catalog {
 export function buildCoreCatalog(catalog: Catalog, id: string = 'default'): CoreCatalog<VueComponentApi> {
   const components: VueComponentApi[] = Object.keys(catalog).map((name) => ({
     name,
-    schema: z.any(),
+    // Prefer the real v0.9 schema (needed by GenericBinder's schema scraping);
+    // fall back to a permissive schema for custom component types.
+    schema: SCHEMA_REGISTRY[name] ?? z.any(),
   }));
   // Register basic v0.9 functions (formatString, formatDate, arithmetic, etc.)
   // so that DataContext.resolveSignal can evaluate `{ call: ..., args: ... }`.

@@ -9,16 +9,19 @@ const props = defineProps<{
   component: VueComponentNode;
   weight: string | number;
   url: unknown;
+  description?: unknown;
 }>();
 
-const { theme, resolvePrimitive } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
 
-const resolvedUrl = computed(() => resolvePrimitive(props.url));
+const resolvedUrl = computed(() => bound.value.url ?? null);
+const resolvedDescription = computed(() => (bound.value.description ?? null) as string | null);
 </script>
 
 <template>
   <a2ui-audio>
     <section v-if="resolvedUrl" :class="theme.components.AudioPlayer" :style="theme.additionalStyles?.AudioPlayer">
+      <p v-if="resolvedDescription" class="a2ui-audio-description">{{ resolvedDescription }}</p>
       <audio is="audio" controls :src="resolvedUrl as string" />
     </section>
   </a2ui-audio>
