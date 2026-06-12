@@ -7,6 +7,12 @@
 UI 生成速度受模型、网络影响，且因模型能力差异，生成的 UI 可能略有不同。
 :::
 
+## 效果预览
+
+下面是一段联系人卡片的 A2UI 消息流（`contact-card.json`）经 `<A2UISurface>` 渲染后的实时效果，包含资料卡片与可交互的编辑表单。点击按钮即可在底部看到对应的 Action 回调（与在 `vue-renderer` 示例工程中运行时完全一致）：
+
+<ContactCardDemo />
+
 ## 视频演示
 
 <div class="video-placeholder">
