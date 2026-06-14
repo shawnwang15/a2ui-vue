@@ -24,11 +24,6 @@ import { A2uiSchemaManager, BasicCatalog, VERSION_0_9 } from '@a2ui/agent-sdk';
 import { RestaurantAgent } from './agent.js';
 import { createServer, buildAgentCard, attachHandlers } from './server.js';
 
-if (!process.env['LLM_API_KEY'] && !process.env['OPENAI_API_KEY'] && !process.env['DASHSCOPE_API_KEY']) {
-  console.error('Error: set one of LLM_API_KEY / OPENAI_API_KEY / DASHSCOPE_API_KEY in .env .');
-  process.exit(1);
-}
-
 const HOST = process.env['HOST'] ?? 'localhost';
 const PORT = parseInt(process.env['PORT'] ?? '10002', 10);
 const BASE_URL = `http://${HOST}:${PORT}`;

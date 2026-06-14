@@ -1,7 +1,7 @@
 {
   "name": "@a2ui/agent-restaurant-finder",
   "version": "0.1.0",
-  "description": "Restaurant Finder agent — Node.js port of the Python ADK sample",
+  "description": "Restaurant Finder agent — Mastra-based Node.js port of the Python ADK sample",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -11,13 +11,10 @@
   },
   "dependencies": {
     "@a2ui/agent-sdk": "workspace:*",
+    "@mastra/core": "^1.42.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "@ai-sdk/anthropic": "^1.0.0",
-    "@ai-sdk/google": "^1.0.0",
-    "@ai-sdk/openai": "^1.0.0",
-    "ai": "^4.0.0",
     "zod": "^3.0.0"
   },
   "devDependencies": {
