@@ -38,9 +38,10 @@ function handleClick() {
 <template>
   <a2ui-button>
     <button
-      :class="theme.components.Button"
+      :class="[theme.components.Button, { 'a2ui-invalid': isInvalid }]"
       :style="theme.additionalStyles?.Button"
       :disabled="isInvalid"
+      :aria-invalid="isInvalid"
       @click="handleClick"
     >
       <A2UIRenderer
@@ -49,8 +50,9 @@ function handleClick() {
         :component="child"
       />
     </button>
-    <p v-if="validationErrors.length" class="a2ui-button-errors">
-      {{ validationErrors.join(', ') }}
+    <p v-if="validationErrors.length" class="a2ui-field-error" role="alert">
+
+      <span>{{ validationErrors.join('，') }}</span>
     </p>
   </a2ui-button>
 </template>
@@ -62,9 +64,24 @@ a2ui-button {
   min-height: 0;
 }
 
-.a2ui-button-errors {
-  margin: 4px 0 0;
-  color: #b3261e;
+/* Invalid (disabled) button: muted appearance only. */
+button.a2ui-invalid {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.a2ui-field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 6px 0 0;
+  color: #d92d20;
   font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.a2ui-field-error__icon {
+  flex: none;
+  line-height: 1.1;
 }
 </style>

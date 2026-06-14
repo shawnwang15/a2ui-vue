@@ -13,6 +13,7 @@ const props = defineProps<{
   label?: unknown;
   min: number | undefined;
   max: number | undefined;
+  step?: number;
 }>();
 
 const { theme, bound, getUniqueId } = useDynamicComponent(props);
@@ -20,8 +21,17 @@ const { theme, bound, getUniqueId } = useDynamicComponent(props);
 const inputId = getUniqueId('a2ui-slider');
 const resolvedMin = computed(() => Number(bound.value.min ?? props.min ?? 0));
 const resolvedMax = computed(() => Number(bound.value.max ?? props.max ?? 100));
+const resolvedStep = computed(() => {
+  const step = bound.value.step ?? props.step;
+  return step == null ? undefined : Number(step);
+});
 const resolvedValue = computed(() => Number(bound.value.value ?? 0));
 const resolvedLabel = computed(() => (bound.value.label ?? '') as string);
+const isInvalid = computed(() => bound.value.isValid === false);
+const validationErrors = computed<string[]>(() => bound.value.validationErrors ?? []);
+const firstError = computed<string | null>(() =>
+  isInvalid.value && validationErrors.value.length ? validationErrors.value[0] : null,
+);
 
 const percentComplete = computed(() => computePercentage(resolvedValue.value));
 
@@ -66,11 +76,18 @@ function handleInput(event: Event) {
         :value="resolvedValue"
         :min="resolvedMin"
         :max="resolvedMax"
+        :step="resolvedStep"
         :id="inputId"
+        :aria-invalid="isInvalid"
         @input="handleInput"
-        :class="theme.components.Slider.element"
+        :class="[theme.components.Slider.element, { 'a2ui-invalid': isInvalid }]"
         :style="[theme.additionalStyles?.Slider, { '--slider-percent': percentComplete + '%' }]"
       />
+
+      <p v-if="firstError" class="a2ui-field-error" role="alert">
+
+        <span>{{ firstError }}</span>
+      </p>
     </section>
   </a2ui-slider>
 </template>
@@ -93,5 +110,25 @@ input {
   display: block;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Invalid state: red accent on the track/thumb. */
+input.a2ui-invalid {
+  accent-color: #d92d20;
+}
+
+.a2ui-field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 5px 0 0;
+  color: #d92d20;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.a2ui-field-error__icon {
+  flex: none;
+  line-height: 1.1;
 }
 </style>
