@@ -7,6 +7,10 @@ Users enter a name or keyword in the frontend, the Agent calls tools to query co
 UI generation speed depends on model and network conditions, and generated UIs may vary slightly based on model capabilities.
 :::
 
+## Live Preview
+
+See the embedded renderer demo in the docs: [Contact Form](/en/v0.9/samples/contact-form/).
+
 ## Video Demo
 
 <div class="video-placeholder">

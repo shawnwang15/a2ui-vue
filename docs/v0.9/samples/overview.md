@@ -1,10 +1,10 @@
 ---
-description: 三个完整全栈 Demo——组件画廊、联系人查询、餐厅推荐，展示 a2ui-vue 与真实 AI Agent 集成的完整流程。
+description: 五个示例——全栈 Demo（组件画廊、联系人查询、餐厅推荐）与 vue-renderer 嵌入演示（组件列表、联系人表单），展示 a2ui-vue 的完整集成方式。
 ---
 
 # 示例总览
 
-本节提供三个完整的 Demo 应用，展示如何将 `a2ui-vue` 与真实的 AI Agent 集成。
+本节提供全栈 Demo 与 `vue-renderer` 嵌入演示，展示如何将 `a2ui-vue` 与真实的 AI Agent 集成，或在文档中直接预览 JSON 渲染效果。
 
 如果你想先直接编辑 A2UI JSON 并观察渲染结果，可以前往 [Playground](/playground/)。
 
@@ -17,7 +17,9 @@ UI 生成速度受模型、网络影响，且因模型能力差异，生成的 U
 | Demo               | 说明                                          | Agent 端口 | 客户端端口 |
 |--------------------|---------------------------------------------|-----------|-----------|
 | [组件画廊](/v0.9/samples/component-gallery) | 展示所有内置 A2UI 组件     | `10005`   | `4000`    |
+| [组件列表示例](/v0.9/samples/component-list/) | `vue-renderer` 嵌入演示：全组件 JSON 渲染 | —         | —         |
 | [联系人查询](/v0.9/samples/contact-lookup)  | LLM 驱动的联系人搜索与展示  | `10003`   | `4000`    |
+| [联系人表单](/v0.9/samples/contact-form/) | `vue-renderer` 嵌入演示：联系人卡片与表单 | —         | —         |
 | [餐厅查找](/v0.9/samples/restaurant-finder) | LLM 驱动的餐厅推荐与展示   | `10002`   | `4000`    |
 
 ## Monorepo 目录对应关系

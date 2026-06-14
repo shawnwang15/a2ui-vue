@@ -1,0 +1,247 @@
+/**
+ * Isolates embedded A2UI demos from VitePress `.vp-doc` typography/button rules
+ * and supplies the default palette tokens used by the vue-renderer examples app.
+ */
+
+.vp-doc .a2ui-example-section {
+  color-scheme: light;
+
+  --n-100: #ffffff;
+  --n-99: #fcfcfc;
+  --n-98: #f9f9f9;
+  --n-95: #f1f1f1;
+  --n-90: #e2e2e2;
+  --n-80: #c6c6c6;
+  --n-70: #ababab;
+  --n-60: #919191;
+  --n-50: #777777;
+  --n-40: #5e5e5e;
+  --n-35: #525252;
+  --n-30: #474747;
+  --n-25: #3b3b3b;
+  --n-20: #303030;
+  --n-15: #262626;
+  --n-10: #1b1b1b;
+  --n-5: #111111;
+  --n-0: #000000;
+
+  --p-100: #ffffff;
+  --p-99: #fffbff;
+  --p-98: #fcf8ff;
+  --p-95: #f2efff;
+  --p-90: #e1e0ff;
+  --p-80: #c0c1ff;
+  --p-70: #a0a3ff;
+  --p-60: #8487ea;
+  --p-50: #6a6dcd;
+  --p-40: #5154b3;
+  --p-35: #4447a6;
+  --p-30: #383b99;
+  --p-25: #2c2e8d;
+  --p-20: #202182;
+  --p-15: #131178;
+  --p-10: #06006c;
+  --p-5: #03004d;
+  --p-0: #000000;
+
+  --s-100: #ffffff;
+  --s-99: #fffbff;
+  --s-98: #fcf8ff;
+  --s-95: #f2efff;
+  --s-90: #e2e0f9;
+  --s-80: #c6c4dd;
+  --s-70: #aaa9c1;
+  --s-60: #8f8fa5;
+  --s-50: #75758b;
+  --s-40: #5d5c72;
+  --s-35: #515165;
+  --s-30: #454559;
+  --s-25: #393a4d;
+  --s-20: #2e2f42;
+  --s-15: #242537;
+  --s-10: #191a2c;
+  --s-5: #0f0f21;
+  --s-0: #000000;
+
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  --font-family-flex: 'Outfit', var(--font-family);
+  --font-family-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  font-family: var(--font-family);
+  line-height: normal;
+}
+
+.vp-doc .a2ui-example-section *,
+.vp-doc .a2ui-example-section *::before,
+.vp-doc .a2ui-example-section *::after {
+  box-sizing: border-box;
+}
+
+.vp-doc .a2ui-example-section a2ui-surface {
+  display: flex;
+  width: 100%;
+}
+
+/* Undo VitePress doc typography inside the live demo. */
+.vp-doc .a2ui-example-section :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  p:not(.a2ui-text-field-errors):not(.a2ui-checkbox-errors):not(.a2ui-button-errors),
+  ul,
+  ol,
+  li
+) {
+  margin: unset;
+  padding: unset;
+  border: unset;
+  font: unset;
+  color: unset;
+  letter-spacing: unset;
+  text-transform: unset;
+}
+
+/* Validation hints — must match vue-renderer catalog components. */
+.vp-doc .a2ui-example-section :is(
+  .a2ui-text-field-errors,
+  .a2ui-checkbox-errors,
+  .a2ui-button-errors
+) {
+  flex-basis: 100%;
+  width: 100%;
+  min-width: 0;
+  margin: 4px 0 0;
+  color: #b3261e !important;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.vp-doc .a2ui-example-section a2ui-text :is(h1, h2, h3, h4, h5, p) {
+  margin: 0;
+  padding: 0;
+}
+
+/* Tab bar: `.vp-doc button` otherwise collapses labels into "LayoutMediaForm". */
+.vp-doc .a2ui-example-section a2ui-tabs .a2ui-tabs__bar {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+  width: auto;
+  max-width: 100%;
+  padding: 4px;
+  margin: 0;
+  border: none;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.05);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.vp-doc .a2ui-example-section a2ui-tabs .a2ui-tabs__tab {
+  appearance: none;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: auto !important;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 8px 18px !important;
+  border: none !important;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #475569;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.vp-doc .a2ui-example-section a2ui-tabs .a2ui-tabs__tab:hover {
+  color: #1e293b;
+  background: rgba(15, 23, 42, 0.06);
+}
+
+.vp-doc .a2ui-example-section a2ui-tabs .a2ui-tabs__tab--selected,
+.vp-doc .a2ui-example-section a2ui-tabs .a2ui-tabs__tab--selected:hover {
+  color: #ffffff !important;
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%) !important;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+}
+
+.vp-doc .a2ui-example-section a2ui-tabs .a2ui-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vp-doc .a2ui-example-section a2ui-tabs .a2ui-tabs__panel {
+  min-width: 0;
+}
+
+/* Layout primitives */
+.vp-doc .a2ui-example-section a2ui-row {
+  display: flex;
+  min-width: 0;
+}
+
+.vp-doc .a2ui-example-section a2ui-row > section {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100%;
+  min-height: 0;
+}
+
+.vp-doc .a2ui-example-section a2ui-column {
+  display: flex;
+  min-width: 0;
+}
+
+.vp-doc .a2ui-example-section a2ui-column > section {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100%;
+  min-height: 0;
+}
+
+.vp-doc .a2ui-example-section a2ui-card > section > * {
+  height: auto;
+  width: 100%;
+}
+
+.vp-doc .a2ui-example-section a2ui-icon .material-symbol {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Catalog buttons (not tab controls). */
+.vp-doc .a2ui-example-section a2ui-button button {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
+}
+
+.vp-doc .a2ui-example-section a2ui-divider hr {
+  margin: 0;
+  border: none;
+  height: 1px;
+  background: #ccc;
+}
+
+.vp-doc .a2ui-example-section .a2ui-example-action {
+  margin-top: 12px;
+  color: #2e7d32;
+  font-size: 14px;
+  line-height: 1.5;
+}

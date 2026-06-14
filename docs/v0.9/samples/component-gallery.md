@@ -8,9 +8,7 @@
 
 ## 效果预览
 
-下面是 `component-gallery.json` 消息流经 `<A2UISurface>` 渲染后的实时效果，与在 `vue-renderer` 示例工程中运行时完全一致：
-
-<ComponentGalleryDemo />
+可在文档中直接查看嵌入演示：[组件列表示例](/v0.9/samples/component-list/)。
 
 ## 视频演示
 

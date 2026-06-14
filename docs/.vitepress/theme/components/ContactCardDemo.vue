@@ -71,6 +71,7 @@ onUnmounted(() => {
   border-radius: 8px;
   background: #ffffff;
   color: #333;
+  color-scheme: light;
 }
 
 .a2ui-example-demo {

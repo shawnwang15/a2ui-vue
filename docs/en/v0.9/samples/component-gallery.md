@@ -3,6 +3,10 @@
 **Component Gallery** is a static, non-LLM Agent that requires no API Key to run.  
 It showcases the appearance and interactive behavior of all built-in `a2ui-vue` components, making it the best starting point for understanding the A2UI component system.
 
+## Live Preview
+
+See the embedded renderer demo in the docs: [Component List](/en/v0.9/samples/component-list/).
+
 ## Video Demo
 
 <div class="video-placeholder">
