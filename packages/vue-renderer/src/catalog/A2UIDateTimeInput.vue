@@ -13,6 +13,8 @@ const props = defineProps<{
   enableDate: boolean;
   enableTime: boolean;
   label?: unknown;
+  min?: unknown;
+  max?: unknown;
 }>();
 
 const { theme, bound, getUniqueId } = useDynamicComponent(props);
@@ -83,6 +85,21 @@ const inputValue = computed(() =>
   normalizeDateTimeValue((bound.value.value as string | null | undefined) ?? '', inputType.value),
 );
 
+const inputMin = computed(() => {
+  const raw = (bound.value.min ?? props.min) as string | null | undefined;
+  return raw ? normalizeDateTimeValue(raw, inputType.value) : undefined;
+});
+const inputMax = computed(() => {
+  const raw = (bound.value.max ?? props.max) as string | null | undefined;
+  return raw ? normalizeDateTimeValue(raw, inputType.value) : undefined;
+});
+
+const isInvalid = computed(() => bound.value.isValid === false);
+const validationErrors = computed<string[]>(() => bound.value.validationErrors ?? []);
+const firstError = computed<string | null>(() =>
+  isInvalid.value && validationErrors.value.length ? validationErrors.value[0] : null,
+);
+
 function handleInput(event: Event) {
   if (!(event.target instanceof HTMLInputElement)) {
     return;
@@ -105,11 +122,19 @@ function handleInput(event: Event) {
         autocomplete="off"
         :type="inputType"
         :id="inputId"
-        :class="theme.components.DateTimeInput.element"
+        :class="[theme.components.DateTimeInput.element, { 'a2ui-invalid': isInvalid }]"
         :style="theme.additionalStyles?.DateTimeInput"
         :value="inputValue"
+        :min="inputMin"
+        :max="inputMax"
+        :aria-invalid="isInvalid"
         @input="handleInput"
       />
+
+      <p v-if="firstError" class="a2ui-field-error" role="alert">
+
+        <span>{{ firstError }}</span>
+      </p>
     </section>
   </a2ui-datetime-input>
 </template>
@@ -126,5 +151,38 @@ input {
   display: block;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Invalid state: clear red border, soft red fill and focus halo. */
+input.a2ui-invalid {
+  border: 1.5px solid #d92d20 !important;
+  background-color: #fef3f2 !important;
+  animation: a2ui-invalid-shake 0.28s ease-in-out;
+}
+
+input.a2ui-invalid:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(217, 45, 32, 0.18) !important;
+}
+
+.a2ui-field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 5px 0 0;
+  color: #d92d20;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.a2ui-field-error__icon {
+  flex: none;
+  line-height: 1.1;
+}
+
+@keyframes a2ui-invalid-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
 }
 </style>

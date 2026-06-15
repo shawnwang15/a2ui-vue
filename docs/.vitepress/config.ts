@@ -5,6 +5,7 @@ import { defineConfig } from 'vitepress'
 import { demoblockPlugin, demoblockVitePlugin } from 'vitepress-theme-demoblock'
 const repoRoot = fileURLToPath(new URL('../..', import.meta.url))
 const vueRendererSrc = resolve(repoRoot, 'packages/vue-renderer/src')
+const vueRendererEntry = resolve(vueRendererSrc, 'index.ts')
 const webCoreV08Src = resolve(repoRoot, 'packages/web_core/src/v0_8')
 
 const LATEST_VERSION = 'v0.9'
@@ -16,10 +17,13 @@ const REDIRECT_PAGES = [
   'guide/getting-started',
   'guide/node-a2ui',
   'guide/vue-renderer',
+  'guide/custom-components',
   'guide/components',
   'samples/overview',
   'samples/component-gallery',
+  'samples/component-list',
   'samples/contact-lookup',
+  'samples/contact-form',
   'samples/restaurant-finder',
 ]
 
@@ -61,6 +65,8 @@ const viteConfig = {
   resolve: {
     alias: {
       '@': vueRendererSrc,
+      // Use renderer source in docs so embedded demos match the examples app.
+      'a2ui-vue': vueRendererEntry,
       '@a2ui/web_core/v0_8': resolve(webCoreV08Src, 'index.ts'),
       '@a2ui/web_core/types/types': resolve(webCoreV08Src, 'types/types.ts'),
       '@a2ui/web_core/types/primitives': resolve(webCoreV08Src, 'types/primitives.ts'),
@@ -158,7 +164,8 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/a2ui-vue/logo.svg' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap', rel: 'stylesheet' }],
+    ['link', { href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@100..900&display=swap', rel: 'stylesheet' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle,add,arrow_back,arrow_drop_down,arrow_forward,attach_file,calendar_today,call,camera,check,check_circle,close,communication,content_copy,dark_mode,delete,download,draw,edit,error,event,favorite,favorite_off,folder,help,home,info,light_mode,location_on,lock,lock_open,mail,menu,mobile_layout,more_horiz,more_vert,notifications,notifications_off,payment,pen_size_1,person,phone,photo,print,progress_activity,rectangle,refresh,search,send,settings,share,shopping_cart,star,star_half,star_off,upload,visibility,visibility_off,warning' }],
     // Open Graph
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'a2ui-vue' }],
@@ -217,6 +224,14 @@ export default defineConfig({
                 { text: '组件参考', link: '/v0.9/guide/components' },
               ],
             },
+            {
+              text: '自定义组件',
+              items: [
+                { text: '概述', link: '/v0.9/guide/custom-components/' },
+                { text: '动作组件示例', link: '/v0.9/guide/custom-components/action-button' },
+                { text: '输入组件示例', link: '/v0.9/guide/custom-components/text-field' },
+              ],
+            },
           ],
           '/v0.9/samples/': [
             {
@@ -224,7 +239,9 @@ export default defineConfig({
               items: [
                 { text: '总览', link: '/v0.9/samples/overview' },
                 { text: '组件画廊', link: '/v0.9/samples/component-gallery' },
+                { text: '组件列表示例', link: '/v0.9/samples/component-list/' },
                 { text: '联系人查询', link: '/v0.9/samples/contact-lookup' },
+                { text: '联系人表单', link: '/v0.9/samples/contact-form/' },
                 { text: '餐厅查找', link: '/v0.9/samples/restaurant-finder' },
               ],
             },
@@ -314,6 +331,14 @@ export default defineConfig({
                 { text: 'Component Reference', link: '/en/v0.9/guide/components' },
               ],
             },
+            {
+              text: 'Custom Components',
+              items: [
+                { text: 'Overview', link: '/en/v0.9/guide/custom-components/' },
+                { text: 'Action Button Example', link: '/en/v0.9/guide/custom-components/action-button' },
+                { text: 'Text Field Example', link: '/en/v0.9/guide/custom-components/text-field' },
+              ],
+            },
           ],
           '/en/v0.9/samples/': [
             {
@@ -321,7 +346,9 @@ export default defineConfig({
               items: [
                 { text: 'Overview', link: '/en/v0.9/samples/overview' },
                 { text: 'Component Gallery', link: '/en/v0.9/samples/component-gallery' },
+                { text: 'Component List', link: '/en/v0.9/samples/component-list/' },
                 { text: 'Contact Lookup', link: '/en/v0.9/samples/contact-lookup' },
+                { text: 'Contact Form', link: '/en/v0.9/samples/contact-form/' },
                 { text: 'Restaurant Finder', link: '/en/v0.9/samples/restaurant-finder' },
               ],
             },

@@ -46,17 +46,21 @@ function handleChange(event: Event) {
           :id="inputId"
           :checked="inputChecked"
           :aria-invalid="isInvalid"
-          :class="theme.components.CheckBox.element"
+          :class="[theme.components.CheckBox.element, { 'a2ui-invalid': isInvalid }]"
           @change="handleChange"
         />
 
-        <label :for="inputId" :class="theme.components.CheckBox.label">
+        <label
+          :for="inputId"
+          :class="[theme.components.CheckBox.label, { 'a2ui-invalid-label': isInvalid }]"
+        >
           {{ resolvedLabel }}
         </label>
       </div>
 
-      <p v-if="firstError" class="a2ui-checkbox-errors">
-        {{ firstError }}
+      <p v-if="firstError" class="a2ui-field-error" role="alert">
+
+        <span>{{ firstError }}</span>
       </p>
     </section>
   </a2ui-checkbox>
@@ -80,10 +84,35 @@ input {
   width: auto;
 }
 
-.a2ui-checkbox-errors {
+/* Invalid state: red-accented checkbox and label. */
+input.a2ui-invalid {
+  accent-color: #d92d20;
+  animation: a2ui-invalid-shake 0.28s ease-in-out;
+}
+
+.a2ui-invalid-label {
+  color: #d92d20;
+}
+
+.a2ui-field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
   flex-basis: 100%;
-  margin: 4px 0 0;
-  color: #b3261e;
+  margin: 5px 0 0;
+  color: #d92d20;
   font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.a2ui-field-error__icon {
+  flex: none;
+  line-height: 1.1;
+}
+
+@keyframes a2ui-invalid-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
 }
 </style>

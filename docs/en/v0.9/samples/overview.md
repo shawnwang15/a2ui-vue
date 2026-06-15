@@ -1,10 +1,10 @@
 ---
-description: a2ui-vue(A2UI、a2ui) Three full-stack demo apps — Component Gallery, Contact Lookup, and Restaurant Finder — showing end-to-end a2ui-vue integration with real AI agents.
+description: Five samples — full-stack demos (Component Gallery, Contact Lookup, Restaurant Finder) and vue-renderer embeds (Component List, Contact Form) showing how to integrate a2ui-vue end to end.
 ---
 
 # Samples Overview
 
-This section provides three complete demo applications showing how to integrate `a2ui-vue` with real AI Agents.
+This section provides full-stack demos and `vue-renderer` embedded previews showing how to integrate `a2ui-vue` with real AI Agents, or preview JSON rendering directly in the docs.
 
 If you want to edit A2UI JSON directly and observe the rendering result, head to the [Playground](/en/playground/).
 
@@ -17,7 +17,9 @@ UI generation speed depends on model and network conditions, and generated UIs m
 | Demo               | Description                                          | Agent Port | Client Port |
 |--------------------|---------------------------------------------|-----------|-----------|
 | [Component Gallery](/en/v0.9/samples/component-gallery) | Showcases all built-in A2UI components | `10005`   | `4000`    |
+| [Component List](/en/v0.9/samples/component-list/) | `vue-renderer` embed: full-component JSON render | —         | —         |
 | [Contact Lookup](/en/v0.9/samples/contact-lookup)  | LLM-driven contact search and display  | `10003`   | `4000`    |
+| [Contact Form](/en/v0.9/samples/contact-form/) | `vue-renderer` embed: contact card and form | —         | —         |
 | [Restaurant Finder](/en/v0.9/samples/restaurant-finder) | LLM-driven restaurant recommendation and display | `10002`   | `4000`    |
 
 ## Monorepo Directory Mapping

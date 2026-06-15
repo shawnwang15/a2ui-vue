@@ -34,6 +34,15 @@ const resolvedLabel = computed(
 );
 const isMulti = computed(() => bound.value.variant === 'multipleSelection');
 const filterable = computed(() => Boolean(bound.value.filterable));
+const isChips = computed(
+  () => (bound.value.displayStyle ?? props.displayStyle) === 'chips',
+);
+
+const isInvalid = computed(() => bound.value.isValid === false);
+const validationErrors = computed<string[]>(() => bound.value.validationErrors ?? []);
+const firstError = computed<string | null>(() =>
+  isInvalid.value && validationErrors.value.length ? validationErrors.value[0] : null,
+);
 
 const selected = computed<string[]>(() =>
   Array.isArray(bound.value.value) ? (bound.value.value as string[]) : [],
@@ -106,12 +115,45 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleOutside));
         {{ resolvedLabel }}
       </label>
 
-      <div ref="rootEl" class="a2ui-choice-picker-dropdown">
+      <!-- Chips display style: render options as inline toggleable pills. -->
+      <div
+        v-if="isChips"
+        class="a2ui-choice-picker-chips"
+        :class="{ 'a2ui-invalid': isInvalid }"
+        role="listbox"
+        :aria-invalid="isInvalid"
+      >
+        <input
+          v-if="filterable"
+          type="text"
+          class="a2ui-choice-picker-filter chips-filter"
+          placeholder="Filter options..."
+          aria-label="Filter options"
+          :value="filter"
+          @input="filter = ($event.target as HTMLInputElement).value"
+        />
+        <button
+          v-for="option in options"
+          :key="option.value"
+          type="button"
+          class="a2ui-choice-picker-chip"
+          :class="{ selected: isSelected(option.value) }"
+          role="option"
+          :aria-selected="isSelected(option.value)"
+          @click="toggle(option.value)"
+        >
+          {{ option.label }}
+        </button>
+        <span v-if="!options.length" class="a2ui-choice-picker-empty">No options</span>
+      </div>
+
+      <div v-else ref="rootEl" class="a2ui-choice-picker-dropdown">
         <button
           type="button"
           class="a2ui-choice-picker-trigger"
-          :class="{ open }"
+          :class="{ open, 'a2ui-invalid': isInvalid }"
           :aria-expanded="open"
+          :aria-invalid="isInvalid"
           aria-haspopup="listbox"
           @click="toggleOpen"
         >
@@ -160,6 +202,11 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleOutside));
           </ul>
         </div>
       </div>
+
+      <p v-if="firstError" class="a2ui-field-error" role="alert">
+
+        <span>{{ firstError }}</span>
+      </p>
     </section>
   </a2ui-choice-picker>
 </template>
@@ -278,5 +325,88 @@ a2ui-choice-picker {
   padding: 8px 10px;
   color: #999;
   font-size: 0.875rem;
+}
+
+.a2ui-choice-picker-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.a2ui-choice-picker-chips .chips-filter {
+  flex: 1 1 120px;
+  min-width: 120px;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.a2ui-choice-picker-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  background-color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: #333;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.a2ui-choice-picker-chip:hover {
+  border-color: #999;
+}
+
+.a2ui-choice-picker-chip.selected {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
+/* Invalid state: red border on the trigger / chips container. */
+.a2ui-choice-picker-trigger.a2ui-invalid {
+  border-color: #d92d20;
+  background-color: #fef3f2;
+  animation: a2ui-invalid-shake 0.28s ease-in-out;
+}
+
+.a2ui-choice-picker-trigger.a2ui-invalid:hover {
+  border-color: #d92d20;
+}
+
+.a2ui-choice-picker-chips.a2ui-invalid {
+  padding: 6px;
+  border: 1.5px dashed #d92d20;
+  border-radius: 8px;
+  background-color: #fef3f2;
+  animation: a2ui-invalid-shake 0.28s ease-in-out;
+}
+
+.a2ui-field-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 5px 0 0;
+  color: #d92d20;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.a2ui-field-error__icon {
+  flex: none;
+  line-height: 1.1;
+}
+
+@keyframes a2ui-invalid-shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
 }
 </style>

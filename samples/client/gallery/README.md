@@ -11,16 +11,20 @@ Vue 3 implementation of the A2UI Component Gallery.
 ## Getting Started
 
 1. Install dependencies:
+
 ```bash
-npm install
+pnpm install
 ```
 
 2. Start the development server:
+
 ```bash
-npm run dev
+pnpm dev
 ```
 
 3. Open http://localhost:4000 in your browser
+
+The gallery registers the standard basic catalog id: `https://a2ui.org/specification/v0_9/basic_catalog.json`
 
 ## Components Showcased
 

@@ -13,17 +13,10 @@
 // limitations under the License.
 
 /**
- * Restaurant Finder agent — TypeScript port of agent.py
- *
- * Uses the Vercel AI SDK with tool calling.
+ * Restaurant Finder agent — Mastra-based implementation.
  */
 
-import { streamText , tool } from 'ai';
-import type { LanguageModel } from 'ai';
-import { createOpenAI } from '@ai-sdk/openai';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { createAnthropic } from '@ai-sdk/anthropic';
-import { z } from 'zod';
+import { Agent } from '@mastra/core/agent';
 import {
   A2uiSchemaManager,
   BasicCatalog,
@@ -33,8 +26,9 @@ import {
   A2UI_OPEN_TAG,
   A2UI_CLOSE_TAG,
 } from '@a2ui/agent-sdk';
-import { getRestaurants } from './tools.js';
 import { ROLE_DESCRIPTION, UI_DESCRIPTION, getTextPrompt } from './promptBuilder.js';
+import { createGetRestaurantsTool } from './mastraTools.js';
+import { resolveMastraModel } from './modelConfig.js';
 import type { WirePart } from './server.js';
 
 function toWirePart(part: {
@@ -57,62 +51,13 @@ function toWirePart(part: {
 
 export class RestaurantAgent {
   private readonly schemaManager: A2uiSchemaManager | null;
-  private readonly model: LanguageModel;
+  private readonly mastraAgent: Agent;
   private readonly systemPrompt: string;
-
-  private static resolveModel(): LanguageModel {
-    console.log('[Env check]', {
-      series: process.env['LLM_MODEL_SERIES'],
-      base: process.env['LLM_API_BASE'],
-      model: process.env['MODEL_NAME'],
-      keyPrefix: process.env['LLM_API_KEY']?.slice(0, 12),
-    });
-    const series = (process.env['LLM_MODEL_SERIES'] ?? 'qwen').toLowerCase();
-    const apiKey =
-      process.env['LLM_API_KEY'] ??
-      '';
-
-    if (series === 'gemini') {
-      const google = createGoogleGenerativeAI({ apiKey });
-      const modelName =
-        process.env['MODEL_NAME'] ??
-        'gemini-2.0-flash';
-      return google(modelName);
-    }
-
-    if (series === 'claude') {
-      const anthropic = createAnthropic({ apiKey });
-      const modelName =
-        process.env['MODEL_NAME'] ??
-        'claude-3-5-haiku-latest';
-      return anthropic(modelName);
-    }
-
-    if (series === 'minimax') {
-      const minimax = createOpenAI({
-        apiKey,
-        baseURL: process.env['LLM_API_BASE'] ?? 'https://api.minimaxi.com/v1',
-        compatibility: 'compatible',
-      });
-      const modelName = process.env['MODEL_NAME'] ?? 'MiniMax-M2';
-      return minimax(modelName);
-    }
-
-    const apiBase =
-      process.env['LLM_API_BASE'] ??
-      'https://dashscope.aliyuncs.com/compatible-mode/v1';
-    const openai = createOpenAI({ apiKey, baseURL: apiBase, compatibility: 'compatible' });
-    console.log('===openai====',openai)
-    const modelName = process.env['MODEL_NAME'] ?? 'qwen-flash';
-    return openai(modelName);
-  }
 
   constructor(
     private readonly baseUrl: string,
     private readonly useUI: boolean,
   ) {
-    this.model = RestaurantAgent.resolveModel();
-
     if (useUI) {
       this.schemaManager = new A2uiSchemaManager({
         version: VERSION_0_9,
@@ -129,6 +74,16 @@ export class RestaurantAgent {
       this.schemaManager = null;
       this.systemPrompt = getTextPrompt();
     }
+
+    this.mastraAgent = new Agent({
+      id: useUI ? 'restaurant-ui-agent' : 'restaurant-text-agent',
+      name: useUI ? 'Restaurant UI Agent' : 'Restaurant Text Agent',
+      instructions: this.systemPrompt,
+      model: resolveMastraModel(),
+      tools: {
+        get_restaurants: createGetRestaurantsTool(baseUrl),
+      },
+    });
   }
 
   get processingMessage(): string {
@@ -238,45 +193,26 @@ export class RestaurantAgent {
     }, timeoutMs);
 
     try {
-      const result = streamText({
-        model: this.model,
-        system: this.systemPrompt,
-        prompt: userQuery,
-        abortSignal: abortController.signal,
-        tools: {
-        get_restaurants: tool({
-          description:
-            'Get a list of restaurants based on cuisine and location. Returns JSON array of matching restaurants.',
-          parameters: z.object({
-            cuisine: z.string().describe('The type of cuisine to search for.'),
-            location: z.string().describe('The city or location to search in.'),
-            count: z
-              .number()
-              .nullable()
-              .describe('The number of restaurants to return (default 5). Pass null to use default.'),
-          }),
-          execute: async ({ cuisine, location, count }) => {
-            return getRestaurants(cuisine, location, this.baseUrl, count ?? 5);
-          },
-        }),
-        },
+      const stream = await this.mastraAgent.stream(userQuery, {
         maxSteps: 5,
-        onError: ({ error }) => {
-          console.error('[RestaurantAgent] streamText onError:', error);
-        },
+        abortSignal: abortController.signal,
       });
-      const reader = result.textStream.getReader();
+
+      const reader = stream.fullStream.getReader();
       let firstChunk = true;
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        if (firstChunk) {
-          console.log('[RestaurantAgent] <- first token received');
-          firstChunk = false;
+        if (value.type === 'text-delta') {
+          if (firstChunk) {
+            console.log('[RestaurantAgent] <- first token received');
+            firstChunk = false;
+          }
+          process.stdout.write(value.payload.text);
         }
-        process.stdout.write(value);
       }
-      return (await result.text) || null;
+
+      return (await stream.text) || null;
     } finally {
       clearTimeout(timer);
     }

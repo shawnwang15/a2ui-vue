@@ -2,6 +2,9 @@
 
 import type { A2uiMessage } from '@a2ui/web_core/v0_9';
 
+export const BASIC_CATALOG_ID =
+  'https://a2ui.org/specification/v0_9/basic_catalog.json';
+
 /**
  * Inline component descriptor used when authoring sample surfaces. Mirrors the
  * legacy `Types.AnyComponentNode` shape — the v0.9 flattening is performed by
@@ -29,7 +32,7 @@ export function createSingleComponentSurface(
   surfaceId: string,
   type: string,
   properties: Record<string, unknown>,
-  catalogId: string = 'default',
+  catalogId: string = BASIC_CATALOG_ID,
 ): A2uiMessage[] {
   const components: Array<Record<string, unknown>> = [];
   const flat = flattenProperties(properties, components);

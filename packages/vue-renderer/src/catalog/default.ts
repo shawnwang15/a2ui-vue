@@ -47,6 +47,8 @@ export const DEFAULT_CATALOG: Catalog = {
     type: () => import('./A2UIList.vue').then((m) => m.default),
     props: (node) => ({
       direction: (node.properties as any).direction ?? 'vertical',
+      align: (node.properties as any).align ?? 'stretch',
+      listStyle: (node.properties as any).listStyle,
     }),
   },
 
@@ -98,8 +100,11 @@ export const DEFAULT_CATALOG: Catalog = {
     type: () => import('./A2UIChoicePicker.vue').then((m) => m.default),
     props: (node) => ({
       options: (node.properties as any).options ?? [],
-      value: (node.properties as any).selections,
-      description: 'Select an item',
+      value: (node.properties as any).value,
+      label: (node.properties as any).label,
+      variant: (node.properties as any).variant,
+      displayStyle: (node.properties as any).displayStyle,
+      filterable: (node.properties as any).filterable,
     }),
   },
 
@@ -109,6 +114,7 @@ export const DEFAULT_CATALOG: Catalog = {
       value: (node.properties as any).value ?? null,
       label: (node.properties as any).label,
       variant: (node.properties as any).variant,
+      validationRegexp: (node.properties as any).validationRegexp,
     }),
   },
 
@@ -138,6 +144,7 @@ export const DEFAULT_CATALOG: Catalog = {
       value: (node.properties as any).value,
       min: (node.properties as any).min,
       max: (node.properties as any).max,
+      step: (node.properties as any).step,
       label: (node.properties as any).label,
     }),
   },

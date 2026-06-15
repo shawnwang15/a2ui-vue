@@ -7,6 +7,10 @@
 UI 生成速度受模型、网络影响，且因模型能力差异，生成的 UI 可能略有不同。
 :::
 
+## 效果预览
+
+可在文档中直接查看嵌入演示：[联系人表单](/v0.9/samples/contact-form/)。
+
 ## 视频演示
 
 <div class="video-placeholder">
