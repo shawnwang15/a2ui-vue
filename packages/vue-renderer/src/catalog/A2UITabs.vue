@@ -8,7 +8,6 @@ import type { VueComponentNode } from '@/rendering/catalog';
 import A2UiRenderer from '@/rendering/A2UIRenderer.vue';
 
 interface ResolvedTab {
-  title: unknown;
   child: VueComponentNode;
 }
 
@@ -19,14 +18,21 @@ const props = defineProps<{
   tabs: ResolvedTab[];
 }>();
 
-const { theme, resolvePrimitive } = useDynamicComponent(props);
+const { theme, bound } = useDynamicComponent(props);
 
 const selectedIndex = ref(0);
+
+const resolvedTabs = computed(() =>
+  props.tabs.map((tab, i) => ({
+    title: (bound.value.tabs?.[i]?.title ?? '') as string,
+    child: tab.child,
+  })),
+);
 
 const buttonClasses = computed(() => {
   const index = selectedIndex.value;
 
-  return props.tabs.map((_, i) => {
+  return resolvedTabs.value.map((_, i) => {
     return i === index
       ? Styles.merge(
           theme.components.Tabs.controls.all,
@@ -42,7 +48,7 @@ const buttonClasses = computed(() => {
     <section class="a2ui-tabs" :class="theme.components.Tabs.container" :style="theme.additionalStyles?.Tabs">
       <div class="a2ui-tabs__bar" role="tablist" :class="theme.components.Tabs.element">
         <button
-          v-for="(tab, index) in tabs"
+          v-for="(tab, index) in resolvedTabs"
           :key="index"
           type="button"
           role="tab"
@@ -51,14 +57,14 @@ const buttonClasses = computed(() => {
           class="a2ui-tabs__tab"
           :class="[buttonClasses[index], { 'a2ui-tabs__tab--selected': index === selectedIndex }]"
         >
-          {{ resolvePrimitive(tab.title) }}
+          {{ tab.title }}
         </button>
       </div>
 
       <div class="a2ui-tabs__panel" role="tabpanel">
         <A2UiRenderer
           :surface-id="surfaceId!"
-          :component="tabs[selectedIndex].child"
+          :component="resolvedTabs[selectedIndex].child"
         />
       </div>
     </section>
