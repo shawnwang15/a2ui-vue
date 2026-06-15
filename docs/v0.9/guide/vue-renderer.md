@@ -353,6 +353,8 @@ provideA2UI({ app, catalog: myCatalog, theme: defaultTheme })
 app.mount('#app')
 ```
 
+注册类型名之后，还需实现对应的 Vue 组件。详见 **[自定义组件](/v0.9/guide/custom-components/)** 章节，其中包含 `useDynamicComponent` API 说明，以及动作按钮与文本输入的完整示例（含 Catalog 注册代码）。
+
 ---
 
 ## 渲染管线

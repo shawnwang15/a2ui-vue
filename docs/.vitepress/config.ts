@@ -17,6 +17,7 @@ const REDIRECT_PAGES = [
   'guide/getting-started',
   'guide/node-a2ui',
   'guide/vue-renderer',
+  'guide/custom-components',
   'guide/components',
   'samples/overview',
   'samples/component-gallery',
@@ -223,6 +224,14 @@ export default defineConfig({
                 { text: '组件参考', link: '/v0.9/guide/components' },
               ],
             },
+            {
+              text: '自定义组件',
+              items: [
+                { text: '概述', link: '/v0.9/guide/custom-components/' },
+                { text: '动作组件示例', link: '/v0.9/guide/custom-components/action-button' },
+                { text: '输入组件示例', link: '/v0.9/guide/custom-components/text-field' },
+              ],
+            },
           ],
           '/v0.9/samples/': [
             {
@@ -320,6 +329,14 @@ export default defineConfig({
               items: [
                 { text: 'Core Concepts', link: '/en/v0.9/guide/vue-renderer' },
                 { text: 'Component Reference', link: '/en/v0.9/guide/components' },
+              ],
+            },
+            {
+              text: 'Custom Components',
+              items: [
+                { text: 'Overview', link: '/en/v0.9/guide/custom-components/' },
+                { text: 'Action Button Example', link: '/en/v0.9/guide/custom-components/action-button' },
+                { text: 'Text Field Example', link: '/en/v0.9/guide/custom-components/text-field' },
               ],
             },
           ],

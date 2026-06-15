@@ -353,6 +353,8 @@ provideA2UI({ app, catalog: myCatalog, theme: defaultTheme })
 app.mount('#app')
 ```
 
+After registering a type name, you still need to implement the corresponding Vue component. See the **[Custom Components](/en/v0.9/guide/custom-components/)** section for the `useDynamicComponent` API reference and complete examples for action buttons and text inputs (including Catalog registration code).
+
 ---
 
 ## Rendering Pipeline
