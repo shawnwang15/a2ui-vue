@@ -184,8 +184,11 @@ export function useDynamicComponent<T extends VueComponentNode = VueComponentNod
     processor,
     bound,
     resolveChildren,
+    // @deprecated v1.0
     sendAction,
+    // @deprecated v1.0
     resolveDynamicValue,
+    // @deprecated v1.0
     resolvePrimitive,
     getUniqueId,
     setData,
