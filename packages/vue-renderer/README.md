@@ -1,5 +1,5 @@
 # a2ui-vue
-[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.8.x-646cff.svg)](https://a2ui.org/)
+[![A2UI Protocol](https://img.shields.io/badge/A2UI-v0.9.x-646cff.svg)](https://a2ui.org/)
 [![docs](https://img.shields.io/badge/docs-online-brightgreen)](https://shawnwang15.github.io/a2ui-vue/en/)
 
 A Vue 3 renderer for A2UI (Agent-to-UI) protocol.
