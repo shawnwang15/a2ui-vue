@@ -268,7 +268,10 @@ export class MessageProcessor<T extends ComponentApi> {
     // Find catalog
     const catalog = this.catalogs.find(c => c.id === catalogId);
     if (!catalog) {
-      throw new A2uiStateError(`Catalog not found: ${catalogId}`);
+      const registered = this.catalogs.map(c => c.id).join(', ');
+      throw new A2uiStateError(
+        `Catalog not found: ${catalogId}. Registered catalogs: [${registered}]`,
+      );
     }
 
     if (this.model.getSurface(surfaceId)) {

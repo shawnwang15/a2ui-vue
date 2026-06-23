@@ -4,6 +4,7 @@
 import { inject, type InjectionKey, type App } from 'vue';
 import {
   buildCoreCatalog,
+  BASIC_CATALOG_ID_V0_9,
   type Catalog,
   type VueComponentApi,
 } from './rendering/catalog';
@@ -36,7 +37,7 @@ export interface ProvideA2UIOptions {
   app: App
   catalog: Catalog;
   theme: A2UITheme;
-  /** Catalog id matching the `catalogId` field of `createSurface` messages. Defaults to `'default'`. */
+  /** Catalog id matching the `catalogId` field of `createSurface` messages. Defaults to the v0.9 basic catalog ID. */
   catalogId?: string;
 }
 
@@ -50,7 +51,7 @@ export const A2UI_CONFIG_KEY: InjectionKey<A2UIConfig> = Symbol('a2ui-config');
  * `useMessageProcessor()` resolve correctly.
  */
 export function provideA2UI(options: ProvideA2UIOptions): void {
-  const catalogId = options.catalogId ?? 'default';
+  const catalogId = options.catalogId ?? BASIC_CATALOG_ID_V0_9;
   const coreCatalog = buildCoreCatalog(options.catalog, catalogId);
 
   const config: A2UIConfig = {
