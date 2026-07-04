@@ -10,6 +10,14 @@ import { BASIC_FUNCTIONS } from '@a2ui/web_core/v0_9/basic_catalog';
 import { SCHEMA_REGISTRY } from './schemas';
 
 /**
+ * The standard v0.9 basic catalog identifier.
+ * Must match the `catalogId` field in `createSurface` messages sent by agents
+ * that use the A2UI basic catalog.
+ */
+export const BASIC_CATALOG_ID_V0_9 =
+  'https://a2ui.org/specification/v0_9/basic_catalog.json';
+
+/**
  * A v0.9 ComponentApi specialised for the Vue renderer.
  *
  * Mirrors the angular `AngularComponentImplementation` / lit `LitComponentApi`
@@ -65,7 +73,7 @@ export interface Catalog {
  * `ComponentApi` with a permissive schema (the renderer relies on the
  * agent-side validator for schema enforcement).
  */
-export function buildCoreCatalog(catalog: Catalog, id: string = 'default'): CoreCatalog<VueComponentApi> {
+export function buildCoreCatalog(catalog: Catalog, id: string = BASIC_CATALOG_ID_V0_9): CoreCatalog<VueComponentApi> {
   const components: VueComponentApi[] = Object.keys(catalog).map((name) => ({
     name,
     // Prefer the real v0.9 schema (needed by GenericBinder's schema scraping);
