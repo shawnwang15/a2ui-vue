@@ -1,3 +1,44 @@
+## 0.9.4
+
+### Bug Fixes
+
+#### Catalog ID Mismatch Causing "Catalog not found" Error
+
+Previously, `provideA2UI` and `buildCoreCatalog` used `"default"` as the default `catalogId`, but agents following the A2UI v0.9 specification send `https://a2ui.org/specification/v0_9/basic_catalog.json` in `createSurface` messages. The exact string mismatch caused a **"Catalog not found"** error at runtime, preventing surfaces from being created.
+
+**Changes:**
+
+- Added **`BASIC_CATALOG_ID_V0_9`** (`https://a2ui.org/specification/v0_9/basic_catalog.json`) as an exported constant in `catalog.ts`, aligned with the protocol specification.
+- `buildCoreCatalog` and `provideA2UI` now default to `BASIC_CATALOG_ID_V0_9` instead of `"default"`.
+- `MessageProcessor` (in `@a2ui/web_core`) error messages now include the list of registered catalog IDs on mismatch, making configuration issues easier to diagnose.
+
+
+### Component Improvements
+
+#### Tabs Component Reactive Refactor
+
+Refactored `A2UITabs` to fully adopt the `bound` reactive binding pattern, replacing the deprecated `resolvePrimitive`:
+
+- Tab titles are now resolved reactively via a `computed` property reading `bound.value.tabs[i].title`, ensuring title changes are reflected immediately.
+- Removed the `title` field from the internal `ResolvedTab` interface; titles now flow through the `GenericBinder` binding layer.
+- The component no longer uses `resolvePrimitive` and is fully compatible with the `bound`-based architecture.
+
+### Deprecation Annotations
+
+Added explicit `@deprecated v1.0` annotations in `useDynamicComponent` for the following APIs planned for removal in v1.0:
+
+- **`sendAction`** — use `bound` instead
+- **`resolveDynamicValue`** — use `bound` instead
+- **`resolvePrimitive`** — use `bound` instead
+
+These annotations appear in IDE tooltips and generated documentation to help developers migrate ahead of the breaking change.
+
+### Documentation
+
+- Updated README badge from A2UI v0.8.x to v0.9.x.
+
+---
+
 ## 0.9.3
 
 ### Core Architecture
