@@ -1,3 +1,43 @@
+## 0.9.4
+
+### Bug 修复
+
+#### Catalog ID 不匹配导致 "Catalog not found" 错误
+
+此前 `provideA2UI` 和 `buildCoreCatalog` 默认使用 `"default"` 作为 `catalogId`，但遵循 A2UI v0.9 规范的 Agent 在 `createSurface` 消息中发送的是 `https://a2ui.org/specification/v0_9/basic_catalog.json`。精确字符串不匹配导致运行时抛出 **"Catalog not found"** 错误，Surface 无法创建。
+
+**变更：**
+
+- 在 `catalog.ts` 中新增 **`BASIC_CATALOG_ID_V0_9`**（`https://a2ui.org/specification/v0_9/basic_catalog.json`）导出常量，与协议规范对齐。
+- `buildCoreCatalog` 和 `provideA2UI` 的默认值由 `"default"` 改为 `BASIC_CATALOG_ID_V0_9`。
+- `MessageProcessor`（`@a2ui/web_core`）的错误信息增强，在 catalog 不匹配时附带已注册的 catalog ID 列表，方便定位配置问题。
+
+### 组件优化
+
+#### Tabs 组件响应式重构
+
+重构 `A2UITabs`，全面采用 `bound` 响应式绑定模式，替代已弃用的 `resolvePrimitive`：
+
+- Tab 标题现在通过 `computed` 属性从 `bound.value.tabs[i].title` 响应式解析，确保标题变更即时反映。
+- 移除内部 `ResolvedTab` 接口中的 `title` 字段，标题改由 `GenericBinder` 绑定层统一管理。
+- 组件不再依赖 `resolvePrimitive`，与 `bound` 架构完全兼容。
+
+### 弃用标注
+
+在 `useDynamicComponent` 中为以下计划在 v1.0 移除的 API 添加了显式的 `@deprecated v1.0` 注释：
+
+- **`sendAction`** — 请改用 `bound`
+- **`resolveDynamicValue`** — 请改用 `bound`
+- **`resolvePrimitive`** — 请改用 `bound`
+
+这些标注会出现在 IDE 工具提示和生成的文档中，帮助开发者在破坏性变更前提前迁移。
+
+### 文档
+
+- README 徽章由 A2UI v0.8.x 更新为 v0.9.x。
+
+---
+
 ## 0.9.3
 
 ### 核心架构

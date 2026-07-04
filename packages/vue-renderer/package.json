@@ -1,6 +1,6 @@
 {
   "name": "a2ui-vue",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "type": "module",
   "description": "A2UI Vue3 Renderer (A2UI protocol v0.9, built on @a2ui/web_core)",
   "author": "shawnwang15@163.com",
