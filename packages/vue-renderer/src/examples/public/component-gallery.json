@@ -3,7 +3,7 @@
     "version": "v0.9",
     "createSurface": {
       "surfaceId": "gallery-all-components",
-      "catalogId": "default"
+      "catalogId": "https://a2ui.org/specification/v0_9/basic_catalog.json"
     }
   },
   {
