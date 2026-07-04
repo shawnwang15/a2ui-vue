@@ -1,18 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
   <defs>
-    <!-- A2UI agent layer: indigo-to-deep-purple gradient (outer V) -->
-    <linearGradient id="grad-agent" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#818cf8"/>
-      <stop offset="100%" stop-color="#3730a3"/>
+    <linearGradient id="a2ui-inner-v" x1="64" y1="10" x2="64" y2="74" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#4338ca"/>
     </linearGradient>
-    <!-- Vue renderer layer: classic Vue green gradient (inner V) -->
-    <linearGradient id="grad-vue" x1="64" y1="30" x2="64" y2="98" gradientUnits="userSpaceOnUse">
-      <stop offset="0%"   stop-color="#41b883"/>
-      <stop offset="100%" stop-color="#2d9e6e"/>
-    </linearGradient>
-    <!-- Glow filter for depth -->
-    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
-      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+    <radialGradient id="a2ui-glow" cx="64" cy="44" r="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity="0.26"/>
+      <stop offset="45%" stop-color="#6366f1" stop-opacity="0.12"/>
+      <stop offset="75%" stop-color="#059669" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="a2ui-soft-glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.6" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
@@ -20,26 +19,40 @@
     </filter>
   </defs>
 
-  <!-- ── Outer V  (A2UI / Agent layer – indigo) ─────────────────── -->
-  <!--  Left half  -->
-  <polygon points="64,10  8,10  64,118" fill="url(#grad-agent)"/>
-  <!--  Right half (split for two-tone symmetry) -->
-  <polygon points="64,10 120,10  64,118" fill="url(#grad-agent)" opacity="0.88"/>
+  <path fill="#059669" d="M78.8 10 64 35.6 49.2 10H12.8l51.2 97.6L115.2 10H78.8z"/>
+  <path fill="url(#a2ui-inner-v)" d="M64 73.4 98.5 10h-18.7L64 50.5 48.2 10H29.5L64 73.4z"/>
 
-  <!-- ── Inner V  (Vue renderer layer – green) ─────────────────── -->
-  <!--  Same shape, proportionally nested like the Vue logo  -->
-  <polygon points="64,30 100,30  64,98  28,30" fill="url(#grad-vue)" filter="url(#glow)"/>
+  <ellipse cx="64" cy="44" rx="36" ry="28" fill="url(#a2ui-glow)"/>
 
-  <!-- ── Agent-node dots ────────────────────────────────────────── -->
-  <!--  Two circuit nodes at the top outer corners of the V          -->
-  <!--  They represent the A2 "Agent-to" connection endpoints        -->
-  <circle cx="8"   cy="10" r="5.5" fill="#818cf8"/>
-  <circle cx="120" cy="10" r="5.5" fill="#818cf8"/>
-  <!-- Horizontal trace lines from corner nodes toward the V base -->
-  <line x1="13.5" y1="10" x2="30"    y2="10" stroke="#818cf8" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
-  <line x1="114.5" y1="10" x2="98"   y2="10" stroke="#818cf8" stroke-width="1.8" stroke-linecap="round" opacity="0.55"/>
+  <g filter="url(#a2ui-soft-glow)" stroke="#a5b4fc" stroke-width="1.1" stroke-linecap="round" opacity="0.88">
+    <path d="M64 24 L83 33 L83 55 L64 64 L45 55 L45 33 Z"/>
+    <path d="M64 24 L64 38.5"/>
+    <path d="M83 33 L70 38.5"/>
+    <path d="M83 55 L70 49.5"/>
+    <path d="M64 64 L64 49.5"/>
+    <path d="M45 55 L58 49.5"/>
+    <path d="M45 33 L58 38.5"/>
+    <path d="M32 44 H46"/>
+    <path d="M82 44 H96"/>
+    <path d="M32 44 L28 40"/>
+    <path d="M32 44 L28 48"/>
+    <path d="M96 44 L100 40"/>
+    <path d="M96 44 L100 48"/>
+  </g>
 
-  <!-- ── Centre apex dot ───────────────────────────────────────── -->
-  <!--  Where Agent meets Vue: the V apex represents the "to" (→)   -->
-  <circle cx="64" cy="10" r="3.5" fill="white" opacity="0.90"/>
+  <g filter="url(#a2ui-soft-glow)">
+    <circle cx="64" cy="24" r="2.2" fill="#c7d2fe"/>
+    <circle cx="83" cy="33" r="2" fill="#818cf8"/>
+    <circle cx="83" cy="55" r="2" fill="#818cf8"/>
+    <circle cx="64" cy="64" r="2.2" fill="#c7d2fe"/>
+    <circle cx="45" cy="55" r="2" fill="#818cf8"/>
+    <circle cx="45" cy="33" r="2" fill="#818cf8"/>
+    <circle cx="28" cy="40" r="1.5" fill="#0891b2" opacity="0.95"/>
+    <circle cx="28" cy="48" r="1.5" fill="#0891b2" opacity="0.95"/>
+    <circle cx="100" cy="40" r="1.5" fill="#0891b2" opacity="0.95"/>
+    <circle cx="100" cy="48" r="1.5" fill="#0891b2" opacity="0.95"/>
+  </g>
+
+  <rect x="46" y="38.5" width="36" height="13" rx="2.4" fill="#312e81" stroke="#6366f1" stroke-width="0.9" filter="url(#a2ui-soft-glow)"/>
+  <text x="64" y="47.2" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="6.6" font-weight="700" letter-spacing="0.4" fill="#ffffff">A2UI</text>
 </svg>
