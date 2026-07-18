@@ -1,0 +1,180 @@
+[
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "example-surface-theme-rose",
+      "catalogId": "https://a2ui.org/specification/v0_9/basic_catalog.json",
+      "theme": {
+        "primaryColor": "#e11d48",
+        "font": "Georgia, 'Times New Roman', serif"
+      }
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateDataModel": {
+      "surfaceId": "example-surface-theme-rose",
+      "path": "/",
+      "value": {
+        "name": "Rose theme",
+        "subscribe": true
+      }
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "example-surface-theme-rose",
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "main-column"
+        },
+        {
+          "id": "main-column",
+          "component": "Column",
+          "children": [
+            "title",
+            "subtitle",
+            "field-name",
+            "field-subscribe",
+            "action-btn"
+          ],
+          "align": "stretch"
+        },
+        {
+          "id": "title",
+          "component": "Text",
+          "text": "Surface Theme — Rose",
+          "variant": "h3"
+        },
+        {
+          "id": "subtitle",
+          "component": "Text",
+          "text": "createSurface.theme.primaryColor = #e11d48",
+          "variant": "body"
+        },
+        {
+          "id": "field-name",
+          "component": "TextField",
+          "label": "Display name",
+          "variant": "shortText",
+          "value": { "path": "/name" }
+        },
+        {
+          "id": "field-subscribe",
+          "component": "CheckBox",
+          "label": "Highlight with primary color",
+          "value": { "path": "/subscribe" }
+        },
+        {
+          "id": "action-btn",
+          "component": "Button",
+          "child": "action-btn-text",
+          "action": {
+            "event": {
+              "name": "surface-theme-rose",
+              "context": {}
+            }
+          }
+        },
+        {
+          "id": "action-btn-text",
+          "component": "Text",
+          "text": "Submit",
+          "variant": "body"
+        }
+      ]
+    }
+  },
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "example-surface-theme-blue",
+      "catalogId": "https://a2ui.org/specification/v0_9/basic_catalog.json",
+      "theme": {
+        "primaryColor": "#2563eb",
+        "font": "system-ui, sans-serif"
+      }
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateDataModel": {
+      "surfaceId": "example-surface-theme-blue",
+      "path": "/",
+      "value": {
+        "name": "Blue theme",
+        "subscribe": false
+      }
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "example-surface-theme-blue",
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "main-column"
+        },
+        {
+          "id": "main-column",
+          "component": "Column",
+          "children": [
+            "title",
+            "subtitle",
+            "field-name",
+            "field-subscribe",
+            "action-btn"
+          ],
+          "align": "stretch"
+        },
+        {
+          "id": "title",
+          "component": "Text",
+          "text": "Surface Theme — Blue",
+          "variant": "h3"
+        },
+        {
+          "id": "subtitle",
+          "component": "Text",
+          "text": "createSurface.theme.primaryColor = #2563eb",
+          "variant": "body"
+        },
+        {
+          "id": "field-name",
+          "component": "TextField",
+          "label": "Display name",
+          "variant": "shortText",
+          "value": { "path": "/name" }
+        },
+        {
+          "id": "field-subscribe",
+          "component": "CheckBox",
+          "label": "Highlight with primary color",
+          "value": { "path": "/subscribe" }
+        },
+        {
+          "id": "action-btn",
+          "component": "Button",
+          "child": "action-btn-text",
+          "action": {
+            "event": {
+              "name": "surface-theme-blue",
+              "context": {}
+            }
+          }
+        },
+        {
+          "id": "action-btn-text",
+          "component": "Text",
+          "text": "Submit",
+          "variant": "body"
+        }
+      ]
+    }
+  }
+]

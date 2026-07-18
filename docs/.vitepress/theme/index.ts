@@ -10,6 +10,8 @@ import 'vitepress-theme-demoblock/dist/theme/styles/index.css'
 import { provideA2UI, DEFAULT_CATALOG, defaultTheme } from 'a2ui-vue'
 import ContactCardDemo from './components/ContactCardDemo.vue'
 import ComponentGalleryDemo from './components/ComponentGalleryDemo.vue'
+import ThemeCustomDemo from './components/ThemeCustomDemo.vue'
+import SurfaceThemeDemo from './components/SurfaceThemeDemo.vue'
 export default {
   extends: DefaultTheme,
   Layout: () => {
@@ -27,6 +29,8 @@ export default {
     app.component('DemoBlock', DemoBlock)
     app.component('ContactCardDemo', ContactCardDemo)
     app.component('ComponentGalleryDemo', ComponentGalleryDemo)
+    app.component('ThemeCustomDemo', ThemeCustomDemo)
+    app.component('SurfaceThemeDemo', SurfaceThemeDemo)
     // Wire the A2UI runtime once for the whole docs app so embedded demos can
     // use `useMessageProcessor()` / `<A2UISurface>` with the default catalog
     // and theme (matching the examples app).

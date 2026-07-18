@@ -1,3 +1,22 @@
+/* Minimal A2UI palette — color-* utility classes resolve to these tokens */
+:root {
+  --n-100: #ffffff;
+  --n-90: #e2e2e2;
+  --n-70: #ababab;
+  --n-50: #777777;
+  --n-30: #474747;
+  --n-10: #1b1b1b;
+  --n-0: #000000;
+
+  --p-100: #ffffff;
+  --p-60: #8487ea;
+  --p-50: #6a6dcd;
+  --p-40: #5154b3;
+  --p-30: #383b99;
+  --p-10: #06006c;
+  --p-0: #000000;
+}
+
 * {
   margin: 0;
   padding: 0;

@@ -11,6 +11,8 @@ import ColumnExample from './components/ColumnExample.vue';
 import ListExample from './components/ListExample.vue';
 import ContactCardExample from './components/ContactCardExample.vue';
 import ComponentGalleryExample from './components/ComponentGalleryExample.vue';
+import ThemeExample from './components/ThemeExample.vue';
+import SurfaceThemeExample from './components/SurfaceThemeExample.vue';
 
 const currentExample = ref('all');
 
@@ -25,6 +27,8 @@ const examples = [
   { name: 'divider', label: 'Divider', component: DividerExample },
   { name: 'contact-card', label: 'Contact Card', component: ContactCardExample },
   { name: 'component-gallery', label: 'Component Gallery', component: ComponentGalleryExample },
+  { name: 'theme', label: 'Custom Theme', component: ThemeExample },
+  { name: 'surface-theme', label: 'Surface Theme', component: SurfaceThemeExample },
 ];
 
 function setExample(name: string) {
@@ -61,6 +65,8 @@ function setExample(name: string) {
         <DividerExample />
         <ContactCardExample />
         <ComponentGalleryExample />
+        <ThemeExample />
+        <SurfaceThemeExample />
       </template>
       <component v-else :is="examples.find(e => e.name === currentExample)?.component" />
     </div>

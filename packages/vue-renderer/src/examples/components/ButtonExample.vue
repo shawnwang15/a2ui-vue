@@ -1,74 +1,83 @@
-
-
 <script setup lang="ts">
-import { ref } from 'vue';
-import { A2UiRenderer } from '../../index';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { A2UISurface, useMessageProcessor, type A2uiMessage } from '../../index';
 
+const SURFACE_ID = 'example-button';
+
+const processor = useMessageProcessor();
+
+const loading = ref(true);
+const error = ref<string | null>(null);
+const lastAction = ref<string | null>(null);
 const clickCount = ref(0);
 
-const buttonExamples: Array<{ description: string; component: any }> = [
-  {
-    description: 'Primary Button',
-    component: {
-      type: 'Button',
-      id: 'btn-primary',
-      properties: {
-        action: { type: 'submit', name: 'primary-action' },
-        child: {
-          type: 'Text',
-          id: 'btn-text-1',
-          properties: { text: { literal: 'Click Me' }, usageHint: 'body' }
-        }
+const ready = computed(() => {
+  void processor.version.value;
+  return !!processor.getSurface(SURFACE_ID);
+});
+
+let unsubscribe: (() => void) | null = null;
+
+onMounted(async () => {
+  unsubscribe = processor.onEvent(({ message, resolve }) => {
+    if (message.action.surfaceId === SURFACE_ID) {
+      clickCount.value += 1;
+      const { name, context } = message.action;
+      lastAction.value = `${name}(${JSON.stringify(context)})`;
+    }
+    resolve([]);
+  });
+
+  try {
+    // Avoid clearSurfaces() so other examples on "All Examples" keep their surfaces.
+    if (!processor.getSurface(SURFACE_ID)) {
+      const response = await fetch('/button-example.json');
+      if (!response.ok) {
+        error.value = `Failed to load button-example.json: ${response.status}`;
+        return;
       }
-    },
-  },
-  {
-    description: 'Secondary Button',
-    component: {
-      type: 'Button',
-      id: 'btn-secondary',
-      properties: {
-        action: { type: 'submit', name: 'secondary-action' },
-        child: {
-          type: 'Text',
-          id: 'btn-text-2',
-          properties: { text: { literal: 'Secondary Action' }, usageHint: 'body' }
-        }
-      }
-    },
-  },
-  {
-    description: 'Button with Icon',
-    component: {
-      type: 'Button',
-      id: 'btn-icon',
-      properties: {
-        action: { type: 'submit', name: 'confirm-action' },
-        child: {
-          type: 'Text',
-          id: 'btn-text-3',
-          properties: { text: { literal: '✓ Confirm' }, usageHint: 'body' }
-        }
-      }
-    },
-  },
-];
+      const messages = (await response.json()) as A2uiMessage[];
+      processor.processMessages(messages);
+    }
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : String(err);
+  } finally {
+    loading.value = false;
+  }
+});
+
+onUnmounted(() => {
+  unsubscribe?.();
+});
 </script>
 
 <template>
   <div class="example-section">
     <h2>Button Component</h2>
     <p class="example-description">
-      Interactive buttons that trigger actions when clicked. Click count: {{ clickCount }}
+      Interactive buttons that trigger actions when clicked. Click count:
+      {{ clickCount }}
     </p>
 
-    <div v-for="(example, index) in buttonExamples" :key="index" class="example-demo">
-      <h3>{{ example.description }}</h3>
-      <A2UiRenderer
-        surface-id="example"
-        :component="example.component"
-        @click="clickCount++"
-      />
+    <p v-if="loading">Loading…</p>
+    <p v-else-if="error" class="example-error">{{ error }}</p>
+
+    <div v-else-if="ready" class="example-demo">
+      <A2UISurface :surface-id="SURFACE_ID" />
+
+      <p v-if="lastAction" class="example-action">
+        Last action: <code>{{ lastAction }}</code>
+      </p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.example-error {
+  color: #d32f2f;
+}
+.example-action {
+  margin-top: 12px;
+  color: #2e7d32;
+}
+</style>

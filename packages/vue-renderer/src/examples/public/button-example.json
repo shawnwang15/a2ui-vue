@@ -1,0 +1,99 @@
+[
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "example-button",
+      "catalogId": "https://a2ui.org/specification/v0_9/basic_catalog.json"
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "example-button",
+      "components": [
+        {
+          "id": "root",
+          "component": "Column",
+          "children": [
+            "label-primary",
+            "btn-primary",
+            "label-secondary",
+            "btn-secondary",
+            "label-icon",
+            "btn-icon"
+          ],
+          "align": "stretch"
+        },
+        {
+          "id": "label-primary",
+          "component": "Text",
+          "text": "Primary Button",
+          "variant": "h3"
+        },
+        {
+          "id": "btn-primary",
+          "component": "Button",
+          "child": "btn-primary-text",
+          "action": {
+            "event": {
+              "name": "primary-action",
+              "context": {}
+            }
+          }
+        },
+        {
+          "id": "btn-primary-text",
+          "component": "Text",
+          "text": "Click Me",
+          "variant": "body"
+        },
+        {
+          "id": "label-secondary",
+          "component": "Text",
+          "text": "Secondary Button",
+          "variant": "h3"
+        },
+        {
+          "id": "btn-secondary",
+          "component": "Button",
+          "child": "btn-secondary-text",
+          "action": {
+            "event": {
+              "name": "secondary-action",
+              "context": {}
+            }
+          }
+        },
+        {
+          "id": "btn-secondary-text",
+          "component": "Text",
+          "text": "Secondary Action",
+          "variant": "body"
+        },
+        {
+          "id": "label-icon",
+          "component": "Text",
+          "text": "Button with Icon",
+          "variant": "h3"
+        },
+        {
+          "id": "btn-icon",
+          "component": "Button",
+          "child": "btn-icon-text",
+          "action": {
+            "event": {
+              "name": "confirm-action",
+              "context": {}
+            }
+          }
+        },
+        {
+          "id": "btn-icon-text",
+          "component": "Text",
+          "text": "✓ Confirm",
+          "variant": "body"
+        }
+      ]
+    }
+  }
+]

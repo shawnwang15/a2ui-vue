@@ -18,6 +18,7 @@ const REDIRECT_PAGES = [
   'guide/node-a2ui',
   'guide/vue-renderer',
   'guide/custom-components',
+  'guide/custom-theme',
   'guide/components',
   'samples/overview',
   'samples/component-gallery',
@@ -232,6 +233,13 @@ export default defineConfig({
                 { text: '输入组件示例', link: '/v0.9/guide/custom-components/text-field' },
               ],
             },
+            {
+              text: '自定义主题',
+              items: [
+                { text: '概述', link: '/v0.9/guide/custom-theme/' },
+                { text: '协议层主题', link: '/v0.9/guide/custom-theme/surface-theme' },
+              ],
+            },
           ],
           '/v0.9/samples/': [
             {
@@ -337,6 +345,13 @@ export default defineConfig({
                 { text: 'Overview', link: '/en/v0.9/guide/custom-components/' },
                 { text: 'Action Button Example', link: '/en/v0.9/guide/custom-components/action-button' },
                 { text: 'Text Field Example', link: '/en/v0.9/guide/custom-components/text-field' },
+              ],
+            },
+            {
+              text: 'Custom Theme',
+              items: [
+                { text: 'Overview', link: '/en/v0.9/guide/custom-theme/' },
+                { text: 'Protocol Theme', link: '/en/v0.9/guide/custom-theme/surface-theme' },
               ],
             },
           ],

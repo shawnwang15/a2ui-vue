@@ -1,0 +1,68 @@
+[
+  {
+    "version": "v0.9",
+    "createSurface": {
+      "surfaceId": "example-theme",
+      "catalogId": "https://a2ui.org/specification/v0_9/basic_catalog.json"
+    }
+  },
+  {
+    "version": "v0.9",
+    "updateComponents": {
+      "surfaceId": "example-theme",
+      "components": [
+        {
+          "id": "root",
+          "component": "Card",
+          "child": "theme-column"
+        },
+        {
+          "id": "theme-column",
+          "component": "Column",
+          "children": [
+            "theme-title",
+            "theme-subtitle",
+            "theme-body",
+            "theme-btn"
+          ],
+          "align": "stretch"
+        },
+        {
+          "id": "theme-title",
+          "component": "Text",
+          "text": "Theme Preview",
+          "variant": "h1"
+        },
+        {
+          "id": "theme-subtitle",
+          "component": "Text",
+          "text": "Subtitle with accent color",
+          "variant": "h3"
+        },
+        {
+          "id": "theme-body",
+          "component": "Text",
+          "text": "Body text uses neutral tokens from the host CSS palette.",
+          "variant": "body"
+        },
+        {
+          "id": "theme-btn",
+          "component": "Button",
+          "child": "theme-btn-label",
+          "action": {
+            "event": {
+              "name": "theme-demo",
+              "context": {}
+            }
+          }
+        },
+        {
+          "id": "theme-btn-label",
+          "component": "Text",
+          "text": "Primary Action",
+          "variant": "body"
+        }
+      ]
+    }
+  }
+]

@@ -68,6 +68,8 @@ provideA2UI({ app, catalog: DEFAULT_CATALOG, theme: defaultTheme })
 app.mount('#app')
 ```
 
+For color overrides, `additionalStyles` examples, and a **live preview**, see [Custom Theme](/en/v0.9/guide/custom-theme/).
+
 ---
 
 ## Message Processor
@@ -354,6 +356,10 @@ app.mount('#app')
 ```
 
 After registering a type name, you still need to implement the corresponding Vue component. See the **[Custom Components](/en/v0.9/guide/custom-components/)** section for the `useDynamicComponent` API reference and complete examples for action buttons and text inputs (including Catalog registration code).
+
+### Custom Theme
+
+The theme owns design tokens. Override `additionalStyles` / palette CSS variables on top of `defaultTheme` to recolor the UI; see **[Custom Theme](/en/v0.9/guide/custom-theme/)**. For per-Surface `createSurface.theme` primary color, see **[Protocol Theme](/en/v0.9/guide/custom-theme/surface-theme)**.
 
 ---
 

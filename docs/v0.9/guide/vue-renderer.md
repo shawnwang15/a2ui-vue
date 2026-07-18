@@ -68,6 +68,8 @@ provideA2UI({ app, catalog: DEFAULT_CATALOG, theme: defaultTheme })
 app.mount('#app')
 ```
 
+完整的改色方式、`additionalStyles` 示例与**可交互效果预览**见 [自定义主题](/v0.9/guide/custom-theme/)。
+
 ---
 
 ## 消息处理器
@@ -354,6 +356,10 @@ app.mount('#app')
 ```
 
 注册类型名之后，还需实现对应的 Vue 组件。详见 **[自定义组件](/v0.9/guide/custom-components/)** 章节，其中包含 `useDynamicComponent` API 说明，以及动作按钮与文本输入的完整示例（含 Catalog 注册代码）。
+
+### 自定义主题
+
+主题负责设计 Token。在 `defaultTheme` 上覆盖 `additionalStyles` / 色板 CSS 变量即可改色；详见 **[自定义主题](/v0.9/guide/custom-theme/)**。按 Surface 用 `createSurface.theme` 改主色见 **[协议层主题](/v0.9/guide/custom-theme/surface-theme)**。
 
 ---
 
