@@ -123,7 +123,7 @@ export default defineConfig({
   base: '/a2ui-vue/',
   description: 'A Vue 3 renderer for the A2UI (Agent-to-UI) protocol — let AI agents render rich, interactive UIs inside your Vue apps.',
   lastUpdated: true,
-  appearance: 'force-dark',
+  appearance: false,
   markdown: {
     config(md) {
       md.use(demoblockPlugin)
