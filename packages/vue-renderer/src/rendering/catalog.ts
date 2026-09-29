@@ -5,6 +5,7 @@ import { z } from 'zod';
 import {
   Catalog as CoreCatalog,
   type ComponentApi,
+  type FunctionImplementation,
 } from '@a2ui/web_core/v0_9';
 import { BASIC_FUNCTIONS } from '@a2ui/web_core/v0_9/basic_catalog';
 import { SCHEMA_REGISTRY } from './schemas';
@@ -73,7 +74,11 @@ export interface Catalog {
  * `ComponentApi` with a permissive schema (the renderer relies on the
  * agent-side validator for schema enforcement).
  */
-export function buildCoreCatalog(catalog: Catalog, id: string = BASIC_CATALOG_ID_V0_9): CoreCatalog<VueComponentApi> {
+export function buildCoreCatalog(
+  catalog: Catalog,
+  id: string = BASIC_CATALOG_ID_V0_9,
+  functions: FunctionImplementation[] = [],
+): CoreCatalog<VueComponentApi> {
   const components: VueComponentApi[] = Object.keys(catalog).map((name) => ({
     name,
     // Prefer the real v0.9 schema (needed by GenericBinder's schema scraping);
@@ -81,6 +86,8 @@ export function buildCoreCatalog(catalog: Catalog, id: string = BASIC_CATALOG_ID
     schema: SCHEMA_REGISTRY[name] ?? z.any(),
   }));
   // Register basic v0.9 functions (formatString, formatDate, arithmetic, etc.)
-  // so that DataContext.resolveSignal can evaluate `{ call: ..., args: ... }`.
-  return new CoreCatalog<VueComponentApi>(id, components, BASIC_FUNCTIONS);
+  // so that DataContext.resolveSignal can evaluate `{ call: ..., args: ... }`,
+  // plus any renderer-local functions opted-in via ProvideA2UIOptions.functions
+  // so that `functionCall` actions can be executed locally on the renderer.
+  return new CoreCatalog<VueComponentApi>(id, components, [...BASIC_FUNCTIONS, ...functions]);
 }

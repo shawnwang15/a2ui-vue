@@ -242,8 +242,33 @@ export class GenericBinder<T> {
 
       case 'ACTION': {
         return () => {
+          // Deep-resolve dynamic values inside an action payload.
+          //
+          // `{ event: ... }` and `{ functionCall: { call, args } }` are both
+          // Action containers per the v0.9 spec. The `functionCall` envelope
+          // must be preserved as-is (it is executed locally by the renderer),
+          // while the values nested inside its `args` may still be dynamic
+          // ({ path } bindings or { call } expressions) and get resolved here.
+          //
+          // Guarding against the envelope is important: a function call such as
+          // `{ call: "redirect", args: {...} }` would otherwise be mistaken for
+          // a dynamic `{ call }` expression and swallowed by resolveDynamicValue.
           const resolveDeepSync = (val: any): any => {
             if (typeof val !== 'object' || val === null) return val;
+            if (
+              'functionCall' in val &&
+              typeof val.functionCall === 'object' &&
+              val.functionCall
+            ) {
+              const fc = val.functionCall;
+              const args: Record<string, any> = {};
+              if (fc.args && typeof fc.args === 'object') {
+                for (const [k, v] of Object.entries(fc.args)) {
+                  args[k] = resolveDeepSync(v);
+                }
+              }
+              return {functionCall: {call: fc.call, args}};
+            }
             if ('path' in val || 'call' in val)
               return this.context.dataContext.resolveDynamicValue(val);
             if (Array.isArray(val)) return val.map(resolveDeepSync);

@@ -16,9 +16,13 @@
 
 import {describe, it} from 'node:test';
 import * as assert from 'node:assert';
+
+import {z} from 'zod';
 import {ComponentContext} from './component-context.js';
 import {SurfaceModel} from '../state/surface-model.js';
 import {ComponentModel} from '../state/component-model.js';
+import {Catalog, createFunctionImplementation, type ComponentApi} from '../catalog/types.js';
+import {DataContext} from './data-context.js';
 
 describe('ComponentContext', () => {
   const mockSurface = new SurfaceModel('surface1', {} as any);
@@ -49,6 +53,73 @@ describe('ComponentContext', () => {
     assert.strictEqual(actionDispatched.sourceComponentId, componentId);
     assert.deepStrictEqual(actionDispatched.context, {a: 1});
     subscription.unsubscribe();
+  });
+
+  it('executes functionCall actions locally without emitting a client event', async () => {
+    // Build a real catalog with a locally-registered ``redirect`` function, the
+    // same shape Android registers via its A2UIRedirectFunction.
+    const redirectFn = createFunctionImplementation(
+      {
+        name: 'redirect',
+        returnType: 'void',
+        schema: z.object({url: z.string()}),
+      },
+      (args: {url: string}, _ctx: DataContext) => {
+        openedUrls.push(args.url);
+      },
+    );
+    const openedUrls: string[] = [];
+    const catalog = new Catalog<ComponentApi>('test', [], [redirectFn]);
+    const surface = new SurfaceModel('s1', catalog as any);
+    surface.componentsModel.addComponent(new ComponentModel('c1', 'Button', {}));
+    const context = new ComponentContext(surface, 'c1');
+
+    let serverActionEmitted: any = null;
+    const sub = surface.onAction.subscribe((a: any) => {
+      serverActionEmitted = a;
+    });
+
+    await context.dispatchAction({
+      functionCall: {
+        call: 'redirect',
+        args: {url: 'https://example.com'},
+      },
+    });
+
+    // The local function ran with resolved args.
+    assert.deepStrictEqual(openedUrls, ['https://example.com']);
+    // No event was emitted to the surface/server for a local functionCall.
+    assert.strictEqual(serverActionEmitted, null);
+    sub.unsubscribe();
+  });
+
+  it('resolves dynamic values inside functionCall args before invoking', async () => {
+    const registeredFns = createFunctionImplementation(
+      {
+        name: 'openUrl',
+        returnType: 'void',
+        schema: z.object({target: z.string()}),
+      },
+      (args: {target: string}, _ctx: DataContext) => {
+        receivedTarget = args.target;
+      },
+    );
+    const catalog = new Catalog<ComponentApi>('test', [], [registeredFns]);
+    const surface = new SurfaceModel('s2', catalog as any);
+    surface.componentsModel.addComponent(new ComponentModel('c1', 'Button', {}));
+    // Seed the data model so the { path } binding resolves.
+    surface.dataModel.set('/target', 'https://example.com/from-data');
+    const context = new ComponentContext(surface, 'c1');
+    let receivedTarget = '';
+
+    await context.dispatchAction({
+      functionCall: {
+        call: 'openUrl',
+        args: {target: {path: '/target'}},
+      },
+    });
+
+    assert.strictEqual(receivedTarget, 'https://example.com/from-data');
   });
 
   it('throws error if component not found', () => {

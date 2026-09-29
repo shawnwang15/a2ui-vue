@@ -185,3 +185,98 @@ describe('GenericBinder Checkable Trait', () => {
     assert.deepStrictEqual(binder.snapshot.validationErrors, []);
   });
 });
+
+describe('GenericBinder Action Trait (functionCall)', () => {
+  const mockCatalog = new Catalog('test', [], []);
+
+  function setupActionSurface() {
+    const surface = new SurfaceModel('s-action', mockCatalog);
+
+    const schema = z.object({
+      action: CommonSchemas.Action,
+    });
+
+    return {surface, schema};
+  }
+
+  it('preserves functionCall payloads and invokes the bound action', async () => {
+    const {surface, schema} = setupActionSurface();
+
+    // Register a local redirect function the button can call.
+    const opened: string[] = [];
+    (surface.catalog as any).functions = new Map([
+      [
+        'redirect',
+        {
+          execute: (args: any) => opened.push(args.url),
+          schema: z.object({url: z.any()}),
+        },
+      ],
+    ]);
+    (surface.catalog as any).invoker = (name: string, args: any) => {
+      const fn = (surface.catalog as any).functions.get(name);
+      if (!fn) throw new Error(`Function not found: ${name}`);
+      return fn.execute(args);
+    };
+
+    const compModel = new ComponentModel('btn1', 'Button', {
+      action: {
+        functionCall: {
+          call: 'redirect',
+          args: {url: 'https://example.com', rn: {launchParams: {appId: 'A1'}}},
+        },
+      },
+    });
+    surface.componentsModel.addComponent(compModel);
+
+    const context = new ComponentContext(surface, 'btn1');
+    const binder = new GenericBinder<any>(context, schema);
+    binder.subscribe(() => {});
+
+    // The action should be bound to a callable closure.
+    const action = binder.snapshot.action;
+    assert.strictEqual(typeof action, 'function');
+
+    // Invoking the closure must locally execute the registered function with
+    // the functionCall args preserved (not swallowed as a dynamic expression).
+    action();
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    assert.deepStrictEqual(opened, ['https://example.com']);
+  });
+
+  it('still resolves dynamic values inside functionCall args', async () => {
+    const {surface, schema} = setupActionSurface();
+    surface.dataModel.set('/url', 'https://example.com/from-data');
+
+    const opened: string[] = [];
+    (surface.catalog as any).functions = new Map([
+      ['openUrl', {execute: (args: any) => opened.push(args.target), schema: z.object({target: z.any()})}],
+    ]);
+    (surface.catalog as any).invoker = (name: string, args: any) => {
+      const fn = (surface.catalog as any).functions.get(name);
+      if (!fn) throw new Error(`Function not found: ${name}`);
+      return fn.execute(args);
+    };
+
+    const compModel = new ComponentModel('btn2', 'Button', {
+      action: {
+        functionCall: {
+          call: 'openUrl',
+          args: {target: {path: '/url'}},
+        },
+      },
+    });
+    surface.componentsModel.addComponent(compModel);
+
+    const context = new ComponentContext(surface, 'btn2');
+    const binder = new GenericBinder<any>(context, schema);
+    binder.subscribe(() => {});
+
+    const action = binder.snapshot.action;
+    action();
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    assert.deepStrictEqual(opened, ['https://example.com/from-data']);
+  });
+});
