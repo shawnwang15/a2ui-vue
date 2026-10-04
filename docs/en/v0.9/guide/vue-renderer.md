@@ -121,13 +121,58 @@ A component's `action` property supports two forms:
 | Form           | JSON snippet                                                            | Description                            |
 |---------------|-------------------------------------------------------------------------|----------------------------------------|
 | `event`       | `"action": { "event": { "name": "submit_form", "context": { ... } } }`  | Triggers a **server event**, usually forwarded to the Agent |
-| `functionCall`| `"action": { "functionCall": { "call": "call", "args": { ... } } }`     | Triggers a **local function call** (e.g. dialing, opening a modal) |
+| `functionCall`| `"action": { "functionCall": { "call": "openUrl", "args": { "url": "https://a2ui.org" } } }` | Triggers a **local function call** (only catalog-registered functions, e.g. built-in `openUrl`) |
 
 Data bindings inside `event` (e.g. `{"path": "/phone"}`) are **resolved automatically** to real values before dispatch.
 
 ::: warning Note
 In the current implementation, **only `event`-form actions are dispatched through the `onEvent` pipeline**; `functionCall` is handled locally by the binder/renderer and is not forwarded to `onEvent` via `surface.dispatchAction`. So everything you receive in the `onEvent` callback is an `event` action.
 :::
+
+### Registering local functions
+
+A `functionCall` can only invoke a function that is **already registered** on the current catalog. The basic catalog ships `openUrl` plus validation and formatting functions. Host apps can append their own implementations via `provideA2UI({ functions })`; a later entry with the same name overwrites the built-in one.
+
+```ts
+import { z } from 'zod'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme, createFunctionImplementation } from 'a2ui-vue'
+
+const callPhone = createFunctionImplementation(
+  {
+    name: 'call',
+    returnType: 'void',
+    schema: z.object({ number: z.string() }),
+  },
+  (args) => {
+    window.open(`tel:${args.number}`)
+  },
+)
+
+provideA2UI({
+  app,
+  catalog: DEFAULT_CATALOG,
+  theme: defaultTheme,
+  functions: [callPhone],
+})
+```
+
+Matching Button JSON:
+
+```json
+{
+  "id": "call-btn",
+  "component": "Button",
+  "child": "call-btn-text",
+  "action": {
+    "functionCall": {
+      "call": "call",
+      "args": { "number": { "path": "/phone" } }
+    }
+  }
+}
+```
+
+The renderer executes `call` locally on click; it does not enter `onEvent`. An unregistered name is reported as an `EXPRESSION_ERROR` on the surface and is not sent as a client event.
 
 ### Event Structure (DispatchedEvent)
 

@@ -29,9 +29,11 @@ export { default as A2UISurface } from './catalog/A2UISurface.vue';
 export { theme as defaultTheme } from './theme';
 
 // Re-export commonly used v0.9 types from @a2ui/web_core for downstream samples.
+export { createFunctionImplementation } from '@a2ui/web_core/v0_9';
 export type {
   A2uiMessage,
   A2uiClientAction,
   A2uiClientMessage,
   A2uiClientCapabilities,
+  FunctionImplementation,
 } from '@a2ui/web_core/v0_9';

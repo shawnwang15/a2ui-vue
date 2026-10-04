@@ -121,13 +121,58 @@ processor.clearSurfaces()
 | 写法            | JSON 片段                                                                 | 说明                                    |
 |---------------|-------------------------------------------------------------------------|---------------------------------------|
 | `event`       | `"action": { "event": { "name": "submit_form", "context": { ... } } }`  | 触发一个**服务端事件**，通常转发给 Agent      |
-| `functionCall`| `"action": { "functionCall": { "call": "call", "args": { ... } } }`     | 触发一个**本地函数调用**（如拨号、打开弹窗等）   |
+| `functionCall`| `"action": { "functionCall": { "call": "openUrl", "args": { "url": "https://a2ui.org" } } }` | 触发一个**本地函数调用**（只能调用已注册的函数，如内置的 `openUrl`） |
 
 `event` 中的数据绑定（如 `{"path": "/phone"}`）会在派发前**自动解析**为真实值。
 
 ::: warning 注意
 当前实现中，**只有 `event` 形式的动作会通过 `onEvent` 管线派发**；`functionCall` 由 binder/渲染器在本地处理，不会经由 `surface.dispatchAction` 转发到 `onEvent`。因此你在 `onEvent` 回调里收到的都是 `event` 动作。
 :::
+
+### 注册本地函数
+
+`functionCall` 只能调用当前 catalog 中**预先注册**的函数。basic catalog 已内置 `openUrl`、校验与格式化等函数。宿主应用可以通过 `provideA2UI({ functions })` 追加自己的实现，同名条目会覆盖内置函数。
+
+```ts
+import { z } from 'zod'
+import { provideA2UI, DEFAULT_CATALOG, defaultTheme, createFunctionImplementation } from 'a2ui-vue'
+
+const callPhone = createFunctionImplementation(
+  {
+    name: 'call',
+    returnType: 'void',
+    schema: z.object({ number: z.string() }),
+  },
+  (args) => {
+    window.open(`tel:${args.number}`)
+  },
+)
+
+provideA2UI({
+  app,
+  catalog: DEFAULT_CATALOG,
+  theme: defaultTheme,
+  functions: [callPhone],
+})
+```
+
+对应的 Button JSON：
+
+```json
+{
+  "id": "call-btn",
+  "component": "Button",
+  "child": "call-btn-text",
+  "action": {
+    "functionCall": {
+      "call": "call",
+      "args": { "number": { "path": "/phone" } }
+    }
+  }
+}
+```
+
+点击后渲染器在本地执行 `call`，不会进入 `onEvent`。未注册的函数名会以 `EXPRESSION_ERROR` 上报到 surface，不会作为 client event 发出。
 
 ### 事件结构（DispatchedEvent）
 
@@ -139,7 +184,7 @@ interface DispatchedEvent {
   message: {
     version: 'v0.9'
     action: {
-      name: string              // 动作名（来自 event.name 或 functionCall.call）
+      name: string              // 动作名（来自 event.name）
       surfaceId: string         // 触发事件的 Surface id
       sourceComponentId: string // 触发事件的组件 id
       timestamp: string         // ISO 8601 时间戳
