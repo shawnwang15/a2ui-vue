@@ -1,3 +1,19 @@
+## 0.9.5
+
+### Features
+
+#### Renderer-local `functionCall` actions
+
+`functionCall` actions stay on the renderer and invoke a catalog-registered function. They are not forwarded to `onEvent`.
+
+**Changes:**
+
+- `provideA2UI` accepts an optional `functions` list. `buildCoreCatalog` appends those implementations after `BASIC_FUNCTIONS`; a later entry with the same name overwrites the built-in one.
+- Exported `createFunctionImplementation` and `FunctionImplementation` from the package entry.
+- Deprecated `sendAction` now executes `functionCall` locally instead of flattening it into a client event.
+
+---
+
 ## 0.9.4
 
 ### Bug Fixes

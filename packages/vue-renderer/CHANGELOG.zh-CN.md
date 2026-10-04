@@ -1,3 +1,19 @@
+## 0.9.5
+
+### 新功能
+
+#### 渲染器本地 `functionCall` 动作
+
+`functionCall` 动作留在渲染器内，调用 catalog 中已注册的函数，不会转发到 `onEvent`。
+
+**变更：**
+
+- `provideA2UI` 新增可选 `functions`。`buildCoreCatalog` 将其追加在 `BASIC_FUNCTIONS` 之后；同名条目会覆盖内置实现。
+- 包入口导出 `createFunctionImplementation` 与 `FunctionImplementation`。
+- 已废弃的 `sendAction` 遇到 `functionCall` 时改为本地执行，不再压成 client event。
+
+---
+
 ## 0.9.4
 
 ### Bug 修复

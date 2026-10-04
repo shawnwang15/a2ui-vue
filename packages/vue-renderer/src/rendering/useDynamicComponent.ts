@@ -44,21 +44,17 @@ export function useDynamicComponent<T extends VueComponentNode = VueComponentNod
     const context: Record<string, unknown> = {};
     const a = action as Record<string, any>;
 
+    // v0.9 functionCall actions execute entirely on the renderer via the
+    // catalog invoker and are never forwarded as a client event.
+    if (a.functionCall) {
+      processor.resolveValue(props.component, a.functionCall, props.surfaceId);
+      return Promise.resolve([]);
+    }
+
     // v0.9 shape: action.event.context is a Record<string, DynamicValue>
     if (a.event?.context) {
       for (const [key, value] of Object.entries(a.event.context)) {
         context[key] = resolveDynamicValue(value);
-      }
-    }
-
-    // v0.9 shape: action.functionCall is { call, args } where each arg is a
-    // DynamicValue. Resolve the args (data bindings / literals) into context.
-    if (a.functionCall) {
-      const args = a.functionCall.args as Record<string, unknown> | undefined;
-      if (args) {
-        for (const [key, value] of Object.entries(args)) {
-          context[key] = resolveDynamicValue(value);
-        }
       }
     }
 
@@ -69,7 +65,6 @@ export function useDynamicComponent<T extends VueComponentNode = VueComponentNod
       }
     }
 
-    // const name: string = a.event?.name ?? a.functionCall?.call ?? a.name ?? '';
     const name: string = a.event?.name ?? a.name ?? '';
     const clientAction: A2uiClientAction = {
       name,

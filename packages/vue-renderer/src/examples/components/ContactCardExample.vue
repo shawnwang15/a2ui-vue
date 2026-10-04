@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { A2UISurface, useMessageProcessor, type A2uiMessage } from '../../index';
+import { lastLocalCall } from '../localFunctions';
 
 const processor = useMessageProcessor();
 
@@ -14,15 +15,13 @@ const surfaces = computed(() => {
   return Array.from(processor.getSurfaces().keys());
 });
 
-// Handle client-side actions dispatched by components (e.g. Button's
-// `functionCall`). The processor wraps each action in a `{ version, action }`
-// envelope; `action.name` is the function name (`call` / `message`) and
-// `action.context` holds the resolved args.
+// Handle server-bound `event` actions. `functionCall` runs locally via
+// catalog-registered functions (see localFunctions.ts) and does not
+// reach onEvent.
 let unsubscribe: (() => void) | null = null;
 
 onMounted(async () => {
   unsubscribe = processor.onEvent(({ message, resolve }) => {
-    debugger
     const { name, context } = message.action;
     lastAction.value = `${name}(${JSON.stringify(context)})`;
     // No backend in this demo: resolve immediately with no follow-up messages.
@@ -70,6 +69,9 @@ onUnmounted(() => {
         :surface-id="surfaceId"
       />
 
+      <p v-if="lastLocalCall" class="example-local">
+        Last local function: <code>{{ lastLocalCall }}</code>
+      </p>
       <p v-if="lastAction" class="example-action">
         Last action: <code>{{ lastAction }}</code>
       </p>
@@ -81,7 +83,8 @@ onUnmounted(() => {
 .example-error {
   color: #d32f2f;
 }
-.example-action {
+.example-action,
+.example-local {
   margin-top: 12px;
   color: #2e7d32;
 }

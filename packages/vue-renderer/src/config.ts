@@ -8,7 +8,7 @@ import {
   type Catalog,
   type VueComponentApi,
 } from './rendering/catalog';
-import type { Catalog as CoreCatalog } from '@a2ui/web_core/v0_9';
+import type { Catalog as CoreCatalog, FunctionImplementation } from '@a2ui/web_core/v0_9';
 import { useMessageProcessor ,MESSAGE_PROCESSOR_KEY} from './data/processor';
 
 /**
@@ -39,6 +39,14 @@ export interface ProvideA2UIOptions {
   theme: A2UITheme;
   /** Catalog id matching the `catalogId` field of `createSurface` messages. Defaults to the v0.9 basic catalog ID. */
   catalogId?: string;
+  /**
+   * Optional renderer-local functions (v0.9 `FunctionImplementation`s).
+   * These are added to the v0.9 catalog and can be invoked from
+   * `functionCall` actions (e.g. `{ functionCall: { call: "openUrl", args } }`)
+   * entirely on the renderer, without sending anything to the server.
+   * A later entry with the same name overwrites a BASIC_FUNCTIONS entry.
+   */
+  functions?: FunctionImplementation[];
 }
 
 export const A2UI_CONFIG_KEY: InjectionKey<A2UIConfig> = Symbol('a2ui-config');
@@ -52,7 +60,7 @@ export const A2UI_CONFIG_KEY: InjectionKey<A2UIConfig> = Symbol('a2ui-config');
  */
 export function provideA2UI(options: ProvideA2UIOptions): void {
   const catalogId = options.catalogId ?? BASIC_CATALOG_ID_V0_9;
-  const coreCatalog = buildCoreCatalog(options.catalog, catalogId);
+  const coreCatalog = buildCoreCatalog(options.catalog, catalogId, options.functions);
 
   const config: A2UIConfig = {
     catalog: options.catalog,
