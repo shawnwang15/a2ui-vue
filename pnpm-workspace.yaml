@@ -3,3 +3,8 @@ packages:
   - docs
   - samples/**/*
   - node-a2ui/*
+
+onlyBuiltDependencies:
+  - esbuild
+  - vitepress-theme-demoblock
+  - vue-demi
